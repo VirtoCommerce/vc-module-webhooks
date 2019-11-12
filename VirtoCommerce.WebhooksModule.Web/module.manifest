@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<module>
+    <id>VirtoCommerce.WebhooksModule</id>
+    <version>1.0.0</version>
+    <platformVersion>2.13.52</platformVersion>
+    <dependencies>
+        <dependency id="VirtoCommerce.Core" version="2.25.29" />
+    </dependencies>
+
+    <title>Webhooks</title>
+    <description>Enter your module description here.</description>
+    <authors>
+        <author>Eugeny Tatarincev</author>
+        <author>Andrey Kozlov</author>
+        <author>Aleksandr Andreev</author>
+    </authors>
+    <owners>
+      <owner>Virto Commerce</owner>
+    </owners>
+
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright © 2019 . All rights reserved</copyright>
+    <tags>webhooks module</tags>
+  
+    <assemblyFile>VirtoCommerce.WebhooksModule.Web.dll</assemblyFile>
+    <moduleType>VirtoCommerce.WebhooksModule.Web.Module, VirtoCommerce.WebhooksModule.Web</moduleType>
+
+    <styles>
+        <directory virtualPath="$/Content/css" searchPattern="*.css" searchSubdirectories="true" />
+    </styles>
+    <scripts>
+        <directory virtualPath="$/Scripts" searchPattern="*.js" searchSubdirectories="true" />
+    </scripts>
+
+    <permissions>
+        <group name="Webhooks">
+            <permission id="webhooks:read" name="Read webhooks" />
+            <permission id="webhooks:update" name="Update webhooks" />
+            <permission id="webhooks:delete" name="Delete webhooks" />
+        </group>
+    </permissions>
+</module>
