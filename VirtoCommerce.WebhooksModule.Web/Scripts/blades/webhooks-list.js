@@ -5,6 +5,7 @@
         var selectedNode = null;
 
         blade.title = 'Webhoks list';
+        blade.subtitle = 'List of all user defined weebhoks';
         blade.currentEntities = [{ name: 'AzureLogicApp1', active: 'active', calls: '10', errors: '3' }];
 
         blade.refresh = function () {
@@ -22,6 +23,33 @@
 
         };
 
+
+        blade.toolbarCommands = [
+            {
+                name: "platform.commands.refresh",
+                icon: 'fa fa-refresh',
+                executeMethod: blade.refresh,
+                canExecuteMethod: function() {
+                    return true;
+                }
+            },
+            {
+                name: "platform.commands.add",
+                icon: 'fa fa-plus',
+                executeMethod: blade.refresh,
+                canExecuteMethod: function () {
+                    return true;
+                }
+            },
+            {
+                name: "platform.commands.remove",
+                icon: 'fa fa-trash',
+                executeMethod: blade.refresh,
+                canExecuteMethod: function () {
+                    return true;
+                }
+            }
+        ];
 
         // simple and advanced filtering
         var filter = blade.filter = { keyword: null };
