@@ -1,0 +1,16 @@
+{
+    "webhooks": {
+        "main-menu-title": "Webhooks",
+        "blades": {
+            "webhooks-list": {
+                "title": "Webhooks list",
+                "labels": {
+                    "name": "Name",
+                    "active": "Active",
+                    "success-calls": "% of success calls",
+                    "unresolved-errors": "Unresolved errors"
+                }
+            }
+        }
+    }
+}
