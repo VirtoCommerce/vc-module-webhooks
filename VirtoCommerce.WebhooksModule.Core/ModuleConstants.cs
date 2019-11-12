@@ -9,6 +9,7 @@ namespace VirtoCommerce.WebhooksModule.Core
                 public const string Read = "webhooks:read";
                 public const string Update = "webhooks:update";
                 public const string Delete = "webhooks:delete";
+                public const string ReadFeed = "webhooksFeed:read";
             }
         }
     }
