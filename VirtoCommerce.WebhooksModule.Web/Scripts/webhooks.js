@@ -38,5 +38,14 @@ angular.module(moduleName, [])
                 permission: 'virtoCommerce.webhooksModule.WebPermission'
             };
             mainMenuService.addMenuItem(menuItem);
+
+
+            //Register widgets to webhookDetail
+
+            var webhookErrorsWidget = {
+                controller: 'virtoCommerce.webhooksModule.errorsWebhookController',
+                template: 'Modules/$(virtoCommerce.webhooksModule)/Scripts/widgets/errorsWidget.tpl.html'
+            };
+            widgetService.registerWidget(webhookErrorsWidget, 'webhookDetail');
         }
     ]);

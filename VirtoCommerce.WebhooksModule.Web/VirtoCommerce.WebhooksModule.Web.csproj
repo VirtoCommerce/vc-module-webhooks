@@ -120,6 +120,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\widgets\errorsWidget.js" />
+    <Content Include="Scripts\widgets\errorsWidget.tpl.html" />
     <None Include="module.ignore" />
     <None Include="packages.config" />
     <Content Include="Localizations\en.VirtoCommerce.WebhooksModule.json" />
@@ -135,6 +137,8 @@
   <ItemGroup>
     <Content Include="module.manifest" />
     <Content Include="Content\css\virto-commerce.webhooks-module.css" />
+    <Content Include="Scripts\blades\webhook-detail.js" />
+    <Content Include="Scripts\blades\webhook-detail.tpl.html" />
     <Content Include="Scripts\blades\webhooks-list.tpl.html" />
     <Content Include="Scripts\blades\webhooks-list.js" />
     <Content Include="Scripts\webhooks.js" />
@@ -155,6 +159,7 @@
       <Name>VirtoCommerce.WebhooksModule.Data</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
