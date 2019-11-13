@@ -1,5 +1,7 @@
 ﻿using Microsoft.Practices.Unity;
 using VirtoCommerce.Platform.Core.Modularity;
+using VirtoCommerce.WebhooksModule.Core.Services;
+using VirtoCommerce.WebhooksModule.Data.Services;
 
 namespace VirtoCommerce.WebhooksModule.Web
 {
@@ -27,13 +29,12 @@ namespace VirtoCommerce.WebhooksModule.Web
         {
             base.Initialize();
 
-            // This method is called for each installed module on the first stage of initialization.
+
 
             // Register implementations:
             // _container.RegisterType<IMyRepository>(new InjectionFactory(c => new MyRepository(_connectionString, new EntityPrimaryKeyGeneratorInterceptor()));
-            // _container.RegisterType<IMyService, MyService>();
 
-            // Try to avoid calling _container.Resolve<>();
+            _container.RegisterType<IWebhookSearchService, WebhookSearchService>();
         }
 
         public override void PostInitialize()
