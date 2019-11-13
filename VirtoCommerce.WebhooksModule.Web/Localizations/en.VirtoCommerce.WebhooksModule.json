@@ -44,6 +44,14 @@
                 "title": "Delete confirmation",
                 "message": "Are you sure you want to delete this webhook?"
             }
-        }
+        },
+        "events": {
+            "types": {
+                "OrderChangedEvent": {
+                    "name": "Order changed",
+                    "description": "Calls when order created or changed"
+                } 
+            } 
+        } 
     }
 }
