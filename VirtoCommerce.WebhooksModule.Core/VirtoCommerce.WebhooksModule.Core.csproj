@@ -55,8 +55,9 @@
     <Compile Include="Models\WebhookFeedSearchResult.cs" />
     <Compile Include="Models\WebhookSearchCriteria.cs" />
     <Compile Include="Models\Webhook.cs" />
-    <Compile Include="Models\WebhookFeed.cs" />
+    <Compile Include="Models\WebhookFeedEntry.cs" />
     <Compile Include="Models\WebhookSearchResult.cs" />
+    <Compile Include="Models\WebhookTestRequest.cs" />
     <Compile Include="ModuleConstants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IWebhookFeedSearchService.cs" />

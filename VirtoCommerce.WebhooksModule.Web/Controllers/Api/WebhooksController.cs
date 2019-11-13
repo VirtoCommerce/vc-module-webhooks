@@ -1,6 +1,6 @@
+using System;
 using System.Web.Http;
 using System.Web.Http.Description;
-using VirtoCommerce.Domain.Commerce.Model.Search;
 using VirtoCommerce.Platform.Core.Web.Security;
 using VirtoCommerce.WebhooksModule.Core;
 using VirtoCommerce.WebhooksModule.Core.Models;
@@ -13,11 +13,15 @@ namespace VirtoCommerce.WebhooksModule.Web.Controllers.Api
 	{
 		private readonly IWebhookSearchService _webhookSearchService;
 		private readonly IWebhookFeedSearchService _webhookFeedSearchService;
+		private readonly IWebhookService _webhookService;
 
-		public WebhooksController(IWebhookSearchService webhookSearchService, IWebhookFeedSearchService webhookFeedSearchService)
+		public WebhooksController(IWebhookSearchService webhookSearchService,
+			IWebhookFeedSearchService webhookFeedSearchService,
+			IWebhookService webhookService)
 		{
 			_webhookSearchService = webhookSearchService;
 			_webhookFeedSearchService = webhookFeedSearchService;
+			_webhookService = webhookService;
 		}
 
 		// GET: api/webhooks/:id
@@ -25,17 +29,11 @@ namespace VirtoCommerce.WebhooksModule.Web.Controllers.Api
 		[Route("{id}")]
 		[ResponseType(typeof(Webhook))]
 		[CheckPermission(Permission = ModuleConstants.Security.Permissions.Read)]
-		public IHttpActionResult GetWebhookById()
+		public IHttpActionResult GetWebhookById(string id)
 		{
-			return Ok(new Webhook()
-			{
-				Id = "test",
-				IsActive = false,
-				Name = "test",
-				Url = "https://myLAUrl",
-				RaisedEventCount = 100500,
-				ErrorCount = 500
-			});
+			var result = _webhookService.GetByIds(new[] { id });
+
+			return Ok(result);
 		}
 
 		/// <summary>
@@ -45,11 +43,12 @@ namespace VirtoCommerce.WebhooksModule.Web.Controllers.Api
 		/// <returns></returns>
 		[HttpPost]
 		[Route("search")]
-		[ResponseType(typeof(GenericSearchResult<Webhook>))]
+		[ResponseType(typeof(WebhookSearchResult))]
 		[CheckPermission(Permission = ModuleConstants.Security.Permissions.Read)]
-		public GenericSearchResult<Webhook> Search(WebhookSearchCriteria criteria)
+		public WebhookSearchResult Search(WebhookSearchCriteria criteria)
 		{
 			var result = _webhookSearchService.Search(criteria);
+
 			return result;
 		}
 
@@ -60,33 +59,56 @@ namespace VirtoCommerce.WebhooksModule.Web.Controllers.Api
 		/// <returns></returns>
 		[HttpPost]
 		[Route("feed/search")]
-		[ResponseType(typeof(GenericSearchResult<WebhookFeedEntry>))]
+		[ResponseType(typeof(WebhookFeedSearchResult))]
 		[CheckPermission(Permission = ModuleConstants.Security.Permissions.ReadFeed)]
-		public GenericSearchResult<WebhookFeedEntry> SearchWebhookFeed(WebhookFeedSearchCriteria criteria)
+		public WebhookFeedSearchResult SearchWebhookFeed(WebhookFeedSearchCriteria criteria)
 		{
 			var result = _webhookFeedSearchService.Search(criteria);
+
 			return result;
 		}
 
 		/// <summary>
-		/// Creates thumbnail task
+		/// Creates or updates the webhooks.
 		/// </summary>
-		/// <param name="task"></param>
+		/// <param name="webhooks">Webhooks to save.</param>
 		/// <returns></returns>
 		[HttpPost]
 		[Route("")]
 		[CheckPermission(Permission = ModuleConstants.Security.Permissions.Update)]
-		public IHttpActionResult Create(Webhook webhook)
+		public IHttpActionResult SaveWebhook(Webhook[] webhooks)
 		{
+			_webhookService.SaveChanges(webhooks);
+
 			return Ok();
 		}
 
+		/// <summary>
+		/// Deletes webhooks by ids.
+		/// </summary>
+		/// <param name="ids">Webhook ids to delete.</param>
+		/// <returns></returns>
+		[HttpDelete]
+		[Route("")]
+		[CheckPermission(Permission = ModuleConstants.Security.Permissions.Update)]
+		public IHttpActionResult DeleteWebhookds(string[] ids)
+		{
+			_webhookService.DeleteByIds(ids);
+
+			return Ok();
+		}
+
+		/// <summary>
+		/// Sends request with given params to webhook and returns result
+		/// </summary>
+		/// <param name="testRequest">Request params.</param>
+		/// <returns>Result of sent request.</returns>
 		[HttpPost]
 		[Route("send")]
 		[CheckPermission(Permission = ModuleConstants.Security.Permissions.Read)]
-		public IHttpActionResult Run()
+		public IHttpActionResult Run(WebhookTestRequest testRequest)
 		{
-			return Ok();
+			throw new NotImplementedException();
 		}
 	}
 }
