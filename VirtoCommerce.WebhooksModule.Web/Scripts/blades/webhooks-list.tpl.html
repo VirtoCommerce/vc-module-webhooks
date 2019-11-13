@@ -21,11 +21,11 @@
                     columnDefs: [
                                 { name: 'actions', displayName: '', enableColumnResizing: false, enableSorting: false, width: 30, cellTemplate: 'list-actions.cell.html', pinnedLeft:true },
                                 {
-                                    displayName: 'webhooks.blades.webhooks-list.labels.name', name: 'name',width: 75, sort: { direction: uiGridConstants.ASC }, cellTemplate: 'list-name.cell.html'
+                                    displayName: 'webhooks.blades.webhooks-list.labels.name', name: 'name',width: 180, sort: { direction: uiGridConstants.ASC }, cellTemplate: 'list-name.cell.html'
                                 },
-                                { name: 'active', displayName: 'webhooks.blades.webhooks-list.labels.active', width: 80, cellTemplate: 'list-active.cell.html' },
-                                { name: 'calls', displayName: 'webhooks.blades.webhooks-list.labels.success-calls', width: 20, cellTemplate: 'list-name.success-calls.html' },
-                                { name: 'errors', displayName: 'webhooks.blades.webhooks-list.labels.unresolved-errors', width: 20, cellTemplate: 'list-name.unresolved-errors.html'},
+                                { name: 'isActive', displayName: 'webhooks.blades.webhooks-list.labels.active', width: 80, cellTemplate: 'list-active.cell.html' },
+                                { name: 'calls', displayName: 'webhooks.blades.webhooks-list.labels.success-calls', width: 60, cellTemplate: 'list-name.success-calls.html' },
+                                { name: 'errorCount', displayName: 'webhooks.blades.webhooks-list.labels.unresolved-errors', width: 60, cellTemplate: 'list-name.unresolved-errors.html'},
 
              ]})">
             <div class="table-wrapper" ng-if="items.length">
