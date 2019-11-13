@@ -124,10 +124,11 @@
         ];
 
         // simple and advanced filtering
-        var filter = blade.filter = { keyword: null };
+        var filter = $scope.filter = {};
+
 
         filter.criteriaChanged = function () {
-
+            blade.refresh();
         };
 
         // ui-grid
@@ -149,10 +150,6 @@
             blade.refresh();
         };
 
-
-
-
-
         //reset state grid (header checkbox, scroll)
         function resetStateGrid() {
             if ($scope.gridApi) {
@@ -166,6 +163,7 @@
         // Search Criteria
         function getSearchCriteria() {
             var searchCriteria = {
+                searchPhrase: filter.keyword ? filter.keyword : undefined,
                 sort: uiGridHelper.getSortExpression($scope),
                 skip: ($scope.pageSettings.currentPage - 1) * $scope.pageSettings.itemsPerPageCount,
                 take: $scope.pageSettings.itemsPerPageCount
