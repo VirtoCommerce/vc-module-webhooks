@@ -21,11 +21,11 @@
                     columnDefs: [
                                 { name: 'actions', displayName: '', enableColumnResizing: false, enableSorting: false, width: 30, cellTemplate: 'list-actions.cell.html', pinnedLeft:true },
                                 {
-                                    displayName: 'webhooks.blades.webhooks-list.labels.name', name: 'name',width: 75, sort: { direction: uiGridConstants.ASC }, cellTemplate: 'list-name.cell.html'
+                                    displayName: 'webhooks.blades.webhooks-list.labels.name', name: 'name',width: 160, sort: { direction: uiGridConstants.ASC }, cellTemplate: 'list-name.cell.html'
                                 },
-                                { name: 'active', displayName: 'webhooks.blades.webhooks-list.labels.active', width: 80, cellTemplate: 'list-active.cell.html' },
-                                { name: 'calls', displayName: 'webhooks.blades.webhooks-list.labels.success-calls', width: 20, cellTemplate: 'list-name.success-calls.html' },
-                                { name: 'errors', displayName: 'webhooks.blades.webhooks-list.labels.unresolved-errors', width: 20, cellTemplate: 'list-name.unresolved-errors.html'},
+                                { name: 'isActive', displayName: 'webhooks.blades.webhooks-list.labels.active', width: 80, cellTemplate: 'list-active.cell.html' },
+                                { name: 'calls', displayName: 'webhooks.blades.webhooks-list.labels.success-calls', width: 50, cellTemplate: 'list-name.success-calls.html' },
+                                { name: 'eventErrorsCount', displayName: 'webhooks.blades.webhooks-list.labels.unresolved-errors', width: 50, cellTemplate: 'list-name.unresolved-errors.html'},
 
              ]})">
             <div class="table-wrapper" ng-if="items.length">
@@ -72,14 +72,14 @@
 <script type="text/ng-template" id="list-name.success-calls.html">
     <div class="ui-grid-cell-contents">
         <div class="inner-contents">
-            <div class="ui-grid-cell-contents">{{((row.entity.errorCount / row.entity.raisedEventCount ) * 100).toFixed(2)}}</div>
+            <div class="ui-grid-cell-contents">{{((row.entity.eventErrorsCount / row.entity.raisedEventCount ) * 100).toFixed(2)}}</div>
         </div>
     </div>
 </script>
 <script type="text/ng-template" id="list-name.unresolved-errors.html">
     <div class="ui-grid-cell-contents">
         <div class="inner-contents">
-			<div class="ui-grid-cell-contents" style="color:#e51400">{{row.entity.errorCount}}</div>
+            <div class="ui-grid-cell-contents" style="color:#e51400">{{row.entity.eventErrorsCount}}</div>
         </div>
     </div>
 </script>
