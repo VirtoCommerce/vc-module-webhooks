@@ -2,8 +2,7 @@
 
 namespace VirtoCommerce.WebhooksModule.Core.Models
 {
-	public class WebhookSearchCriteria : SearchCriteriaBase
+	public class WebhookSearchResult : GenericSearchResult<Webhook>
 	{
-		public bool IsActive { get; set; }
 	}
 }

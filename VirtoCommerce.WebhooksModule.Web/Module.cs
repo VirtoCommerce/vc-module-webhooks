@@ -34,7 +34,7 @@ namespace VirtoCommerce.WebhooksModule.Web
             // Register implementations:
             // _container.RegisterType<IMyRepository>(new InjectionFactory(c => new MyRepository(_connectionString, new EntityPrimaryKeyGeneratorInterceptor()));
 
-            _container.RegisterType<IWebhookSearchService, WebhookSearchService>();
+            _container.RegisterType<IWebhookSearchService, WebhookService>();
         }
 
         public override void PostInitialize()
