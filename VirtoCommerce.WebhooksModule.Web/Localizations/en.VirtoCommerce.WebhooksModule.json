@@ -10,6 +10,39 @@
                     "success-calls": "% of success calls",
                     "unresolved-errors": "Unresolved errors"
                 }
+            },
+            "webhook-detail": {
+                "title": "Webhooks list",
+                "subtitle": "Manage the webhook setting and details",
+                "labels": {
+                    "name": "Name",
+                    "is-active": "Is active",
+                    "url": "URL",
+                    "content-type": "Content type",
+                    "triggering-events": "Triggering events",
+                    "trigger-all-events": "Trigger for all events"
+                },
+                "discription": {
+                    "name": "The display webhook name",
+                    "url": "The URL of the subscriber to be called on each event trigger",
+                    "specify-events": "Specify for what kind of events this webhook should be triggered",
+                    "content-type": "Select one of the allowed MIME types to be used as the value of the Content-type header"
+                }
+            }
+        },
+        "widgets": {
+            "errors-widget": {
+                "title": "Error count"
+            }
+        },
+        "dialogs": {
+            "setting-save": {
+                "title": "Save changes",
+                "message": "The webhook has been modified. Do you want to save changes?"
+            },
+            "setting-delete": {
+                "title": "Delete confirmation",
+                "message": "Are you sure you want to delete this webhook?"
             }
         }
     }

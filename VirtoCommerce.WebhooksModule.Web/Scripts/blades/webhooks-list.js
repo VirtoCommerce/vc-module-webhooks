@@ -79,7 +79,7 @@
             $scope.selectedNodeId = listItem.id;
         };
 
-        $scope.selectItem = function (e, listItem) {
+        $scope.selectNode = function (e, listItem) {
             blade.setSelectedItem(listItem);
             var newBlade = {
                 id: "webhookDetail",
@@ -91,9 +91,6 @@
             };
             bladeNavigationService.showBlade(newBlade, blade);
         };
-
-
-
 
 
         blade.toolbarCommands = [

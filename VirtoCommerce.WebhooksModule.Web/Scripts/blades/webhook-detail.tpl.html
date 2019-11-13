@@ -1,0 +1,81 @@
+﻿<div class="blade-content __medium-wide">
+    <div class="blade-inner">
+        <div class="inner-block">
+            <form name="detailForm" class="form">
+                <fieldset ng-init="setForm(detailForm)">
+                    <div class="column">
+                        <div class="form-group">
+                            <label class="form-label">{{ 'webhooks.blades.webhook-detail.labels.is-active' | translate }}</label>
+                            <div class="form-input">
+                                <label class="form-label __switch">
+                                    <input type="checkbox" ng-model="blade.currentEntity.isActive" />
+                                    <span class="switch"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group __info list">
+                        <label class="form-label">{{ 'webhooks.blades.webhook-detail.labels.name' | translate }}</label>
+                        <div class="form-input">
+                            <input focus-on="" required class="form-control" ng-model="blade.currentEntity.name" placeholder="{{'catalog.blades.category-detail.placeholders.name' | translate}}" />
+                        </div>
+                        <div class="list-descr">{{ 'webhooks.blades.webhook-detail.discription.name' | translate }}</div>
+                    </div>
+                    <div class="form-group ">
+                        <div class="column">
+                            <div class="form-group __info list">
+                                <label class="form-label">{{ 'webhooks.blades.webhook-detail.labels.url' | translate }}</label>
+                                <div class="form-input">
+                                    <input ng-class="{'error': detailForm.url.$invalid && !detailForm.url.$pristine}" required class="form-control" ng-model="blade.currentEntity.url" name="url" />
+                                </div>
+                                <div class="list-descr">{{ 'webhooks.blades.webhook-detail.discription.url' | translate }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <div class="column">
+                            <div class="form-group __info list">
+                                <label class="form-label">{{ 'webhooks.blades.webhook-detail.labels.content-type' | translate }}</label>
+                                <div class="form-input">
+                                    <ui-select ng-model="blade.currentEntity.contentType" ng-disabled="true">
+                                        <ui-select-match>{{$select.selected.value}}</ui-select-match>
+                                        <ui-select-choices repeat="x.value as x in blade.availableContentTypes | filter: $select.search">
+                                            <div>{{ x.title |translate }}</div>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                                <div class="list-descr">{{ 'webhooks.blades.webhook-detail.discription.content-type' | translate }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">{{ 'webhooks.blades.webhook-detail.labels.trigger-all-events' | translate }}</label>
+                        <div class="form-input">
+                            <label class="form-label __switch">
+                                <input type="checkbox" ng-model="blade.currentEntity.isAllEvents" />
+                                <span class="switch"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <div class="column">
+                            <div class="form-group __info list">
+                                <label class="form-label">{{ 'webhooks.blades.webhook-detail.labels.triggering-events' | translate }}</label>
+                                <div class="form-input">
+                                    <ui-select multiple ng-model="blade.currentEntity.events">
+                                        <ui-select-match>{{$item}}</ui-select-match>
+                                        <ui-select-choices repeat="event in blade.availableEvents | filter: $select.search">
+                                            <div>{{ event | translate }}</div>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                                <div class="list-descr">{{ 'webhooks.blades.webhook-detail.discription.specify-events' | translate }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+            <va-widget-container group="webhookDetail" blade="blade" data="blade.currentEntity" gridster-opts="{columns: 4}"></va-widget-container>
+        </div>
+    </div>
+</div>
