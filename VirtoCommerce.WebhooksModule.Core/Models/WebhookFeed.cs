@@ -2,7 +2,7 @@
 
 namespace VirtoCommerce.WebhooksModule.Core.Models
 {
-    public class WebWebhookFeed : AuditableEntity
+    public class WebhookFeed : AuditableEntity
     {
 
     }

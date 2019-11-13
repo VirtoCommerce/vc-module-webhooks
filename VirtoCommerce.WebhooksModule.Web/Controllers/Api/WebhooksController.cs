@@ -21,18 +21,18 @@ namespace VirtoCommerce.WebhooksModule.Web.Controllers.Api
         // GET: api/webhooks/:id
         [HttpGet]
         [Route("{id}")]
-        [ResponseType(typeof(WebWebhook))]
+        [ResponseType(typeof(Webhook))]
         [CheckPermission(Permission = ModuleConstants.Security.Permissions.Read)]
         public IHttpActionResult GetWebhookById()
         {
-            return Ok(new WebWebhook()
+            return Ok(new Webhook()
             {
                 Id = "test",
                 IsActive = false,
                 Name = "test",
                 Url = "https://myLAUrl",
                 RaisedEventCount = 100500,
-                EventErrorsCount = 500
+                ErrorCount = 500
             });
         }
 
@@ -43,9 +43,9 @@ namespace VirtoCommerce.WebhooksModule.Web.Controllers.Api
         /// <returns></returns>
         [HttpPost]
         [Route("search")]
-        [ResponseType(typeof(GenericSearchResult<WebWebhook>))]
+        [ResponseType(typeof(GenericSearchResult<Webhook>))]
         [CheckPermission(Permission = ModuleConstants.Security.Permissions.Read)]
-        public GenericSearchResult<WebWebhook> Search(WebhookSearchCriteria criteria)
+        public GenericSearchResult<Webhook> Search(WebhookSearchCriteria criteria)
         {
             var result = _webhookSearchService.Search(criteria);
             return result;
@@ -58,9 +58,9 @@ namespace VirtoCommerce.WebhooksModule.Web.Controllers.Api
         /// <returns></returns>
         [HttpPost]
         [Route("feed/search")]
-        [ResponseType(typeof(GenericSearchResult<WebWebhookFeed>))]
+        [ResponseType(typeof(GenericSearchResult<WebhookFeed>))]
         [CheckPermission(Permission = ModuleConstants.Security.Permissions.ReadFeed)]
-        public GenericSearchResult<WebWebhookFeed> SearchWebhookLigs(WebhookSearchCriteria criteria)
+        public GenericSearchResult<WebhookFeed> SearchWebhookLigs(WebhookSearchCriteria criteria)
         {
             var result = _webhookSearchService.SearchFeed(criteria);
             return result;
@@ -74,7 +74,7 @@ namespace VirtoCommerce.WebhooksModule.Web.Controllers.Api
         [HttpPost]
         [Route("")]
         [CheckPermission(Permission = ModuleConstants.Security.Permissions.Update)]
-        public IHttpActionResult Create(WebWebhook webhook)
+        public IHttpActionResult Create(Webhook webhook)
         {
             return Ok();
         }

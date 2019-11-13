@@ -8,9 +8,9 @@ namespace VirtoCommerce.WebhooksModule.Data.Services
 {
     public class WebhookSearchService : IWebhookSearchService
     {
-        public GenericSearchResult<WebWebhook> Search(WebhookSearchCriteria searchCriteria)
+        public GenericSearchResult<Webhook> Search(WebhookSearchCriteria searchCriteria)
         {
-            var result = new GenericSearchResult<WebWebhook>()
+            var result = new GenericSearchResult<Webhook>()
             {
                 Results = GetMocks(searchCriteria),
                 TotalCount = 100
@@ -18,24 +18,24 @@ namespace VirtoCommerce.WebhooksModule.Data.Services
             return result;
         }
 
-        public GenericSearchResult<WebWebhookFeed> SearchFeed(WebhookSearchCriteria searchCriteria)
+        public GenericSearchResult<WebhookFeed> SearchFeed(WebhookSearchCriteria searchCriteria)
         {
             throw new System.NotImplementedException();
         }
 
 
-        private List<WebWebhook> GetMocks(WebhookSearchCriteria searchCriteria)
+        private List<Webhook> GetMocks(WebhookSearchCriteria searchCriteria)
         {
-            var result = new List<WebWebhook>();
+            var result = new List<Webhook>();
 
             for (int i = 1; i <= 100; i++)
             {
-                result.Add(new WebWebhook()
+                result.Add(new Webhook()
                 {
                     Id = $"id{i}",
                     Name = $"Name_{i}",
                     Url = $"https://test-url-{i}",
-                    EventErrorsCount = 3 * i,
+                    ErrorCount = 3 * i,
                     IsActive = i % 2 == 0,
                     RaisedEventCount = 5 * i
                 });

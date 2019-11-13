@@ -51,8 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\WebhookSearchCriteria.cs" />
-    <Compile Include="Models\WebWebhook.cs" />
-    <Compile Include="Models\WebWebhookFeed.cs" />
+    <Compile Include="Models\Webhook.cs" />
+    <Compile Include="Models\WebhookFeed.cs" />
     <Compile Include="ModuleConstants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IWebhookSearchService.cs" />
