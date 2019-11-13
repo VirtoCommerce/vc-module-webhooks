@@ -44,7 +44,7 @@
         };
 
         function saveOrUpdate() {
-            return webhookApi.create(blade.currentEntity, function (data) {
+            return webhookApi.save(blade.currentEntity, function (data) {
                 blade.isNew = false;
                 blade.currentEntityId = data.id;
                 blade.refresh(true);
