@@ -1,4 +1,12 @@
 angular.module('virtoCommerce.webhooksModule')
     .factory('virtoCommerce.webhooksModule.webApi', ['$resource', function ($resource) {
-        return $resource('api/VirtoCommerceWebhooksModule');
-}]);
+        return $resource('api/webhooks/:id',
+            { id: '@id' },
+            {
+                search: { method: 'POST', url: 'api/webhooks/search' },
+                searchFeed: { method: 'POST', url: 'api/webhooks/feed/search' },
+                create: { method: 'post', url: 'api/webhooks' },
+                send: { method: 'POST', url: 'api/webhooks' }
+            });
+    }
+    ]);

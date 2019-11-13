@@ -8,7 +8,7 @@
     </dependencies>
 
     <title>Webhooks</title>
-    <description>Enter your module description here.</description>
+    <description>Manage user defined webhooks</description>
     <authors>
         <author>Eugeny Tatarincev</author>
         <author>Andrey Kozlov</author>

@@ -9,7 +9,6 @@
         <p class="form-count">{{ 'platform.list.count' | translate }}: <span class="count">{{pageSettings.totalItems | number:0}}</span></p>
     </div>
 </div>
-<div class="blade-static __bottom" ng-if="pageSettings.itemsPerPageCount < pageSettings.totalItems" ng-include="'pagerTemplate.html'"></div>
 
 <div class="blade-content __medium-wide">
     <div class="blade-inner">
@@ -17,6 +16,7 @@
                     useExternalSorting: true,
                     rowTemplate: 'list.row.html',
                     virtualizationThreshold: 1000,
+                    data: 'items',
                     rowHeight: 60,
                     columnDefs: [
                                 { name: 'actions', displayName: '', enableColumnResizing: false, enableSorting: false, width: 30, cellTemplate: 'list-actions.cell.html', pinnedLeft:true },
@@ -28,8 +28,8 @@
                                 { name: 'errors', displayName: 'webhooks.blades.webhooks-list.labels.unresolved-errors', width: 20, cellTemplate: 'list-name.unresolved-errors.html'},
 
              ]})">
-            <div class="table-wrapper" ng-if="blade.currentEntities.length">
-                <div ui-grid="gridOptions" ui-grid-auto-resize ui-grid-save-state ui-grid-resize-columns ui-grid-move-columns ui-grid-pinning ui-grid-selection ui-grid-height></div>
+            <div class="table-wrapper" ng-if="items.length">
+                <div ui-grid="gridOptions" ui-grid-auto-resize ui-grid-save-state ui-grid-selection ui-grid-resize-columns ui-grid-move-columns ui-grid-pinning ui-grid-height ui-grid-infinite-scroll></div>
                 <ul class="menu __context" role="menu" id="cl_menu">
                     <li class="menu-item" ng-click='editWebhook(contextMenuEntity)' va-permission="webhook:read" security-scopes="contextMenuEntity.securityScopes">
                         <i class="menu-ico fa fa-edit"></i> {{'platform.commands.manage' | translate}}
@@ -39,7 +39,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="note" ng-if="!blade.currentEntities.length">{{ 'platform.list.no-data' | translate }}</div>
+            <div class="note" ng-if="!items.length">{{ 'platform.list.no-data' | translate }}</div>
         </div>
     </div>
 </div>
@@ -65,21 +65,21 @@
 <script type="text/ng-template" id="list-active.cell.html">
     <div class="ui-grid-cell-contents">
         <div class="inner-contents">
-            <div class="ui-grid-cell-contents">{{row.entity.active}}</div>
+            <div class="ui-grid-cell-contents">{{row.entity.isActive}}</div>
         </div>
     </div>
 </script>
 <script type="text/ng-template" id="list-name.success-calls.html">
     <div class="ui-grid-cell-contents">
         <div class="inner-contents">
-            <div class="ui-grid-cell-contents">{{row.entity.calls}}</div>
+            <div class="ui-grid-cell-contents">{{((row.entity.eventErrorsCount / row.entity.raisedEventCount ) * 100).toFixed(2)}}</div>
         </div>
     </div>
 </script>
 <script type="text/ng-template" id="list-name.unresolved-errors.html">
     <div class="ui-grid-cell-contents">
         <div class="inner-contents">
-            <div class="ui-grid-cell-contents" style="color:#e51400">{{row.entity.errors}}</div>
+            <div class="ui-grid-cell-contents" style="color:#e51400">{{row.entity.eventErrorsCount}}</div>
         </div>
     </div>
 </script>
