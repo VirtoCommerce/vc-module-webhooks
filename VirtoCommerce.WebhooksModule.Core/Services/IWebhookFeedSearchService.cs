@@ -1,6 +1,6 @@
-﻿using VirtoCommerce.WebhooksModule.Core.Models;
+﻿using VirtoCommerce.WebHooksModule.Core.Models;
 
-namespace VirtoCommerce.WebhooksModule.Core.Services
+namespace VirtoCommerce.WebHooksModule.Core.Services
 {
 	public interface IWebHookFeedSearchService
 	{

@@ -11,8 +11,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VirtoCommerce.WebhooksModule.Web</RootNamespace>
-    <AssemblyName>VirtoCommerce.WebhooksModule.Web</AssemblyName>
+    <RootNamespace>VirtoCommerce.WebHooksModule.Web</RootNamespace>
+    <AssemblyName>VirtoCommerce.WebHooksModule.Web</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -150,13 +150,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VirtoCommerce.WebhooksModule.Core\VirtoCommerce.WebhooksModule.Core.csproj">
-      <Project>{8229ad3e-8925-4392-9fb6-487dee096ed0}</Project>
-      <Name>VirtoCommerce.WebhooksModule.Core</Name>
+    <ProjectReference Include="..\VirtoCommerce.WebhooksModule.Core\VirtoCommerce.WebHooksModule.Core.csproj">
+      <Project>{D8D6CDE1-A306-4626-9CCE-1F8D8E1EDCBF}</Project>
+      <Name>VirtoCommerce.WebHooksModule.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\VirtoCommerce.WebhooksModule.Data\VirtoCommerce.WebhooksModule.Data.csproj">
-      <Project>{04e70524-a438-48fd-9da3-3289026a23f1}</Project>
-      <Name>VirtoCommerce.WebhooksModule.Data</Name>
+    <ProjectReference Include="..\VirtoCommerce.WebhooksModule.Data\VirtoCommerce.WebHooksModule.Data.csproj">
+      <Project>{93B4E2D3-2BAD-4408-98AE-EEB05011A800}</Project>
+      <Name>VirtoCommerce.WebHooksModule.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

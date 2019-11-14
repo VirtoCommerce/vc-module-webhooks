@@ -7,8 +7,8 @@
     <ProjectGuid>{D8D6CDE1-A306-4626-9CCE-1F8D8E1EDCBF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VirtoCommerce.WebhooksModule.Core</RootNamespace>
-    <AssemblyName>VirtoCommerce.WebhooksModule.Core</AssemblyName>
+    <RootNamespace>VirtoCommerce.WebHooksModule.Core</RootNamespace>
+    <AssemblyName>VirtoCommerce.WebHooksModule.Core</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

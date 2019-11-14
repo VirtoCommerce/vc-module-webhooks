@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using VirtoCommerce.WebhooksModule.Core.Models;
-using VirtoCommerce.WebhooksModule.Core.Services;
+using VirtoCommerce.WebHooksModule.Core.Models;
+using VirtoCommerce.WebHooksModule.Core.Services;
 
-namespace VirtoCommerce.WebhooksModule.Data.Services
+namespace VirtoCommerce.WebHooksModule.Data.Services
 {
 	public class WebHookService : IWebHookSearchService, IWebHookService
 	{

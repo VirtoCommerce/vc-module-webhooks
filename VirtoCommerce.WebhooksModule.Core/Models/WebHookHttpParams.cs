@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace VirtoCommerce.WebhooksModule.Core.Models
+namespace VirtoCommerce.WebHooksModule.Core.Models
 {
 	public class WebHookHttpParams
 	{

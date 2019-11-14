@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using VirtoCommerce.Platform.Core.Web.Security;
-using VirtoCommerce.WebhooksModule.Core;
-using VirtoCommerce.WebhooksModule.Core.Models;
-using VirtoCommerce.WebhooksModule.Core.Services;
+using VirtoCommerce.WebHooksModule.Core;
+using VirtoCommerce.WebHooksModule.Core.Models;
+using VirtoCommerce.WebHooksModule.Core.Services;
 
-namespace VirtoCommerce.WebhooksModule.Web.Controllers.Api
+namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
 {
 	[RoutePrefix("api/webhooks")]
 	public class WebHooksController : ApiController

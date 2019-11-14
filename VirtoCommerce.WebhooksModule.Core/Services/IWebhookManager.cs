@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using VirtoCommerce.WebhooksModule.Core.Models;
+using VirtoCommerce.WebHooksModule.Core.Models;
 
-namespace VirtoCommerce.WebhooksModule.Core.Services
+namespace VirtoCommerce.WebHooksModule.Core.Services
 {
 	/// <summary>
 	/// Provides an abstraction for launching Webhooks based on events happening in the system. When 

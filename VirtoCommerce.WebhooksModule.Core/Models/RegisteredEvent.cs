@@ -1,7 +1,7 @@
 ﻿using System;
 using VirtoCommerce.Platform.Core.Common;
 
-namespace VirtoCommerce.WebhooksModule.Core.Models
+namespace VirtoCommerce.WebHooksModule.Core.Models
 {
 	public class RegisteredEvent : IEntity
 	{
