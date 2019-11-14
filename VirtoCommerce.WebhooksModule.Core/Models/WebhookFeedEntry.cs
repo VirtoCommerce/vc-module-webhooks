@@ -2,16 +2,16 @@
 
 namespace VirtoCommerce.WebHooksModule.Core.Models
 {
-	public class WebHookFeedEntry : AuditableEntity
-	{
-		public string WebHookId { get; set; }
-		public string EventId { get; set; }
-		public int AttemptCount { get; set; }
-		public int Status { get; set; }
-		public string Error { get; set; }
-		public string RequestHeader { get; set; }
-		public string RequestBody { get; set; }
-		public string ResponseHeader { get; set; }
-		public string ResponseBody { get; set; }
-	}
+    public class WebHookFeedEntry : AuditableEntity
+    {
+        public string WebHookId { get; set; }
+        public string EventId { get; set; }
+        public int AttemptCount { get; set; }
+        public int Status { get; set; }
+        public string Error { get; set; }
+        public string RequestHeaders { get; set; }
+        public string RequestBody { get; set; }
+        public string ResponseHeaders { get; set; }
+        public string ResponseBody { get; set; }
+    }
 }
