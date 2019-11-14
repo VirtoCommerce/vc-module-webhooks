@@ -2,7 +2,7 @@
 
 namespace VirtoCommerce.WebhooksModule.Core.Models
 {
-	public class WebhookSearchResult : GenericSearchResult<Webhook>
+	public class WebHookSearchResult : GenericSearchResult<WebHook>
 	{
 	}
 }

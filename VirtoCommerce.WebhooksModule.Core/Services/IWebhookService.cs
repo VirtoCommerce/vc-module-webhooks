@@ -2,10 +2,10 @@
 
 namespace VirtoCommerce.WebhooksModule.Core.Services
 {
-	public interface IWebhookService
+	public interface IWebHookService
 	{
-		Webhook[] GetByIds(string[] ids);
+		WebHook[] GetByIds(string[] ids);
 		void DeleteByIds(string[] ids);
-		void SaveChanges(Webhook[] webhooks);
+		void SaveChanges(WebHook[] webhooks);
 	}
 }

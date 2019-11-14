@@ -2,7 +2,7 @@
 
 namespace VirtoCommerce.WebhooksModule.Core.Models
 {
-	public class Webhook : AuditableEntity
+	public class WebHook : AuditableEntity
 	{
 		public string Name { get; set; }
 		public string Url { get; set; }
@@ -11,6 +11,7 @@ namespace VirtoCommerce.WebhooksModule.Core.Models
 		public bool IsAllEvents { get; set; }
 		public long RaisedEventCount { get; set; }
 		public long ErrorCount { get; set; }
-		public WebhookEvent[] Events { get; set; }
+		public WebHookEvent[] Events { get; set; }
+		public WebHookHttpParams RequestParams { get; set; }
 	}
 }

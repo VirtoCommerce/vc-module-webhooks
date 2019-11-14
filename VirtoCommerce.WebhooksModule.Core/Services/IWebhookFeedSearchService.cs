@@ -2,8 +2,8 @@
 
 namespace VirtoCommerce.WebhooksModule.Core.Services
 {
-	public interface IWebhookFeedSearchService
+	public interface IWebHookFeedSearchService
 	{
-		WebhookFeedSearchResult Search(WebhookFeedSearchCriteria searchCriteria);
+		WebHookFeedSearchResult Search(WebHookFeedSearchCriteria searchCriteria);
 	}
 }

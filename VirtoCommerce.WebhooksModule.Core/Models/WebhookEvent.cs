@@ -2,9 +2,9 @@
 
 namespace VirtoCommerce.WebhooksModule.Core.Models
 {
-	public class WebhookEvent : AuditableEntity
+	public class WebHookEvent : AuditableEntity
 	{
-		public string WebhookId { get; set; }
+		public string WebHookId { get; set; }
 		public string EventId { get; set; }
 	}
 }

@@ -6,26 +6,26 @@ using VirtoCommerce.WebhooksModule.Core.Services;
 
 namespace VirtoCommerce.WebhooksModule.Data.Services
 {
-	public class WebhookFeedService : IWebhookFeedService, IWebhookFeedSearchService
+	public class WebHookFeedService : IWebHookFeedService, IWebHookFeedSearchService
 	{
 		public void DeleteByIds(string[] ids)
 		{
 			throw new System.NotImplementedException();
 		}
 
-		public WebhookFeedEntry[] GetByIds(string[] ids)
+		public WebHookFeedEntry[] GetByIds(string[] ids)
 		{
 			throw new System.NotImplementedException();
 		}
 
-		public void SaveChanges(WebhookFeedEntry[] webhookLogEntries)
+		public void SaveChanges(WebHookFeedEntry[] webhookLogEntries)
 		{
 			throw new System.NotImplementedException();
 		}
 
-		public WebhookFeedSearchResult Search(WebhookFeedSearchCriteria searchCriteria)
+		public WebHookFeedSearchResult Search(WebHookFeedSearchCriteria searchCriteria)
 		{
-			var result = new WebhookFeedSearchResult()
+			var result = new WebHookFeedSearchResult()
 			{
 				Results = GetSampleFeeds(searchCriteria),
 				TotalCount = 100
@@ -33,13 +33,13 @@ namespace VirtoCommerce.WebhooksModule.Data.Services
 			return result;
 		}
 
-		private ICollection<WebhookFeedEntry> GetSampleFeeds(WebhookFeedSearchCriteria searchCriteria)
+		private ICollection<WebHookFeedEntry> GetSampleFeeds(WebHookFeedSearchCriteria searchCriteria)
 		{
-			var result = new List<WebhookFeedEntry>();
+			var result = new List<WebHookFeedEntry>();
 
 			for (int i = 1; i <= 100; i++)
 			{
-				result.Add(new WebhookFeedEntry()
+				result.Add(new WebHookFeedEntry()
 				{
 					Id = $"id{i}",
 					CreatedDate = DateTime.Now.AddMinutes(-i),

@@ -145,7 +145,7 @@
     <Content Include="Scripts\resources\webhooks-api.js" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\Api\WebhooksController.cs" />
+    <Compile Include="Controllers\Api\WebHooksController.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
