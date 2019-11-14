@@ -9,8 +9,8 @@
     <ProjectGuid>{71F91276-B830-4924-8143-9C3385690A13}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VirtoCommerce.WebhooksModule.Tests</RootNamespace>
-    <AssemblyName>VirtoCommerce.WebhooksModule.Tests</AssemblyName>
+    <RootNamespace>VirtoCommerce.WebHooksModule.Tests</RootNamespace>
+    <AssemblyName>VirtoCommerce.WebHooksModule.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -111,13 +111,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VirtoCommerce.WebhooksModule.Core\VirtoCommerce.WebhooksModule.Core.csproj">
-      <Project>{3983616f-0bc3-4239-8f36-5a605d68780f}</Project>
-      <Name>VirtoCommerce.WebhooksModule.Core</Name>
+    <ProjectReference Include="..\VirtoCommerce.WebhooksModule.Core\VirtoCommerce.WebHooksModule.Core.csproj">
+      <Project>{D8D6CDE1-A306-4626-9CCE-1F8D8E1EDCBF}</Project>
+      <Name>VirtoCommerce.WebHooksModule.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\VirtoCommerce.WebhooksModule.Data\VirtoCommerce.WebhooksModule.Data.csproj">
-      <Project>{7cd6b945-fceb-45ce-acd6-fe22ec16e50f}</Project>
-      <Name>VirtoCommerce.WebhooksModule.Data</Name>
+    <ProjectReference Include="..\VirtoCommerce.WebhooksModule.Data\VirtoCommerce.WebHooksModule.Data.csproj">
+      <Project>{93B4E2D3-2BAD-4408-98AE-EEB05011A800}</Project>
+      <Name>VirtoCommerce.WebHooksModule.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29025.244
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtoCommerce.WebhooksModule.Web", "VirtoCommerce.WebhooksModule.Web\VirtoCommerce.WebhooksModule.Web.csproj", "{DDF6200E-BA82-410B-AA02-7124F751B229}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtoCommerce.WebHooksModule.Web", "VirtoCommerce.WebhooksModule.Web\VirtoCommerce.WebHooksModule.Web.csproj", "{DDF6200E-BA82-410B-AA02-7124F751B229}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtoCommerce.WebhooksModule.Core", "VirtoCommerce.WebhooksModule.Core\VirtoCommerce.WebhooksModule.Core.csproj", "{D8D6CDE1-A306-4626-9CCE-1F8D8E1EDCBF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtoCommerce.WebHooksModule.Core", "VirtoCommerce.WebhooksModule.Core\VirtoCommerce.WebHooksModule.Core.csproj", "{D8D6CDE1-A306-4626-9CCE-1F8D8E1EDCBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtoCommerce.WebhooksModule.Data", "VirtoCommerce.WebhooksModule.Data\VirtoCommerce.WebhooksModule.Data.csproj", "{93B4E2D3-2BAD-4408-98AE-EEB05011A800}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtoCommerce.WebHooksModule.Data", "VirtoCommerce.WebhooksModule.Data\VirtoCommerce.WebHooksModule.Data.csproj", "{93B4E2D3-2BAD-4408-98AE-EEB05011A800}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtoCommerce.WebhooksModule.Tests", "VirtoCommerce.WebhooksModule.Tests\VirtoCommerce.WebhooksModule.Tests.csproj", "{71F91276-B830-4924-8143-9C3385690A13}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtoCommerce.WebHooksModule.Tests", "VirtoCommerce.WebhooksModule.Tests\VirtoCommerce.WebHooksModule.Tests.csproj", "{71F91276-B830-4924-8143-9C3385690A13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
