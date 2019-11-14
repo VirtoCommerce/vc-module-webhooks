@@ -50,6 +50,7 @@ namespace VirtoCommerce.WebHooksModule.Web
             _container.RegisterType<IWebHookFeedService, WebHookFeedService>();
             _container.RegisterType<IWebHookFeedSearchService, WebHookFeedService>();
 
+			_container.RegisterType<IWebHookSender, WebHookSender>();
             _container.RegisterType<IWebHookManager, WebHookManager>();
         }
 
