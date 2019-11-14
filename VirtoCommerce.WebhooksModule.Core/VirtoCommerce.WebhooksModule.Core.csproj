@@ -7,8 +7,8 @@
     <ProjectGuid>{D8D6CDE1-A306-4626-9CCE-1F8D8E1EDCBF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VirtoCommerce.WebhooksModule.Core</RootNamespace>
-    <AssemblyName>VirtoCommerce.WebhooksModule.Core</AssemblyName>
+    <RootNamespace>VirtoCommerce.WebHooksModule.Core</RootNamespace>
+    <AssemblyName>VirtoCommerce.WebHooksModule.Core</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -50,20 +50,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\WebhookEvent.cs" />
-    <Compile Include="Models\WebhookFeedSearchCriteria.cs" />
-    <Compile Include="Models\WebhookFeedSearchResult.cs" />
-    <Compile Include="Models\WebhookSearchCriteria.cs" />
-    <Compile Include="Models\Webhook.cs" />
-    <Compile Include="Models\WebhookFeedEntry.cs" />
-    <Compile Include="Models\WebhookSearchResult.cs" />
-    <Compile Include="Models\WebhookTestRequest.cs" />
+    <Compile Include="Models\RegisteredEvent.cs" />
+    <Compile Include="Models\WebHookEvent.cs" />
+    <Compile Include="Models\WebHookFeedSearchCriteria.cs" />
+    <Compile Include="Models\WebHookFeedSearchResult.cs" />
+    <Compile Include="Models\WebHookHttpParams.cs" />
+    <Compile Include="Models\WebHookResponse.cs" />
+    <Compile Include="Models\WebHookSearchCriteria.cs" />
+    <Compile Include="Models\WebHook.cs" />
+    <Compile Include="Models\WebHookFeedEntry.cs" />
+    <Compile Include="Models\WebHookSearchResult.cs" />
+    <Compile Include="Models\WebHookNotificationRequest.cs" />
     <Compile Include="ModuleConstants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\IWebhookFeedSearchService.cs" />
-    <Compile Include="Services\IWebhookFeedService.cs" />
-    <Compile Include="Services\IWebhookSearchService.cs" />
-    <Compile Include="Services\IWebhookService.cs" />
+    <Compile Include="Services\IWebHookFeedSearchService.cs" />
+    <Compile Include="Services\IWebHookFeedService.cs" />
+    <Compile Include="Services\IWebHookManager.cs" />
+    <Compile Include="Services\IWebHookSearchService.cs" />
+    <Compile Include="Services\IWebHookService.cs" />
+    <Compile Include="Services\IRegisteredEventStore.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

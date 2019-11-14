@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using VirtoCommerce.WebhooksModule.Core.Models;
-using VirtoCommerce.WebhooksModule.Core.Services;
+using VirtoCommerce.WebHooksModule.Core.Models;
+using VirtoCommerce.WebHooksModule.Core.Services;
 
-namespace VirtoCommerce.WebhooksModule.Data.Services
+namespace VirtoCommerce.WebHooksModule.Data.Services
 {
-	public class WebhookService : IWebhookSearchService, IWebhookService
+	public class WebHookService : IWebHookSearchService, IWebHookService
 	{
 		public void DeleteByIds(string[] ids)
 		{
 			throw new NotImplementedException();
 		}
 
-		public Webhook[] GetByIds(string[] ids)
+		public WebHook[] GetByIds(string[] ids)
 		{
-			return new[] { new Webhook()
+			return new[] { new WebHook()
 			{
 				Id = "test",
 				IsActive = false,
@@ -26,14 +26,14 @@ namespace VirtoCommerce.WebhooksModule.Data.Services
 			}};
 		}
 
-		public void SaveChanges(Webhook[] webhooks)
+		public void SaveChanges(WebHook[] webhooks)
 		{
 			throw new NotImplementedException();
 		}
 
-		public WebhookSearchResult Search(WebhookSearchCriteria searchCriteria)
+		public WebHookSearchResult Search(WebHookSearchCriteria searchCriteria)
 		{
-			var result = new WebhookSearchResult()
+			var result = new WebHookSearchResult()
 			{
 				Results = GetMocks(searchCriteria),
 				TotalCount = 100
@@ -41,13 +41,13 @@ namespace VirtoCommerce.WebhooksModule.Data.Services
 			return result;
 		}
 
-		private List<Webhook> GetMocks(WebhookSearchCriteria searchCriteria)
+		private List<WebHook> GetMocks(WebHookSearchCriteria searchCriteria)
 		{
-			var result = new List<Webhook>();
+			var result = new List<WebHook>();
 
 			for (int i = 1; i <= 100; i++)
 			{
-				result.Add(new Webhook()
+				result.Add(new WebHook()
 				{
 					Id = $"id{i}",
 					Name = $"Name_{i}",
@@ -57,9 +57,9 @@ namespace VirtoCommerce.WebhooksModule.Data.Services
 					RaisedEventCount = 5 * i,
 					IsAllEvents = i % 2 == 1,
 					Events = i % 2 == 0
-						? new[] { new WebhookEvent() {
+						? new[] { new WebHookEvent() {
 							Id = $"event_1",
-							WebhookId = $"id{i}",
+							WebHookId = $"id{i}",
 							EventId = "OrderChangedEvent",
 						}}
 						: null,

@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace VirtoCommerce.WebhooksModule.Tests
+namespace VirtoCommerce.WebHooksModule.Tests
 {
     public class Test
     {

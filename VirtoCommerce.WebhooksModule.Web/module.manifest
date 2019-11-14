@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <module>
-    <id>VirtoCommerce.WebhooksModule</id>
+    <id>VirtoCommerce.WebHooksModule</id>
     <version>1.0.0</version>
     <platformVersion>2.13.52</platformVersion>
     <dependencies>
@@ -22,8 +22,8 @@
     <copyright>Copyright © 2019 . All rights reserved</copyright>
     <tags>webhooks module</tags>
   
-    <assemblyFile>VirtoCommerce.WebhooksModule.Web.dll</assemblyFile>
-    <moduleType>VirtoCommerce.WebhooksModule.Web.Module, VirtoCommerce.WebhooksModule.Web</moduleType>
+    <assemblyFile>VirtoCommerce.WebHooksModule.Web.dll</assemblyFile>
+    <moduleType>VirtoCommerce.WebHooksModule.Web.Module, VirtoCommerce.WebHooksModule.Web</moduleType>
 
     <styles>
         <directory virtualPath="$/Content/css" searchPattern="*.css" searchSubdirectories="true" />
