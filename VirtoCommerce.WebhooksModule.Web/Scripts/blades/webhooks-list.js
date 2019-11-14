@@ -74,7 +74,7 @@
                         blade.isLoading = true;
                         bladeNavigationService.closeChildrenBlades(blade);
                         var ids = _.map(selection, function(item) { return item.id; });
-                        webHookApi.delete(ids,
+						webHookApi.remove({ ids: ids },
                             function() {
                                 blade.refresh();
                             });

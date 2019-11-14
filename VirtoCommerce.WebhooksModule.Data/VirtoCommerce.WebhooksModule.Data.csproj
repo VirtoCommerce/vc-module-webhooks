@@ -82,6 +82,7 @@
     <Compile Include="Models\WebHookEventEntity.cs" />
     <Compile Include="Models\WebHookFeedEntryEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\RegisteredEventStore.cs" />
     <Compile Include="Services\WebHookFeedService.cs" />
     <Compile Include="Services\WebHookManager.cs" />
     <Compile Include="Services\WebHookSender.cs" />
