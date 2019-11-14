@@ -14,7 +14,7 @@ namespace VirtoCommerce.WebHooksModule.Core.Services
 		/// Subscribes to all events that could occur in the system with the handler that will call webhook notification.
 		/// </summary>
 		/// <returns></returns>
-		Task SubscribeToAll();
+		void SubscribeToAllEvents();
 
 		/// <summary>
 		/// Verifies that the URI of the given <paramref name="webhook"/> is reachable and responds with the expected

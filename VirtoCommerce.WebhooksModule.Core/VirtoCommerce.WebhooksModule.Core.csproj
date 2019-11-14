@@ -67,6 +67,7 @@
     <Compile Include="Services\IWebHookFeedService.cs" />
     <Compile Include="Services\IWebHookManager.cs" />
     <Compile Include="Services\IWebHookSearchService.cs" />
+    <Compile Include="Services\IWebHookSender.cs" />
     <Compile Include="Services\IWebHookService.cs" />
     <Compile Include="Services\IRegisteredEventStore.cs" />
   </ItemGroup>
