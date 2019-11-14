@@ -73,6 +73,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Migrations\201911140802321_Initial.cs" />
+    <Compile Include="Migrations\201911140802321_Initial.Designer.cs">
+      <DependentUpon>201911140802321_Initial.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\WebHookEntity.cs" />
     <Compile Include="Models\WebHookEventEntity.cs" />
@@ -83,13 +87,6 @@
     <Compile Include="Services\WebHookService.cs" />
     <Compile Include="Repositories\IWebHookRepository.cs" />
     <Compile Include="Repositories\WebHookRepository.cs" />
-    <Compile Include="Services\WebhookFeedService.cs" />
-    <Compile Include="Services\WebhookService.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-    <Folder Include="Models\" />
-    <Folder Include="Repositories\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VirtoCommerce.WebhooksModule.Core\VirtoCommerce.WebHooksModule.Core.csproj">
@@ -99,6 +96,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201911140802321_Initial.resx">
+      <DependentUpon>201911140802321_Initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

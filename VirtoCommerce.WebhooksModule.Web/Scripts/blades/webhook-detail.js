@@ -33,7 +33,7 @@
             blade.subtitle = 'webhooks.blades.webhook-detail.subtitle';
         }
 
-        $scope.saveChanges = function () {
+        function saveChanges() {
             blade.isLoading = true;
             var promise = saveOrUpdate();
             promise.catch(function (error) {
@@ -41,12 +41,12 @@
             }).finally(function () {
                 blade.isLoading = false;
             });
-        };
+        }
 
         function saveOrUpdate() {
-            return webhookApi.save(blade.currentEntity, function (data) {
+            return webhookApi.save([blade.currentEntity], function (data) {
                 blade.isNew = false;
-                blade.currentEntityId = data.id;
+                blade.currentEntityId = data[0].id;
                 blade.refresh(true);
             }).$promise;
         }
@@ -59,7 +59,7 @@
                 callback: function (remove) {
                     if (remove) {
                         blade.isLoading = true;
-                        webhookApi.delete({ ids: blade.currentEntityId }, function () {
+                        webhookApi.delete([blade.currentEntityId], function () {
                             bladeNavigationService.closeBlade(blade, function () {
                                 blade.parentBlade.refresh(true);
                             });
@@ -92,8 +92,12 @@
         blade.toolbarCommands = [
             {
                 name: "platform.commands.save", icon: 'fa fa-save',
-                executeMethod: $scope.saveChanges,
-                canExecuteMethod: canSave
+                executeMethod: function () {
+                    saveChanges();
+                },
+                canExecuteMethod: function () {
+                    return canSave();
+                }
             },
             {
                 name: "platform.commands.reset", icon: 'fa fa-undo',
