@@ -1,11 +1,11 @@
-﻿using VirtoCommerce.WebhooksModule.Core.Models;
+﻿using VirtoCommerce.WebHooksModule.Core.Models;
 
-namespace VirtoCommerce.WebhooksModule.Core.Services
+namespace VirtoCommerce.WebHooksModule.Core.Services
 {
-	public interface IWebhookService
+	public interface IWebHookService
 	{
-		Webhook[] GetByIds(string[] ids);
+		WebHook[] GetByIds(string[] ids);
 		void DeleteByIds(string[] ids);
-		void SaveChanges(Webhook[] webhooks);
+		void SaveChanges(WebHook[] webhooks);
 	}
 }

@@ -1,4 +1,4 @@
-namespace VirtoCommerce.WebhooksModule.Core
+namespace VirtoCommerce.WebHooksModule.Core
 {
     public static class ModuleConstants
     {

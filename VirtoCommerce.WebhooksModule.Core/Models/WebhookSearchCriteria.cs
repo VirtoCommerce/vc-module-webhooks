@@ -1,8 +1,8 @@
 ﻿using VirtoCommerce.Domain.Commerce.Model.Search;
 
-namespace VirtoCommerce.WebhooksModule.Core.Models
+namespace VirtoCommerce.WebHooksModule.Core.Models
 {
-	public class WebhookSearchCriteria : SearchCriteriaBase
+	public class WebHookSearchCriteria : SearchCriteriaBase
 	{
 		public bool IsActive { get; set; }
 	}

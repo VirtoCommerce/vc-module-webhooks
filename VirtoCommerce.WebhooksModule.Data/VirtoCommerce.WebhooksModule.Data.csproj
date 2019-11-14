@@ -7,8 +7,8 @@
     <ProjectGuid>{93B4E2D3-2BAD-4408-98AE-EEB05011A800}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VirtoCommerce.WebhooksModule.Data</RootNamespace>
-    <AssemblyName>VirtoCommerce.WebhooksModule.Data</AssemblyName>
+    <RootNamespace>VirtoCommerce.WebHooksModule.Data</RootNamespace>
+    <AssemblyName>VirtoCommerce.WebHooksModule.Data</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -74,8 +74,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\WebhookFeedService.cs" />
-    <Compile Include="Services\WebhookService.cs" />
+    <Compile Include="Services\WebHookFeedService.cs" />
+    <Compile Include="Services\WebHookManager.cs" />
+    <Compile Include="Services\WebHookService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Migrations\" />
@@ -83,9 +84,9 @@
     <Folder Include="Repositories\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VirtoCommerce.WebhooksModule.Core\VirtoCommerce.WebhooksModule.Core.csproj">
-      <Project>{71d78171-2370-4ada-ac11-832c276db153}</Project>
-      <Name>VirtoCommerce.WebhooksModule.Core</Name>
+    <ProjectReference Include="..\VirtoCommerce.WebhooksModule.Core\VirtoCommerce.WebHooksModule.Core.csproj">
+      <Project>{D8D6CDE1-A306-4626-9CCE-1F8D8E1EDCBF}</Project>
+      <Name>VirtoCommerce.WebHooksModule.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
