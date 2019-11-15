@@ -73,9 +73,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201911140802321_Initial.cs" />
-    <Compile Include="Migrations\201911140802321_Initial.Designer.cs">
-      <DependentUpon>201911140802321_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201911150533444_Initial.cs" />
+    <Compile Include="Migrations\201911150533444_Initial.Designer.cs">
+      <DependentUpon>201911150533444_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\WebHookEntity.cs" />
@@ -100,8 +100,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201911140802321_Initial.resx">
-      <DependentUpon>201911140802321_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201911150533444_Initial.resx">
+      <DependentUpon>201911150533444_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
