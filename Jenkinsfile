@@ -1,2 +1,2 @@
 #!groovy
-virtoModule_vc-module-webhooks {}
+virtoModule_Webhooks {}
