@@ -27,6 +27,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             using (var repository = _webHookRepositoryFactory())
             {
                 repository.DeleteWebHooksByIds(ids);
+                repository.UnitOfWork.Commit();
             }
         }
 
