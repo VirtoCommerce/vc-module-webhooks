@@ -16,19 +16,27 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
 		private readonly IWebHookFeedSearchService _webHookFeedSearchService;
 		private readonly IWebHookService _webHookService;
 		private readonly IWebHookManager _webHookManager;
+		private readonly IRegisteredEventStore _registeredEventStore;
 
 		public WebHooksController(IWebHookSearchService webHookSearchService,
 			IWebHookFeedSearchService webHookFeedSearchService,
 			IWebHookService webHookService,
-			IWebHookManager webHookManager)
+			IWebHookManager webHookManager,
+			IRegisteredEventStore registeredEventStore)
 		{
 			_webHookSearchService = webHookSearchService;
 			_webHookFeedSearchService = webHookFeedSearchService;
 			_webHookService = webHookService;
 			_webHookManager = webHookManager;
+			_registeredEventStore = registeredEventStore;
 		}
 
 		// GET: api/webhooks/:id
+		/// <summary>
+		/// Gets <see cref="WebHook"/> by id.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		[HttpGet]
 		[Route("{id}")]
 		[ResponseType(typeof(WebHook))]
@@ -116,6 +124,22 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
 		public async Task<IHttpActionResult> Run(WebHook webHook)
 		{
 			var result = await _webHookManager.VerifyWebHookAsync(webHook);
+
+			return Ok(result);
+		}
+
+		// GET: api/webhooks/events
+		/// <summary>
+		/// Gets all registered events that could trigger webhook notification.
+		/// </summary>
+		/// <returns></returns>
+		[HttpGet]
+		[Route("events")]
+		[ResponseType(typeof(RegisteredEvent[]))]
+		[CheckPermission(Permission = ModuleConstants.Security.Permissions.Read)]
+		public IHttpActionResult GetAllRegisteredEvents()
+		{
+			var result = _registeredEventStore.GetAllEvents();
 
 			return Ok(result);
 		}
