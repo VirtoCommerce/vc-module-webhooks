@@ -25,6 +25,24 @@ namespace VirtoCommerce.WebhooksModule.Data.Repositories
         public IQueryable<WebHookEntity> WebHooks => GetAsQueryable<WebHookEntity>();
         public IQueryable<WebHookEventEntity> WebHookEvents => GetAsQueryable<WebHookEventEntity>();
         public IQueryable<WebHookFeedEntryEntity> WebHookFeedEntries => GetAsQueryable<WebHookFeedEntryEntity>();
+        public WebHookEntity[] GetWebHooksByIds(string[] ids)
+        {
+            return WebHooks
+                .Where(x => ids.Contains(x.Id))
+                .Include(x => x.Events)
+                .ToArray();
+        }
+
+        public void DeleteWebHooksByIds(string[] ids)
+        {
+            var webHooks = GetWebHooksByIds(ids);
+            foreach (var webHook in webHooks)
+            {
+                Remove(webHook);
+            }
+        }
+
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<WebHookEntity>().ToTable("WebHook").HasKey(x => x.Id).Property(x => x.Id);

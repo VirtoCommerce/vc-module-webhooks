@@ -9,5 +9,8 @@ namespace VirtoCommerce.WebhooksModule.Data.Repositories
         IQueryable<WebHookEntity> WebHooks { get; }
         IQueryable<WebHookEventEntity> WebHookEvents { get; }
         IQueryable<WebHookFeedEntryEntity> WebHookFeedEntries { get; }
+
+        WebHookEntity[] GetWebHooksByIds(string[] ids);
+        void DeleteWebHooksByIds(string[] ids);
     }
 }
