@@ -15,11 +15,12 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
         public int Status { get; set; }
         [StringLength(1024)]
         public string Error { get; set; }
-        [StringLength(16384)]
+        // max avaliable size for headers is 16384 
+        [MaxLength]
         public string RequestHeaders { get; set; }
         [MaxLength]
         public string RequestBody { get; set; }
-        [StringLength(16384)]
+        [MaxLength]
         public string ResponseHeaders { get; set; }
         [MaxLength]
         public string ResponseBody { get; set; }

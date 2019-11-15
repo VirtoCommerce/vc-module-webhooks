@@ -13,7 +13,7 @@ namespace VirtoCommerce.WebhooksModule.Data.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201911140802321_Initial"; }
+            get { return "201911150533444_Initial"; }
         }
         
         string IMigrationMetadata.Source

@@ -26,16 +26,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         {
             using (var repository = _webHookRepositoryFactory())
             {
-                var webHooks = repository.WebHooks
-                    .Where(x => ids.Contains(x.Id))
-                    .ToList();
-
-                foreach (var webHook in webHooks)
-                {
-                    repository.Remove(webHook);
-                }
-
-                CommitChanges(repository);
+                repository.DeleteWebHooksByIds(ids);
             }
         }
 
@@ -47,10 +38,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             {
                 using (var repository = _webHookRepositoryFactory())
                 {
-                    repository.DisableChangesTracking();
-                    var entities = repository.WebHooks
-                        .Where(x => ids.Contains(x.Id))
-                        .ToList();
+                    var entities = repository.GetWebHooksByIds(ids);
 
                     if (!entities.IsNullOrEmpty())
                     {
