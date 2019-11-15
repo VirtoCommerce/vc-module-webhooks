@@ -59,7 +59,7 @@
                 callback: function (remove) {
                     if (remove) {
                         blade.isLoading = true;
-                        webhookApi.delete([blade.currentEntityId], function () {
+						webhookApi.remove({ ids: [blade.currentEntityId] }, function () {
                             bladeNavigationService.closeBlade(blade, function () {
                                 blade.parentBlade.refresh(true);
                             });

@@ -89,7 +89,7 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
 		[Route("")]
 		[CheckPermission(Permission = ModuleConstants.Security.Permissions.Update)]
 		[ResponseType(typeof(WebHook[]))]
-		public IHttpActionResult SaveWebhook(WebHook[] webhooks)
+		public IHttpActionResult SaveWebhooks(WebHook[] webhooks)
 		{
 			_webHookService.SaveChanges(webhooks);
 
@@ -105,7 +105,7 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
 		[Route("")]
 		[ResponseType(typeof(void))]
 		[CheckPermission(Permission = ModuleConstants.Security.Permissions.Update)]
-		public IHttpActionResult DeleteWebhookds([FromUri] string[] ids)
+		public IHttpActionResult DeleteWebhooks([FromUri] string[] ids)
 		{
 			_webHookService.DeleteByIds(ids);
 
