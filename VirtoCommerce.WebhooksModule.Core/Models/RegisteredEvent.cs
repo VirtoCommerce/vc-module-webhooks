@@ -3,9 +3,8 @@ using VirtoCommerce.Platform.Core.Common;
 
 namespace VirtoCommerce.WebHooksModule.Core.Models
 {
-	public class RegisteredEvent : IEntity
+	public class RegisteredEvent : Entity
 	{
-		public string Id { get; set; }
 		public Type EventType { get; set; }
 	}
 }
