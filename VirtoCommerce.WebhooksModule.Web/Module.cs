@@ -49,7 +49,7 @@ namespace VirtoCommerce.WebHooksModule.Web
 			_container.RegisterType<IWebHookFeedService, WebHookFeedService>();
 			_container.RegisterType<IWebHookFeedSearchService, WebHookFeedService>();
 
-			_container.RegisterType<IRegisteredEventStore, RegisteredEventStore>();
+			_container.RegisterInstance<IRegisteredEventStore>(new RegisteredEventStore());
 			_container.RegisterType<IWebHookSender, WebHookSender>();
 			_container.RegisterType<IWebHookManager, WebHookManager>();
 		}
