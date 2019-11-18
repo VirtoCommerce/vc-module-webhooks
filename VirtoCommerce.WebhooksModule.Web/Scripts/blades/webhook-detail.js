@@ -27,12 +27,10 @@
             blade.currentEntity.contentType = blade.availableContentTypes[0].value;
             blade.origEntity = data;
 
-            webhookApi.getEvents(function(data) {
-                blade.availableEvents = _.map(data, function (value) { return { eventId: value.id } });;
+            webhookApi.getEvents(function (response) {
+                blade.availableEvents = _.map(response, function (value) { return { eventId: value.id }; });
                 blade.isLoading = false;
             });
-
-            
 
             blade.title = blade.isNew ? 'webhooks.blades.webhook-detail.title' : data.name;
             blade.subtitle = 'webhooks.blades.webhook-detail.subtitle';
@@ -49,21 +47,6 @@
         }
 
         function saveOrUpdate() {
-            var newEventsList = [];
-
-            angular.forEach(blade.currentEntity.events, function(selectedEvent) {
-                var existEvent = _.find(blade.origEntity.events,
-                    function(originalEvent) {
-                        return originalEvent.eventId === selectedEvent.eventId;
-                    });
-                if (existEvent) {
-                    newEventsList.push(existEvent);
-                } else {
-                    newEventsList.push(selectedEvent);
-                }
-            });
-
-            blade.currentEntity.events = newEventsList;
             return webhookApi.save([blade.currentEntity], function (data) {
                 blade.isNew = false;
                 blade.currentEntityId = data[0].id;
