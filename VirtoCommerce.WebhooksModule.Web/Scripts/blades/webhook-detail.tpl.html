@@ -62,10 +62,10 @@
                             <div class="form-group __info list">
                                 <label class="form-label">{{ 'webhooks.blades.webhook-detail.labels.triggering-events' | translate }}</label>
                                 <div class="form-input">
-                                    <ui-select multiple ng-model="blade.currentEntity.events">
-                                        <ui-select-match>{{$item}}</ui-select-match>
-                                        <ui-select-choices repeat="event in blade.availableEvents | filter: $select.search">
-                                            <div>{{ event | translate }}</div>
+                                    <ui-select multiple ng-model="blade.currentEntity.events" ng-disabled="blade.currentEntity.isAllEvents">
+                                        <ui-select-match>{{('webhooks.events.types.'+ $item.eventId) | translate}}</ui-select-match>
+                                        <ui-select-choices repeat="x as x in blade.availableEvents | filter: $select.search">
+                                            <div>{{ ('webhooks.events.types.'+ x.eventId) | translate }}</div>
                                         </ui-select-choices>
                                     </ui-select>
                                 </div>

@@ -6,7 +6,8 @@ angular.module('virtoCommerce.webhooksModule')
 				search: { method: 'POST', url: 'api/webhooks/search' },
 				searchFeed: { method: 'POST', url: 'api/webhooks/feed/search' },
 				save: { method: 'POST', url: 'api/webhooks', isArray: true },
-				send: { method: 'POST', url: 'api/webhooks/send' }
+                send: { method: 'POST', url: 'api/webhooks/send' },
+                getEvents: { method: 'GET', url: 'api/webhooks/events', isArray: true}
 			});
 	}
 	]);

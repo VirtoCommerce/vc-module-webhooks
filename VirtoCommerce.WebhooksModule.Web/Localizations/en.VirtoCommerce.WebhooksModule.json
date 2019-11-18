@@ -47,10 +47,38 @@
         },
         "events": {
             "types": {
-                "OrderChangedEvent": {
-                    "name": "Order changed",
-                    "description": "Calls when order created or changed"
-                } 
+                "VirtoCommerce.Platform.Core.Security.Events.UserChangedEvent": "User Changed Event",
+                "VirtoCommerce.Platform.Core.Security.Events.UserChangingEvent": "User Changing Event",
+                "VirtoCommerce.Platform.Core.Security.Events.UserPasswordChangedEvent": "User PasswordChanged Event",
+                "VirtoCommerce.Platform.Core.Security.Events.UserResetPasswordEvent": "User ResetPassword Event",
+                "VirtoCommerce.Platform.Core.Security.Events.UserLogoutEvent": "User Logout Event",
+                "VirtoCommerce.Platform.Core.Security.Events.UserLoginEvent": "User Login Event",
+                "VirtoCommerce.Platform.Core.Events.DomainEvent": "Domain Event",
+                "VirtoCommerce.Domain.Quote.Events.QuoteRequestChangeEvent": "Quote RequestChange Event",
+                "VirtoCommerce.Domain.Pricing.Events.PriceChangedEvent": "Price Changed Event",
+                "VirtoCommerce.Domain.Pricing.Events.PriceChangingEvent": "Price Changing Event",
+                "VirtoCommerce.Domain.Order.Events.OrderChangedEvent": "Order Changed Event",
+                "VirtoCommerce.Domain.Order.Events.OrderChangeEvent": "Order Change Event",
+                "VirtoCommerce.Domain.Customer.Events.MemberChangedEvent": "Member Changed Event",
+                "VirtoCommerce.Domain.Customer.Events.MemberChangingEvent": "Member Changing Event",
+                "VirtoCommerce.Domain.Inventory.Events.InventoryChangedEvent": "Inventory Changed Event",
+                "VirtoCommerce.Domain.Inventory.Events.InventoryChangingEvent": "Inventory Changing Event",
+                "VirtoCommerce.Domain.Inventory.Events.FulfillmentCenterChangedEvent": "FulfillmentCenter Changed Event",
+                "VirtoCommerce.Domain.Inventory.Events.FulfillmentCenterChangingEvent": "FulfillmentCenter Changing Event",
+                "VirtoCommerce.Domain.Catalog.Events.CategoryChangedEvent": "Category Changed Event",
+                "VirtoCommerce.Domain.Catalog.Events.CategoryChangingEvent": "Category Changing Event",
+                "VirtoCommerce.Domain.Catalog.Events.PropertyChangingEvent": "Property Changing Event",
+                "VirtoCommerce.Domain.Catalog.Events.PropertyChangedEvent": "Property Changed Event",
+                "VirtoCommerce.Domain.Catalog.Events.ProductChangedEvent": "Product Changed Event",
+                "VirtoCommerce.Domain.Catalog.Events.CatalogChangedEvent": "Catalog Changed Event",
+                "VirtoCommerce.Domain.Catalog.Events.ProductChangingEvent": "Product Changing Event",
+                "VirtoCommerce.Domain.Catalog.Events.CatalogChangingEvent": "Catalog Changing Event",
+                "VirtoCommerce.Domain.Cart.Events.CartChangedEvent": "CartChanged Event",
+                "VirtoCommerce.Domain.Cart.Events.CartChangeEvent": "CartChange Event",
+                "VirtoCommerce.SubscriptionModule.Core.Events.PaymentPlanChangedEvent": "PaymentPlan Changed Event",
+                "VirtoCommerce.SubscriptionModule.Core.Events.SubscriptionChangedEvent": "Subscription Changed Event",
+                "VirtoCommerce.SubscriptionModule.Core.Events.PaymentPlanChangingEvent": "PaymentPlan Changing Event",
+                "VirtoCommerce.SubscriptionModule.Core.Events.SubscriptionChangingEvent": "Subscription Changing Event"
             } 
         } 
     }

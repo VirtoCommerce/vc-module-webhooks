@@ -42,6 +42,8 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             this.CreatedDate = webHookEvent.CreatedDate;
             this.ModifiedBy = webHookEvent.ModifiedBy;
             this.ModifiedDate = webHookEvent.ModifiedDate;
+            this.EventId = webHookEvent.EventId;
+            this.WebHookId = webHookEvent.WebHookId;
 
             pkMap.AddPair(webHookEvent, this);
 

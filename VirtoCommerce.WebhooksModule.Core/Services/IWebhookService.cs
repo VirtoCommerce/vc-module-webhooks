@@ -6,6 +6,6 @@ namespace VirtoCommerce.WebHooksModule.Core.Services
 	{
 		WebHook[] GetByIds(string[] ids);
 		void DeleteByIds(string[] ids);
-		void SaveChanges(WebHook[] webhooks);
+		void SaveChanges(WebHook[] webHooks);
 	}
 }
