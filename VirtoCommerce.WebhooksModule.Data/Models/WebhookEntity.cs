@@ -41,7 +41,7 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             webHook.IsAllEvents = this.IsAllEvents;
             webHook.RaisedEventCount = this.RaisedEventCount;
 
-            webHook.Events = this.Events.Select(x => x.ToModel(new WebHookEvent())).ToArray();
+            webHook.Events = this.Events.Select(x => x.ToModel(AbstractTypeFactory<WebHookEvent>.TryCreateInstance())).ToArray();
 
             return webHook;
         }
@@ -63,6 +63,10 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             this.IsAllEvents = webHook.IsAllEvents;
             this.RaisedEventCount = webHook.RaisedEventCount;
 
+            if (webHook.Events != null)
+            {
+                Events = new ObservableCollection<WebHookEventEntity>(webHook.Events.Select(x => AbstractTypeFactory<WebHookEventEntity>.TryCreateInstance().FromModel(x, pkMap)));
+            }
             pkMap.AddPair(webHook, this);
 
             return this;
@@ -79,7 +83,8 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
 
             if (!Events.IsNullCollection())
             {
-                Events.Patch(target.Events, (sourceEvent, targetEvent) => sourceEvent.Patch(targetEvent));
+                var eventComparer = AnonymousComparer.Create((WebHookEventEntity x) => $"{x.EventId}");
+                Events.Patch(target.Events, eventComparer, (sourceEvent, targetEvent) => sourceEvent.Patch(targetEvent));
             }
         }
     }
