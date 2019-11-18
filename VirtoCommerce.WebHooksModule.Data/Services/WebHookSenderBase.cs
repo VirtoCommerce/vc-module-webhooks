@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using VirtoCommerce.WebHooksModule.Core;
 using VirtoCommerce.WebHooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Services;
 
@@ -14,35 +13,34 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
     /// <summary>
     /// Provides a base implementation of <see cref="IWebHookSender"/> that defines the default format
     /// for HTTP requests sent as WebHooks.
+    /// Based on https://github.com/aspnet/AspNetWebHooks/blob/master/src/Microsoft.AspNet.WebHooks.Custom/WebHooks/WebHookSender.cs
     /// </summary>
-    public abstract class WebHookSender : IWebHookSender, IDisposable
+    public abstract class WebHookSenderBase : IWebHookSender, IDisposable
     {
         private const string EventIdKey = "EventId";
         private const string AttemptKey = "Attempt";
         private const string EventBodyKey = "EventBody";
 
-        private readonly IWebHookLogger _logger;
+        protected const string InvalidHeaderTemplate = "Could not add header field '{0}' to the WebHook request for WebHook ID '{1}'.";
+        protected const string UnsuccessfulResponseTemplate = "WebHook was sent unsuccessfully. Response status code: {0}";
 
         private bool _disposed;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebHookSender"/> class.
+        /// Initializes a new instance of the <see cref="WebHookSenderBase"/> class.
         /// </summary>
-        protected WebHookSender(IWebHookLogger logger)
+        protected WebHookSenderBase(IWebHookLogger logger)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <summary>
         /// Gets the current <see cref="ILogger"/> instance.
         /// </summary>
-        protected IWebHookLogger Logger
-        {
-            get { return _logger; }
-        }
+        protected IWebHookLogger Logger { get; }
 
         /// <inheritdoc />
-        public abstract Task<WebHookResponse> SendWebHookAsync(WebHook webHook);
+        public abstract Task<WebHookResponse> SendWebHookAsync(WebHookWorkItem webHookWorkItem);
 
         /// <inheritdoc />
         public void Dispose()
@@ -95,9 +93,9 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                 {
                     if (!request.Content.Headers.TryAddWithoutValidation(kvp.Key, kvp.Value))
                     {
-                        var errorMessage = string.Format(CultureInfo.CurrentCulture, ModuleConstants.Log.Templates.InvalidHeader, kvp.Key, webHook.Id);
+                        var errorMessage = string.Format(CultureInfo.CurrentCulture, InvalidHeaderTemplate, kvp.Key, webHook.Id);
 
-                        _logger.Log(WebHookFeedEntry.CreateError(webHook.Id, workItem.EventId, errorMessage));
+                        Logger.Log(WebHookFeedEntry.CreateError(webHook.Id, workItem.EventId, errorMessage));
                     }
                 }
             }
