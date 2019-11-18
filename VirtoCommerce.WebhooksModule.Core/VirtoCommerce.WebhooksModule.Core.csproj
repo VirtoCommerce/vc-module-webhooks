@@ -50,21 +50,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Models\RegisteredEvent.cs" />
     <Compile Include="Models\WebHookEvent.cs" />
     <Compile Include="Models\WebHookFeedSearchCriteria.cs" />
     <Compile Include="Models\WebHookFeedSearchResult.cs" />
     <Compile Include="Models\WebHookHttpParams.cs" />
+    <Compile Include="Models\WebHookFeedEntryType.cs" />
     <Compile Include="Models\WebHookResponse.cs" />
     <Compile Include="Models\WebHookSearchCriteria.cs" />
     <Compile Include="Models\WebHook.cs" />
     <Compile Include="Models\WebHookFeedEntry.cs" />
     <Compile Include="Models\WebHookSearchResult.cs" />
     <Compile Include="Models\WebHookNotificationRequest.cs" />
+    <Compile Include="Models\WebHookWorkItem.cs" />
     <Compile Include="ModuleConstants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IWebHookFeedSearchService.cs" />
     <Compile Include="Services\IWebHookFeedService.cs" />
+    <Compile Include="Services\IWebHookLogger.cs" />
     <Compile Include="Services\IWebHookManager.cs" />
     <Compile Include="Services\IWebHookSearchService.cs" />
     <Compile Include="Services\IWebHookSender.cs" />
