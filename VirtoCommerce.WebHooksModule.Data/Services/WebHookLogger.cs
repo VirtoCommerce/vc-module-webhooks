@@ -7,7 +7,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
     {
         public void Log(WebHookFeedEntry feedEntry)
         {
-            //throw new NotImplementedException();
+            // Not implemented yet
         }
     }
 }

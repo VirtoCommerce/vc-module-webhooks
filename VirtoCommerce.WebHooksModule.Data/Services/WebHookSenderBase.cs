@@ -89,14 +89,11 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
             foreach (var kvp in webHook.RequestParams.Headers)
             {
-                if (!request.Headers.TryAddWithoutValidation(kvp.Key, kvp.Value))
+                if (!request.Headers.TryAddWithoutValidation(kvp.Key, kvp.Value) && !request.Content.Headers.TryAddWithoutValidation(kvp.Key, kvp.Value))
                 {
-                    if (!request.Content.Headers.TryAddWithoutValidation(kvp.Key, kvp.Value))
-                    {
-                        var errorMessage = string.Format(CultureInfo.CurrentCulture, InvalidHeaderTemplate, kvp.Key, webHook.Id);
+                    var errorMessage = string.Format(CultureInfo.CurrentCulture, InvalidHeaderTemplate, kvp.Key, webHook.Id);
 
-                        Logger.Log(WebHookFeedEntry.CreateError(webHook.Id, workItem.EventId, errorMessage));
-                    }
+                    Logger.Log(WebHookFeedEntry.CreateError(webHook.Id, workItem.EventId, errorMessage));
                 }
             }
 
