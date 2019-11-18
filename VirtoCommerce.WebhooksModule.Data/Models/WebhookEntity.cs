@@ -22,7 +22,6 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
         public string ContentType { get; set; }
         public bool IsActive { get; set; }
         public bool IsAllEvents { get; set; }
-        public long RaisedEventCount { get; set; }
         public virtual ObservableCollection<WebHookEventEntity> Events { get; set; }
         public virtual WebHook ToModel(WebHook webHook)
         {
@@ -39,7 +38,6 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             webHook.ContentType = this.ContentType;
             webHook.IsActive = this.IsActive;
             webHook.IsAllEvents = this.IsAllEvents;
-            webHook.RaisedEventCount = this.RaisedEventCount;
 
             webHook.Events = this.Events.Select(x => x.ToModel(AbstractTypeFactory<WebHookEvent>.TryCreateInstance())).ToArray();
 
@@ -61,7 +59,6 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             this.ContentType = webHook.ContentType;
             this.IsActive = webHook.IsActive;
             this.IsAllEvents = webHook.IsAllEvents;
-            this.RaisedEventCount = webHook.RaisedEventCount;
 
             if (webHook.Events != null)
             {
@@ -79,7 +76,6 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             target.ContentType = this.ContentType;
             target.IsActive = this.IsActive;
             target.IsAllEvents = this.IsAllEvents;
-            target.RaisedEventCount = this.RaisedEventCount;
 
             if (!Events.IsNullCollection())
             {

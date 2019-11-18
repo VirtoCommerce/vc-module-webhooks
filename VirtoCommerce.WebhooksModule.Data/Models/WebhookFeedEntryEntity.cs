@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.WebHooksModule.Core.Models;
 
@@ -8,10 +9,13 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
     public class WebHookFeedEntryEntity : AuditableEntity
     {
         [StringLength(128)]
+        [Index]
+        [Index("IX_WebHookIdAndStatus", 1)]
         public string WebHookId { get; set; }
         [StringLength(128)]
         public string EventId { get; set; }
         public int AttemptCount { get; set; }
+        [Index("IX_WebHookIdAndStatus", 2)]
         public int Status { get; set; }
         [StringLength(1024)]
         public string Error { get; set; }
