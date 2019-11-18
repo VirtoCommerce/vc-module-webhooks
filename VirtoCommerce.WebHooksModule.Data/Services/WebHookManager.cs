@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
 using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using Hangfire;
+using Newtonsoft.Json;
 using VirtoCommerce.Platform.Core.Bus;
 using VirtoCommerce.Platform.Core.Events;
 using VirtoCommerce.WebHooksModule.Core.Models;
@@ -12,95 +12,141 @@ using VirtoCommerce.WebHooksModule.Core.Services;
 
 namespace VirtoCommerce.WebHooksModule.Data.Services
 {
-	public class WebHookManager : IWebHookManager
-	{
-		private readonly IRegisteredEventStore _registeredEventStore;
-		private readonly IHandlerRegistrar _eventHandlerRegistrar;
-		private readonly IWebHookSearchService _webHookSearchService;
+    public class WebHookManager : IWebHookManager
+    {
+        private readonly IRegisteredEventStore _registeredEventStore;
+        private readonly IHandlerRegistrar _eventHandlerRegistrar;
+        private readonly IWebHookSearchService _webHookSearchService;
+        private readonly IWebHookSender _webHookSender;
+        private readonly IWebHookLogger _logger;
 
-		public WebHookManager(IRegisteredEventStore registeredEventStore,
-			IHandlerRegistrar eventHandlerRegistrar,
-			IWebHookSearchService webHookSearchService)
-		{
-			_registeredEventStore = registeredEventStore;
-			_eventHandlerRegistrar = eventHandlerRegistrar;
-			_webHookSearchService = webHookSearchService;
-		}
+        public WebHookManager(IRegisteredEventStore registeredEventStore,
+            IHandlerRegistrar eventHandlerRegistrar,
+            IWebHookSearchService webHookSearchService,
+            IWebHookSender webHookSender,
+            IWebHookLogger logger)
+        {
+            _registeredEventStore = registeredEventStore;
+            _eventHandlerRegistrar = eventHandlerRegistrar;
+            _webHookSearchService = webHookSearchService;
+            _webHookSender = webHookSender;
+            _logger = logger;
+        }
 
-		/// <inheritdoc />
-		public void SubscribeToAllEvents()
-		{
-			var allRegisteredEvents = _registeredEventStore.GetAllEvents();
+        /// <inheritdoc />
+        public void SubscribeToAllEvents()
+        {
+            var allRegisteredEvents = _registeredEventStore.GetAllEvents();
 
-			foreach (var registeredEvent in allRegisteredEvents)
-			{
-				InvokeHandler(registeredEvent.EventType, _eventHandlerRegistrar);
-			}
-		}
+            foreach (var registeredEvent in allRegisteredEvents)
+            {
+                InvokeHandler(registeredEvent.EventType, _eventHandlerRegistrar);
+            }
+        }
 
-		/// <inheritdoc />
-		public Task<int> NotifyAsync(WebHookNotificationRequest notificationRequest)
-		{
-			// It is just fo the test
-			using (EventLog eventLog = new EventLog("Application"))
-			{
-				eventLog.Source = "Application";
-				eventLog.WriteEntry($"WebHook notification sent on event \"{notificationRequest.EventId}\"{Environment.NewLine} Body:{notificationRequest.RequestParams?.Body}", EventLogEntryType.Information, 101, 1);
-			}
-			return Task.FromResult(1);
-		}
+        /// <inheritdoc />
+        public async Task<int> NotifyAsync(string eventId, string serializedEventData, CancellationToken cancellationToken)
+        {
+            int result = 0;
 
-		/// <inheritdoc />
-		public Task<WebHookResponse> VerifyWebHookAsync(WebHook webHook)
-		{
-			throw new NotImplementedException();
-		}
+            var criteria = new WebHookSearchCriteria()
+            {
+                IsActive = true,
+                EventIds = new[] { eventId },
+                Skip = 0,
+                Take = int.MaxValue,
+            };
 
-		private void InvokeHandler(Type eventType, IHandlerRegistrar registrar)
-		{
-			var registerExecutorMethod = registrar
-				.GetType()
-				.GetMethods(BindingFlags.Instance | BindingFlags.Public)
-				.Where(mi => mi.Name == "RegisterHandler")
-				.Where(mi => mi.IsGenericMethod)
-				.Where(mi => mi.GetGenericArguments().Length == 1)
-				.Single(mi => mi.GetParameters().Length == 1)
-				.MakeGenericMethod(eventType);
+            WebHookResponse response = null;
 
-			Func<DomainEvent, CancellationToken, Task> del = (x, token) =>
-			{
-				return HandleEvent(x, token);
-			};
+            // TechDebt: Make batch handling
+            var webHookdsSearchResult = _webHookSearchService.Search(criteria);
 
-			registerExecutorMethod.Invoke(registrar, new object[] { del });
-		}
+            foreach (var webHook in webHookdsSearchResult.Results)
+            {
+                try
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
 
-		private async Task HandleEvent(DomainEvent domainEvent, CancellationToken cancellationToken)
-		{
-			// TODO: Need to handle all this work in BackgroundJob. Handler should just schedule the job, all other handling (webhooks search, notification) should be done later in backround.
-			var eventId = domainEvent.GetType().FullName;
-			var criteria = new WebHookSearchCriteria()
-			{
-				IsActive = true,
-				EventIds = new[] { eventId },
-				Skip = 0,
-				Take = int.MaxValue,
-			};
-			// Make batch handling
-			var webHookdsSearchResult = _webHookSearchService.Search(criteria);
+                    webHook.RequestParams = new WebHookHttpParams()
+                    {
+                        Body = serializedEventData,
+                    };
 
-			foreach (var webHook in webHookdsSearchResult.Results)
-			{
-				cancellationToken.ThrowIfCancellationRequested();
-				await NotifyAsync(new WebHookNotificationRequest()
-				{
-					EventId = eventId,
-					RequestParams = new WebHookHttpParams()
-					{
-						Body = JsonConvert.SerializeObject(domainEvent),
-					}
-				});
-			}
-		}
-	}
+                    response = await _webHookSender.SendWebHookAsync(new WebHookWorkItem()
+                    {
+                        EventId = eventId,
+                        WebHook = webHook,
+                        Offset = 0,
+                    });
+
+                    if (!response.IsSuccessfull)
+                    {
+                        LogError(response.Error, eventId, response, webHook);
+                    }
+
+                    result++;
+                }
+                catch (Exception ex)
+                {
+                    LogError(ex.Message, eventId, response, webHook);
+                }
+            }
+
+            return result;
+        }
+
+        private void LogError(string message, string eventId, WebHookResponse response, WebHook webHook)
+        {
+            var errorEntry = WebHookFeedEntry.CreateError(webHook.Id,
+                eventId,
+                message,
+                requestHeaders: JsonConvert.SerializeObject(webHook.RequestParams.Headers),
+                requestBody: webHook.RequestParams.Body);
+
+            if (response != null)
+            {
+                errorEntry.Status = response.StatusCode;
+                errorEntry.ResponseBody = response.ResponseParams?.Body;
+                errorEntry.ResponseHeaders = JsonConvert.SerializeObject(response.ResponseParams?.Headers);
+            }
+
+            _logger.Log(errorEntry);
+        }
+
+        /// <inheritdoc />
+        public Task<WebHookResponse> VerifyWebHookAsync(WebHook webHook)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void InvokeHandler(Type eventType, IHandlerRegistrar registrar)
+        {
+            var registerExecutorMethod = registrar
+                .GetType()
+                .GetMethods(BindingFlags.Instance | BindingFlags.Public)
+                .Where(mi => mi.Name == "RegisterHandler")
+                .Where(mi => mi.IsGenericMethod)
+                .Where(mi => mi.GetGenericArguments().Length == 1)
+                .Single(mi => mi.GetParameters().Length == 1)
+                .MakeGenericMethod(eventType);
+
+            Func<DomainEvent, CancellationToken, Task> del = (x, token) =>
+            {
+                return HandleEvent(x, token);
+            };
+
+            registerExecutorMethod.Invoke(registrar, new object[] { del });
+        }
+
+        protected virtual Task HandleEvent(DomainEvent domainEvent, CancellationToken cancellationToken)
+        {
+            BackgroundJob.Enqueue(() =>
+                NotifyAsync(domainEvent.GetType().FullName,
+                    JsonConvert.SerializeObject(domainEvent),
+                    cancellationToken));
+
+            return Task.CompletedTask;
+        }
+    }
 }
