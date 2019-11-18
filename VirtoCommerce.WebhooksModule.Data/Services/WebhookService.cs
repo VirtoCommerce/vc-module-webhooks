@@ -12,122 +12,118 @@ using VirtoCommerce.WebHooksModule.Core.Services;
 
 namespace VirtoCommerce.WebHooksModule.Data.Services
 {
-	public class WebHookService : ServiceBase, IWebHookSearchService, IWebHookService
-	{
-		private readonly Func<IWebHookRepository> _webHookRepositoryFactory;
+    public class WebHookService : ServiceBase, IWebHookSearchService, IWebHookService
+    {
+        private readonly Func<IWebHookRepository> _webHookRepositoryFactory;
 
 
-		public WebHookService(Func<IWebHookRepository> webHookRepositoryFactory)
-		{
-			_webHookRepositoryFactory = webHookRepositoryFactory;
-		}
+        public WebHookService(Func<IWebHookRepository> webHookRepositoryFactory)
+        {
+            _webHookRepositoryFactory = webHookRepositoryFactory;
+        }
 
-		public void DeleteByIds(string[] ids)
-		{
-			using (var repository = _webHookRepositoryFactory())
-			{
-				repository.DeleteWebHooksByIds(ids);
-				repository.UnitOfWork.Commit();
-			}
-		}
+        public void DeleteByIds(string[] ids)
+        {
+            using (var repository = _webHookRepositoryFactory())
+            {
+                repository.DeleteWebHooksByIds(ids);
+                repository.UnitOfWork.Commit();
+            }
+        }
 
-		public WebHook[] GetByIds(string[] ids)
-		{
-			var result = new List<WebHook>();
+        public WebHook[] GetByIds(string[] ids)
+        {
+            var result = new List<WebHook>();
 
-			if (!ids.IsNullOrEmpty())
-			{
-				using (var repository = _webHookRepositoryFactory())
-				{
-					var entities = repository.GetWebHooksByIds(ids);
+            if (!ids.IsNullOrEmpty())
+            {
+                using (var repository = _webHookRepositoryFactory())
+                {
+                    var entities = repository.GetWebHooksByIds(ids);
 
-					if (!entities.IsNullOrEmpty())
-					{
-						result.AddRange(entities.Select(x => x.ToModel(AbstractTypeFactory<WebHook>.TryCreateInstance())));
-					}
-				}
-			}
+                    if (!entities.IsNullOrEmpty())
+                    {
+                        result.AddRange(entities.Select(x => x.ToModel(AbstractTypeFactory<WebHook>.TryCreateInstance())));
+                    }
+                }
+            }
 
-			return result.ToArray();
-		}
+            return result.ToArray();
+        }
 
-		public void SaveChanges(WebHook[] webhooks)
-		{
-			var pkMap = new PrimaryKeyResolvingMap();
-			var changedEntries = new List<GenericChangedEntry<WebHook>>();
+        public void SaveChanges(WebHook[] webHooks)
+        {
+            var pkMap = new PrimaryKeyResolvingMap();
+            var changedEntries = new List<GenericChangedEntry<WebHook>>();
 
-			using (var repository = _webHookRepositoryFactory())
-			using (var changeTracker = GetChangeTracker(repository))
-			{
-				var existingIds = webhooks.Where(x => !x.IsTransient()).Select(x => x.Id);
-				var existingEntities = repository.WebHooks.Where(x => existingIds.Contains(x.Id));
+            using (var repository = _webHookRepositoryFactory())
+            using (var changeTracker = GetChangeTracker(repository))
+            {
+                var existingIds = webHooks.Where(x => !x.IsTransient()).Select(x => x.Id).ToArray();
+                var originalEntities = repository.GetWebHooksByIds(existingIds).ToList();
 
-				foreach (var webhook in webhooks)
-				{
-					var changedEntity = new WebHookEntity();
-					changedEntity.FromModel(webhook, pkMap);
+                foreach (var webHook in webHooks)
+                {
+                    var originalEntity = originalEntities.FirstOrDefault(x => x.Id == webHook.Id);
+                    var modifiedEntity = AbstractTypeFactory<WebHookEntity>.TryCreateInstance().FromModel(webHook, pkMap);
 
-					var existingEntity = existingEntities.FirstOrDefault(x => x.Id == webhook.Id);
+                    if (originalEntity != null)
+                    {
+                        changeTracker.Attach(originalEntity);
+                        changedEntries.Add(new GenericChangedEntry<WebHook>(webHook, originalEntity.ToModel(new WebHook()), EntryState.Modified));
+                        modifiedEntity.Patch(originalEntity);
+                    }
+                    else
+                    {
+                        repository.Add(modifiedEntity);
+                        changedEntries.Add(new GenericChangedEntry<WebHook>(webHook, EntryState.Added));
+                    }
+                }
+                CommitChanges(repository);
+                pkMap.ResolvePrimaryKeys();
+            }
+        }
 
-					if (existingEntity != null)
-					{
-						changeTracker.Attach(existingEntity);
-						changedEntries.Add(new GenericChangedEntry<WebHook>(webhook, existingEntity.ToModel(new WebHook()), EntryState.Modified));
-						changedEntity.Patch(existingEntity);
+        public WebHookSearchResult Search(WebHookSearchCriteria searchCriteria)
+        {
+            var result = new WebHookSearchResult();
 
-					}
-					else
-					{
-						repository.Add(changedEntity);
-						changedEntries.Add(new GenericChangedEntry<WebHook>(webhook, EntryState.Added));
+            using (var repository = _webHookRepositoryFactory())
+            {
+                repository.DisableChangesTracking();
 
-					}
-				}
-				CommitChanges(repository);
-				pkMap.ResolvePrimaryKeys();
-			}
-		}
+                var query = repository.WebHooks;
 
-		public WebHookSearchResult Search(WebHookSearchCriteria searchCriteria)
-		{
-			var result = new WebHookSearchResult();
+                if (searchCriteria.IsActive.HasValue)
+                {
+                    query = repository.WebHooks.Where(x => x.IsActive == searchCriteria.IsActive);
+                }
 
-			using (var repository = _webHookRepositoryFactory())
-			{
-				repository.DisableChangesTracking();
+                if (!string.IsNullOrWhiteSpace(searchCriteria.SearchPhrase))
+                {
+                    query = query.Where(x => x.Name.ToLower().Contains(searchCriteria.SearchPhrase.ToLower()));
+                }
 
-				var query = repository.WebHooks;
+                if (!searchCriteria.EventIds.IsNullOrEmpty())
+                {
+                    query = query.Where(x => x.IsAllEvents || x.Events.Any(y => searchCriteria.EventIds.Contains(y.EventId)));
+                }
 
-				if (searchCriteria.IsActive.HasValue)
-				{
-					query = repository.WebHooks.Where(x => x.IsActive == searchCriteria.IsActive);
-				}
+                result.TotalCount = query.Count();
 
-				if (!string.IsNullOrWhiteSpace(searchCriteria.SearchPhrase))
-				{
-					query = query.Where(x => x.Name.ToLower().Contains(searchCriteria.SearchPhrase.ToLower()));
-				}
+                var sortInfos = searchCriteria.SortInfos;
+                if (sortInfos.IsNullOrEmpty())
+                {
+                    sortInfos = new[] { new SortInfo { SortColumn = ReflectionUtility.GetPropertyName<WebHookEntity>(x => x.Name), SortDirection = SortDirection.Descending } };
+                }
+                query = query.OrderBySortInfos(sortInfos).ThenBy(x => x.Id);
 
-				if (!searchCriteria.EventIds.IsNullOrEmpty())
-				{
-					query = query.Where(x => x.IsAllEvents || x.Events.Any(y => searchCriteria.EventIds.Contains(y.EventId)));
-				}
+                var webHookIds = query.Select(x => x.Id).Skip(searchCriteria.Skip).Take(searchCriteria.Take).ToArray();
+                result.Results = GetByIds(webHookIds);
+            }
 
-				result.TotalCount = query.Count();
+            return result;
+        }
 
-				var sortInfos = searchCriteria.SortInfos;
-				if (sortInfos.IsNullOrEmpty())
-				{
-					sortInfos = new[] { new SortInfo { SortColumn = ReflectionUtility.GetPropertyName<WebHookEntity>(x => x.Name), SortDirection = SortDirection.Descending } };
-				}
-				query = query.OrderBySortInfos(sortInfos).ThenBy(x => x.Id);
-
-				var webHookIds = query.Select(x => x.Id).Skip(searchCriteria.Skip).Take(searchCriteria.Take).ToArray();
-				result.Results = GetByIds(webHookIds);
-			}
-
-			return result;
-		}
-
-	}
+    }
 }

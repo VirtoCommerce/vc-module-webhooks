@@ -2,7 +2,7 @@
     .controller('virtoCommerce.webhooksModule.webhookDetailController', ['$rootScope', '$scope', 'platformWebApp.dialogService', 'platformWebApp.bladeNavigationService', 'virtoCommerce.webhooksModule.webApi', 'platformWebApp.metaFormsService', function ($rootScope, $scope, dialogService, bladeNavigationService, webhookApi, metaFormsService) {
         var blade = $scope.blade;
         blade.availableContentTypes = [{ value: 'application/json', title: 'application/json' }];
-        blade.availableEvents = ['Order:create', 'Order:edit'];
+        blade.availableEvents = [];
 
         blade.metaFields = metaFormsService.getMetaFields("webhookDetail");
 
@@ -25,9 +25,14 @@
             blade.item = angular.copy(data);
             blade.currentEntity = blade.item;
             blade.currentEntity.contentType = blade.availableContentTypes[0].value;
-            blade.currentEntity.events = [];
             blade.origEntity = data;
-            blade.isLoading = false;
+
+            webhookApi.getEvents(function(data) {
+                blade.availableEvents = _.map(data, function (value) { return { eventId: value.id } });;
+                blade.isLoading = false;
+            });
+
+            
 
             blade.title = blade.isNew ? 'webhooks.blades.webhook-detail.title' : data.name;
             blade.subtitle = 'webhooks.blades.webhook-detail.subtitle';
@@ -44,6 +49,21 @@
         }
 
         function saveOrUpdate() {
+            var newEventsList = [];
+
+            angular.forEach(blade.currentEntity.events, function(selectedEvent) {
+                var existEvent = _.find(blade.origEntity.events,
+                    function(originalEvent) {
+                        return originalEvent.eventId === selectedEvent.eventId;
+                    });
+                if (existEvent) {
+                    newEventsList.push(existEvent);
+                } else {
+                    newEventsList.push(selectedEvent);
+                }
+            });
+
+            blade.currentEntity.events = newEventsList;
             return webhookApi.save([blade.currentEntity], function (data) {
                 blade.isNew = false;
                 blade.currentEntityId = data[0].id;

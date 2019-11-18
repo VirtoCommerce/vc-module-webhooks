@@ -63,6 +63,10 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             this.IsAllEvents = webHook.IsAllEvents;
             this.RaisedEventCount = webHook.RaisedEventCount;
 
+            if (webHook.Events != null)
+            {
+                Events = new ObservableCollection<WebHookEventEntity>(webHook.Events.Select(x => AbstractTypeFactory<WebHookEventEntity>.TryCreateInstance().FromModel(x, pkMap)));
+            }
             pkMap.AddPair(webHook, this);
 
             return this;
