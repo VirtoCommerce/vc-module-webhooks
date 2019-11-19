@@ -93,7 +93,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                 {
                     var errorMessage = string.Format(CultureInfo.CurrentCulture, InvalidHeaderTemplate, kvp.Key, webHook.Id);
 
-                    Logger.Log(WebHookFeedEntry.CreateError(webHook.Id, workItem.EventId, errorMessage));
+                    throw new WebHookSendException(errorMessage, webHook.Id, workItem.EventId);
                 }
             }
 
