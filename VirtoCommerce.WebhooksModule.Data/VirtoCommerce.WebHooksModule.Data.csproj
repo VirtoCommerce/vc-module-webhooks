@@ -95,6 +95,10 @@
     <Compile Include="Migrations\201911150533444_Initial.Designer.cs">
       <DependentUpon>201911150533444_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911190804376_AddAditionalIndexes.cs" />
+    <Compile Include="Migrations\201911190804376_AddAditionalIndexes.Designer.cs">
+      <DependentUpon>201911190804376_AddAditionalIndexes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\WebHookEntity.cs" />
     <Compile Include="Models\WebHookEventEntity.cs" />
@@ -123,6 +127,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201911150533444_Initial.resx">
       <DependentUpon>201911150533444_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911190804376_AddAditionalIndexes.resx">
+      <DependentUpon>201911190804376_AddAditionalIndexes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
