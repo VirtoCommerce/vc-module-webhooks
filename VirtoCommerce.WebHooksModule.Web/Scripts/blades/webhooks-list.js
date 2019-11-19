@@ -1,8 +1,7 @@
-﻿angular.module('virtoCommerce.webhooksModule')
+angular.module('virtoCommerce.webhooksModule')
     .controller('virtoCommerce.webhooksModule.webhooksListController', ['$scope', 'virtoCommerce.webhooksModule.webApi', 'platformWebApp.bladeNavigationService', 'platformWebApp.dialogService', 'platformWebApp.authService', 'platformWebApp.uiGridHelper', 'platformWebApp.bladeUtils', '$timeout', function ($scope, webHookApi, bladeNavigationService, dialogService, authService, uiGridHelper, bladeUtils, $timeout) {
         $scope.uiGridConstants = uiGridHelper.uiGridConstants;
         var blade = $scope.blade;
-        var selectedNode = null;
 
         blade.title = 'Webhoks list';
         blade.subtitle = 'List of all user defined weebhoks';
@@ -19,6 +18,17 @@
             webHookApi.search(searchCriteria,
                 function (data) {
                     $scope.items = data.results;
+                    angular.forEach($scope.items,
+                        function (item) {
+                            var totalRaisedEventCount = item.errorCount + item.successCount;
+                            if (totalRaisedEventCount > 0) {
+                                item.successPercent =
+                                    (item.errorCount * 100 / totalRaisedEventCount).toFixed(2);
+                            } else {
+                                item.successPercent = 0;
+                            }
+                        });
+
                     $scope.pageSettings.totalItems = $scope.items.length;
                     $scope.hasMore = data.results.length === $scope.pageSettings.itemsPerPageCount;
 
@@ -210,7 +220,7 @@
                 $scope.gridApi.infiniteScroll.resetScroll(true, true);
                 $scope.gridApi.infiniteScroll.dataLoaded();
             }
-        };
+        }
 
         // Search Criteria
         function getSearchCriteria() {

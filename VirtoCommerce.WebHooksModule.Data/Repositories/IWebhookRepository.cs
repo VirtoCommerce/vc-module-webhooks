@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.WebhooksModule.Data.Models;
 
@@ -12,5 +12,8 @@ namespace VirtoCommerce.WebhooksModule.Data.Repositories
 
         WebHookEntity[] GetWebHooksByIds(string[] ids);
         void DeleteWebHooksByIds(string[] ids);
+
+        WebHookFeedEntryEntity[] GetWebHookFeedEntriesByIds(string[] ids);
+        void DeleteWebHookFeedEntriesByIds(string[] ids);
     }
 }
