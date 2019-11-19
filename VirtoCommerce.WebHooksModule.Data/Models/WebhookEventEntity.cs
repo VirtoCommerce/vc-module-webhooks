@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.WebHooksModule.Core.Models;
 
@@ -12,6 +13,7 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
 
         #region Navigation Properties
         [StringLength(128)]
+        [Index]
         public string WebHookId { get; set; }
         public virtual WebHookEntity WebHook { get; set; }
         #endregion
