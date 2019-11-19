@@ -42,12 +42,12 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                     result.Error = string.Format(UnsuccessfulResponseTemplate, (int)response.StatusCode);
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 result = new WebHookResponse()
                 {
                     StatusCode = (int)(response?.StatusCode ?? 0),
-                    Error = e.Message,
+                    Error = ex.Message,
                     ResponseParams = await CreateResponseParams(response)
                 };
             }

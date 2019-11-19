@@ -64,7 +64,7 @@
     <Compile Include="Models\WebHook.cs" />
     <Compile Include="Models\WebHookFeedEntry.cs" />
     <Compile Include="Models\WebHookSearchResult.cs" />
-    <Compile Include="Models\WebHookNotificationRequest.cs" />
+    <Compile Include="Models\WebHookSendException.cs" />
     <Compile Include="Models\WebHookWorkItem.cs" />
     <Compile Include="ModuleConstants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
