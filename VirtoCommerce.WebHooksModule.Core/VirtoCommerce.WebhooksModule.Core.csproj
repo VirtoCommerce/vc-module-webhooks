@@ -68,6 +68,7 @@
     <Compile Include="Models\WebHookWorkItem.cs" />
     <Compile Include="ModuleConstants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IWebHookFeedReader.cs" />
     <Compile Include="Services\IWebHookFeedSearchService.cs" />
     <Compile Include="Services\IWebHookFeedService.cs" />
     <Compile Include="Services\IWebHookLogger.cs" />

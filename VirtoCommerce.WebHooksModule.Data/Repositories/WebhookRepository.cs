@@ -1,4 +1,4 @@
-﻿using System.Data.Common;
+using System.Data.Common;
 using System.Data.Entity;
 using System.Linq;
 using VirtoCommerce.Platform.Data.Infrastructure;
@@ -42,6 +42,21 @@ namespace VirtoCommerce.WebhooksModule.Data.Repositories
             }
         }
 
+        public WebHookFeedEntryEntity[] GetWebHookFeedEntriesByIds(string[] ids)
+        {
+            return WebHookFeedEntries
+                .Where(x => ids.Contains(x.Id))
+                .ToArray();
+        }
+
+        public void DeleteWebHookFeedEntriesByIds(string[] ids)
+        {
+            var webHookFeedEntries = GetWebHookFeedEntriesByIds(ids);
+            foreach (var webHookFeedEntryEntity in webHookFeedEntries)
+            {
+                Remove(webHookFeedEntryEntity);
+            }
+        }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -44,6 +44,7 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             webHookFeedEntry.WebHookId = this.WebHookId;
             webHookFeedEntry.EventId = this.EventId;
             webHookFeedEntry.AttemptCount = this.AttemptCount;
+            webHookFeedEntry.RecordType = this.RecordType;
             webHookFeedEntry.Status = this.Status;
             webHookFeedEntry.Error = this.Error;
             webHookFeedEntry.RequestHeaders = this.RequestHeaders;
@@ -67,6 +68,7 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             this.WebHookId = webHookFeedEntry.WebHookId;
             this.EventId = webHookFeedEntry.EventId;
             this.AttemptCount = webHookFeedEntry.AttemptCount;
+            this.RecordType = webHookFeedEntry.RecordType;
             this.Status = webHookFeedEntry.Status;
             this.Error = webHookFeedEntry.Error;
             this.RequestHeaders = webHookFeedEntry.RequestHeaders;
@@ -79,7 +81,7 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             return this;
         }
 
-        public virtual void Patch(WebHookFeedEntry target)
+        public virtual void Patch(WebHookFeedEntryEntity target)
         {
             target.WebHookId = this.WebHookId;
             target.EventId = this.EventId;
@@ -90,6 +92,7 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             target.RequestBody = this.RequestBody;
             target.ResponseHeaders = this.ResponseHeaders;
             target.ResponseBody = this.ResponseBody;
+            target.RecordType = this.RecordType;
         }
     }
 }
