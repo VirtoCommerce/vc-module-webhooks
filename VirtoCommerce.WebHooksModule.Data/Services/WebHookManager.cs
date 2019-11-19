@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Hangfire;
-using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using VirtoCommerce.Platform.Core.Bus;
 using VirtoCommerce.Platform.Core.Events;
 using VirtoCommerce.WebHooksModule.Core.Models;
@@ -34,7 +34,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         }
 
         /// <inheritdoc />
-        public void SubscribeToAllEvents()
+        public virtual void SubscribeToAllEvents()
         {
             var allRegisteredEvents = _registeredEventStore.GetAllEvents();
 
@@ -45,9 +45,9 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         }
 
         /// <inheritdoc />
-        public async Task<int> NotifyAsync(string eventId, string serializedEventData, CancellationToken cancellationToken)
+        public virtual async Task<int> NotifyAsync(string eventId, object eventObject, CancellationToken cancellationToken)
         {
-            int result = 0;
+            var result = 0;
 
             var criteria = new WebHookSearchCriteria()
             {
@@ -70,7 +70,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
                     webHook.RequestParams = new WebHookHttpParams()
                     {
-                        Body = serializedEventData,
+                        Body = eventObject,
                     };
 
                     response = await _webHookSender.SendWebHookAsync(new WebHookWorkItem()
@@ -96,26 +96,31 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             return result;
         }
 
-        private void LogError(string message, string eventId, WebHookResponse response, WebHook webHook)
+        protected virtual void LogError(string message, string eventId, WebHookResponse response, WebHook webHook)
         {
             var errorEntry = WebHookFeedEntry.CreateError(webHook.Id,
                 eventId,
                 message,
-                requestHeaders: JsonConvert.SerializeObject(webHook.RequestParams.Headers),
-                requestBody: webHook.RequestParams.Body);
+                requestHeaders: GetJsonString(webHook.RequestParams.Headers),
+                requestBody: GetJsonString(webHook.RequestParams.Body));
 
             if (response != null)
             {
                 errorEntry.Status = response.StatusCode;
-                errorEntry.ResponseBody = response.ResponseParams?.Body;
-                errorEntry.ResponseHeaders = JsonConvert.SerializeObject(response.ResponseParams?.Headers);
+                errorEntry.ResponseBody = GetJsonString(response.ResponseParams?.Body);
+                errorEntry.ResponseHeaders = GetJsonString(response.ResponseParams?.Headers);
             }
 
             _logger.Log(errorEntry);
         }
 
+        protected static string GetJsonString(object obj)
+        {
+            return obj != null ? JObject.FromObject(obj).ToString() : null;
+        }
+
         /// <inheritdoc />
-        public Task<WebHookResponse> VerifyWebHookAsync(WebHook webHook)
+        public virtual Task<WebHookResponse> VerifyWebHookAsync(WebHook webHook)
         {
             throw new NotImplementedException();
         }
@@ -143,7 +148,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         {
             BackgroundJob.Enqueue(() =>
                 NotifyAsync(domainEvent.GetType().FullName,
-                    JsonConvert.SerializeObject(domainEvent),
+                    domainEvent,
                     cancellationToken));
 
             return Task.CompletedTask;

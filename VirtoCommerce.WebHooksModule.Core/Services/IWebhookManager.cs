@@ -31,9 +31,9 @@ namespace VirtoCommerce.WebHooksModule.Core.Services
         /// For active WebHooks, an HTTP request will be sent to the designated WebHook URI with information about the action.
         /// </summary>
         /// <param name="eventId">Event id which needs to be checked for existing active WebHooks.</param>
-        /// <param name="serializedEventData">Event data to send.</param>
+        /// <param name="eventObject">Event data to send.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>The number of <see cref="WebHook"/> instances that were selected and subsequently notified about the actions.</returns>
-        Task<int> NotifyAsync(string eventId, string serializedEventData, CancellationToken cancellationToken);
+        Task<int> NotifyAsync(string eventId, object eventObject, CancellationToken cancellationToken);
     }
 }

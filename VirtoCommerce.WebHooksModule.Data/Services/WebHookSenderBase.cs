@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using VirtoCommerce.WebHooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Services;
 
@@ -110,8 +110,9 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                 [EventBodyKey] = workItem.WebHook.RequestParams.Body,
             };
 
-            var serializedBody = JsonConvert.SerializeObject(body);
-            request.Content = new StringContent(serializedBody, Encoding.UTF8, "application/json");
+            var bodyJObject = JObject.FromObject(body).ToString();
+
+            request.Content = new StringContent(bodyJObject, Encoding.UTF8, "application/json");
         }
     }
 }
