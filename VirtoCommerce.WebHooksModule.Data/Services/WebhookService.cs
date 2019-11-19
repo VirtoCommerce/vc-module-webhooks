@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -15,11 +15,13 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
     public class WebHookService : ServiceBase, IWebHookSearchService, IWebHookService
     {
         private readonly Func<IWebHookRepository> _webHookRepositoryFactory;
+        private readonly IWebHookFeedReader _feedReader;
 
 
-        public WebHookService(Func<IWebHookRepository> webHookRepositoryFactory)
+        public WebHookService(Func<IWebHookRepository> webHookRepositoryFactory, IWebHookFeedReader feedReader)
         {
             _webHookRepositoryFactory = webHookRepositoryFactory;
+            _feedReader = feedReader;
         }
 
         public void DeleteByIds(string[] ids)
@@ -45,6 +47,12 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                     {
                         result.AddRange(entities.Select(x => x.ToModel(AbstractTypeFactory<WebHook>.TryCreateInstance())));
                     }
+                }
+
+                foreach (var webHook in result)
+                {
+                    webHook.RaisedEventCount = _feedReader.GetSuccessCount(webHook.Id);
+                    webHook.ErrorCount = _feedReader.GetErrorCount(webHook.Id);
                 }
             }
 
