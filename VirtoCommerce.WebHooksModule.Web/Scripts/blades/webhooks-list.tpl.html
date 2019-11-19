@@ -72,7 +72,7 @@
 <script type="text/ng-template" id="list-name.success-calls.html">
     <div class="ui-grid-cell-contents">
         <div class="inner-contents">
-            <div class="ui-grid-cell-contents">{{row.entity.raisedEventCount ?   ((row.entity.errorCount *100 ) / row.entity.raisedEventCount).toFixed(2) : 0}}</div>
+            <div class="ui-grid-cell-contents">{{row.entity.successPercent}}</div>
         </div>
     </div>
 </script>

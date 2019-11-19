@@ -51,7 +51,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
                 foreach (var webHook in result)
                 {
-                    webHook.RaisedEventCount = _feedReader.GetSuccessCount(webHook.Id);
+                    webHook.SuccessCount = _feedReader.GetSuccessCount(webHook.Id);
                     webHook.ErrorCount = _feedReader.GetErrorCount(webHook.Id);
                 }
             }
