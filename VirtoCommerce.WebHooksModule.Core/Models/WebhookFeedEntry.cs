@@ -15,12 +15,25 @@ namespace VirtoCommerce.WebHooksModule.Core.Models
         public string ResponseHeaders { get; set; }
         public string ResponseBody { get; set; }
 
-        public static WebHookFeedEntry CreateSuccess(string webHookId, string eventId) =>
+        public static WebHookFeedEntry CreateSuccess(string webHookId,
+            string eventId,
+            int attemptCount = 0,
+            int status = 0,
+            string requestHeaders = null,
+            string requestBody = null,
+            string responseHeaders = null,
+            string responseBody = null) =>
              new WebHookFeedEntry()
              {
                  RecordType = (int)WebHookFeedEntryType.Success,
                  WebHookId = webHookId,
                  EventId = eventId,
+                 AttemptCount = attemptCount,
+                 Status = status,
+                 RequestHeaders = requestHeaders,
+                 RequestBody = requestBody,
+                 ResponseHeaders = responseHeaders,
+                 ResponseBody = responseBody,
              };
 
         public static WebHookFeedEntry CreateError(string webHookId,

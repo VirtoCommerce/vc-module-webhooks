@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using VirtoCommerce.WebHooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Services;
 
@@ -16,7 +17,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
     {
         private readonly HttpClient _httpClient;
 
-        public RetriableWebHookSender(IWebHookLogger webHookLogger) : base(webHookLogger)
+        public RetriableWebHookSender() : base()
         {
             _httpClient = new HttpClient();
         }
@@ -57,10 +58,12 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
         private static async Task<WebHookHttpParams> CreateResponseParams(HttpResponseMessage response)
         {
+            var responseString = await response.Content.ReadAsStringAsync();
+
             return new WebHookHttpParams()
             {
                 Headers = response.Headers.ToDictionary(x => x.Key, x => string.Join(";", x.Value)),
-                Body = await response.Content.ReadAsStringAsync(),
+                Body = JObject.Parse(responseString),
             };
         }
     }
