@@ -29,15 +29,13 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         /// <summary>
         /// Initializes a new instance of the <see cref="WebHookSenderBase"/> class.
         /// </summary>
-        protected WebHookSenderBase(IWebHookLogger logger)
+        protected WebHookSenderBase()
         {
-            Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <summary>
         /// Gets the current <see cref="ILogger"/> instance.
         /// </summary>
-        protected IWebHookLogger Logger { get; }
 
         /// <inheritdoc />
         public abstract Task<WebHookResponse> SendWebHookAsync(WebHookWorkItem webHookWorkItem);

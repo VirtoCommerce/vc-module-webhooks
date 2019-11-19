@@ -4,11 +4,11 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Hangfire;
-using Newtonsoft.Json.Linq;
 using VirtoCommerce.Platform.Core.Bus;
 using VirtoCommerce.Platform.Core.Events;
 using VirtoCommerce.WebHooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Services;
+using VirtoCommerce.WebHooksModule.Data.Utils;
 
 namespace VirtoCommerce.WebHooksModule.Data.Services
 {
@@ -82,41 +82,22 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
                     if (!response.IsSuccessfull)
                     {
-                        LogError(response.Error, eventId, response, webHook);
+                        _logger.Log(WebHookFeedUtils.CreateErrorEntry(response.Error, eventId, response, webHook));
+                    }
+                    else
+                    {
+                        _logger.Log(WebHookFeedUtils.CreateSuccessEntry(eventId, response, webHook));
                     }
 
                     result++;
                 }
                 catch (Exception ex)
                 {
-                    LogError(ex.Message, eventId, response, webHook);
+                    _logger.Log(WebHookFeedUtils.CreateErrorEntry(ex.Message, eventId, response, webHook));
                 }
             }
 
             return result;
-        }
-
-        protected virtual void LogError(string message, string eventId, WebHookResponse response, WebHook webHook)
-        {
-            var errorEntry = WebHookFeedEntry.CreateError(webHook.Id,
-                eventId,
-                message,
-                requestHeaders: GetJsonString(webHook.RequestParams.Headers),
-                requestBody: GetJsonString(webHook.RequestParams.Body));
-
-            if (response != null)
-            {
-                errorEntry.Status = response.StatusCode;
-                errorEntry.ResponseBody = GetJsonString(response.ResponseParams?.Body);
-                errorEntry.ResponseHeaders = GetJsonString(response.ResponseParams?.Headers);
-            }
-
-            _logger.Log(errorEntry);
-        }
-
-        protected static string GetJsonString(object obj)
-        {
-            return obj != null ? JObject.FromObject(obj).ToString() : null;
         }
 
         /// <inheritdoc />
