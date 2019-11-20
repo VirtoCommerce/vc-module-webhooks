@@ -120,6 +120,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\blades\webhook-error-list.js" />
+    <Content Include="Scripts\blades\webhook-error-list.tpl.html" />
     <Content Include="Scripts\widgets\errorsWidget.js" />
     <Content Include="Scripts\widgets\errorsWidget.tpl.html" />
     <None Include="module.ignore" />
