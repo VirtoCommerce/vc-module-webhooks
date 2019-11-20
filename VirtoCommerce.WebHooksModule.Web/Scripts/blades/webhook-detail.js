@@ -1,4 +1,4 @@
-﻿angular.module('virtoCommerce.webhooksModule')
+angular.module('virtoCommerce.webhooksModule')
     .controller('virtoCommerce.webhooksModule.webhookDetailController', ['$rootScope', '$scope', 'platformWebApp.dialogService', 'platformWebApp.bladeNavigationService', 'virtoCommerce.webhooksModule.webApi', 'platformWebApp.metaFormsService', function ($rootScope, $scope, dialogService, bladeNavigationService, webhookApi, metaFormsService) {
         var blade = $scope.blade;
         blade.availableContentTypes = [{ value: 'application/json', title: 'application/json' }];
@@ -22,9 +22,10 @@
         };
 
         function initializeBlade(data) {
+            data.contentType = blade.availableContentTypes[0].value;
             blade.item = angular.copy(data);
+
             blade.currentEntity = blade.item;
-            blade.currentEntity.contentType = blade.availableContentTypes[0].value;
             blade.origEntity = data;
 
             webhookApi.getEvents(function (response) {
