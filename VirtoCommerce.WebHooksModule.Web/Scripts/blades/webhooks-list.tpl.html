@@ -31,10 +31,10 @@
             <div class="table-wrapper" ng-if="items.length">
                 <div ui-grid="gridOptions" ui-grid-auto-resize ui-grid-save-state ui-grid-selection ui-grid-resize-columns ui-grid-move-columns ui-grid-pinning ui-grid-height ui-grid-infinite-scroll></div>
                 <ul class="menu __context" role="menu" id="cl_menu">
-                    <li class="menu-item" ng-click='editWebhook(contextMenuEntity)' va-permission="webhook:read" security-scopes="contextMenuEntity.securityScopes">
+                    <li class="menu-item" ng-click='selectNode(contextMenuEntity, false)' va-permission="webhook:read" security-scopes="contextMenuEntity.securityScopes">
                         <i class="menu-ico fa fa-edit"></i> {{'platform.commands.manage' | translate}}
                     </li>
-                    <li class="menu-item" ng-click='deleteWebhook(contextMenuEntity)' va-permission="webhook:delete">
+                    <li class="menu-item" ng-click='deleteWebHook(contextMenuEntity)' va-permission="webhook:delete">
                         <i class="menu-ico fa fa-trash-o"></i> {{'platform.commands.delete' | translate}}
                     </li>
                 </ul>
