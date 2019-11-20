@@ -60,9 +60,9 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             WebHookResponse response = null;
 
             // TechDebt: Make batch handling
-            var webHookdsSearchResult = _webHookSearchService.Search(criteria);
+            var webHooksSearchResult = _webHookSearchService.Search(criteria);
 
-            foreach (var webHook in webHookdsSearchResult.Results)
+            foreach (var webHook in webHooksSearchResult.Results)
             {
                 try
                 {
