@@ -63,7 +63,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             return new WebHookHttpParams()
             {
                 Headers = response.Headers.ToDictionary(x => x.Key, x => string.Join(";", x.Value)),
-                Body = JObject.Parse(responseString),
+                Body = !string.IsNullOrEmpty(responseString) ? JObject.Parse(responseString) : null,
             };
         }
     }
