@@ -35,7 +35,7 @@ angular.module(moduleName, [])
                 title: 'webhooks.main-menu-title',
                 priority: 100,
                 action: function () { $state.go('workspace.virtoCommerceWebhooksModuleState'); },
-                permission: 'virtoCommerce.webhooksModule.WebPermission'
+                permission: 'webhooks:access'
             };
             mainMenuService.addMenuItem(menuItem);
 
