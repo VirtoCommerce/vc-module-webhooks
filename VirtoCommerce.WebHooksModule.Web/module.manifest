@@ -39,7 +39,7 @@
                 <valueType>integer</valueType>
                 <defaultValue>3</defaultValue>
                 <title>Number of retries for sending webhook notification in case of unsuccessful result</title>
-                <description>If webhook sending notification http request fails by some reason, operation will be repeated X number or times or until success. Intervals are the following (in minutes): 1, 2, 4, …, 2^(X-1)</description>
+                <description>If webhook sending notification http request fails by some reason, operation will be repeated X number or times or until success. Intervals are the following (in minutes): 1, 2, 4, …, 2^N</description>
             </setting>
         </group>
     </settings>
