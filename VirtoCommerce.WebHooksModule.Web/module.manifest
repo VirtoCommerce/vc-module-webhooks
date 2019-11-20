@@ -34,8 +34,11 @@
 
     <permissions>
         <group name="Webhooks">
+            <permission id="webhooks:access" name="Open webhooks menu" />
             <permission id="webhooks:read" name="Read webhooks" />
-            <permission id="webhooks:update" name="Update webhooks" />
+            <permission id="webhooks:feed:read" name="Read webhook logs" />
+            <permission id="webhooks:execute" name="Manually send webhooks" />
+            <permission id="webhooks:update" name="Create or update webhooks" />
             <permission id="webhooks:delete" name="Delete webhooks" />
         </group>
     </permissions>
