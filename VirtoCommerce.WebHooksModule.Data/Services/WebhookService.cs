@@ -80,6 +80,9 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                         changeTracker.Attach(originalEntity);
                         changedEntries.Add(new GenericChangedEntry<WebHook>(webHook, originalEntity.ToModel(new WebHook()), EntryState.Modified));
                         modifiedEntity.Patch(originalEntity);
+
+                        //Force set ModifiedDate property to mark a webHook changed. Special for update when only event list has changes and webHook table hasn't any changes
+                        originalEntity.ModifiedDate = DateTime.UtcNow;
                     }
                     else
                     {
