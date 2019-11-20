@@ -74,6 +74,10 @@ angular.module('virtoCommerce.webhooksModule')
             }
         }
 
+        $scope.deleteWebHook = function(item) {
+            deleteWebHooks([item]);
+        };
+
         function deleteWebHooks(selection) {
             var dialog = {
                 id: "confirmDelete",
