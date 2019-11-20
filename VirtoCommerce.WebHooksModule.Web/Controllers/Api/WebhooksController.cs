@@ -119,7 +119,7 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
         /// <returns>Result of sent request.</returns>
         [HttpPost]
         [Route("send")]
-        [ResponseType(typeof(WebHookResponse))]
+        [ResponseType(typeof(WebHookSendResponse))]
         [CheckPermission(Permission = ModuleConstants.Security.Permissions.Execute)]
         public async Task<IHttpActionResult> Run(WebHook webHook)
         {

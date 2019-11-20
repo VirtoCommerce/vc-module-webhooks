@@ -22,7 +22,6 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         private const string EventBodyKey = "EventBody";
 
         protected const string InvalidHeaderTemplate = "Could not add header field '{0}' to the WebHook request for WebHook ID '{1}'.";
-        protected const string UnsuccessfulResponseTemplate = "WebHook was sent unsuccessfully. Response status code: {0}";
 
         private bool _disposed;
 
@@ -38,7 +37,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         /// </summary>
 
         /// <inheritdoc />
-        public abstract Task<WebHookResponse> SendWebHookAsync(WebHookWorkItem webHookWorkItem);
+        public abstract Task<WebHookSendResponse> SendWebHookAsync(WebHookWorkItem webHookWorkItem);
 
         /// <inheritdoc />
         public void Dispose()
@@ -104,7 +103,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             {
                 // Set properties from work item
                 [EventIdKey] = workItem.EventId,
-                [AttemptKey] = workItem.Offset + 1,
+                [AttemptKey] = (workItem.FeedEntry?.AttemptCount ?? 0) + 1,
                 [EventBodyKey] = workItem.WebHook.RequestParams.Body,
             };
 

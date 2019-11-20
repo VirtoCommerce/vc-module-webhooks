@@ -57,13 +57,19 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                 Take = int.MaxValue,
             };
 
-            WebHookResponse response = null;
+            WebHookSendResponse response = null;
 
             // TechDebt: Make batch handling
             var webHooksSearchResult = _webHookSearchService.Search(criteria);
 
             foreach (var webHook in webHooksSearchResult.Results)
             {
+                var webHookWorkItem = new WebHookWorkItem()
+                {
+                    EventId = eventId,
+                    WebHook = webHook,
+                };
+
                 try
                 {
                     cancellationToken.ThrowIfCancellationRequested();
@@ -73,27 +79,13 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                         Body = eventObject,
                     };
 
-                    response = await _webHookSender.SendWebHookAsync(new WebHookWorkItem()
-                    {
-                        EventId = eventId,
-                        WebHook = webHook,
-                        Offset = 0,
-                    });
-
-                    if (!response.IsSuccessfull)
-                    {
-                        _logger.Log(WebHookFeedUtils.CreateErrorEntry(response.Error, eventId, response, webHook));
-                    }
-                    else
-                    {
-                        _logger.Log(WebHookFeedUtils.CreateSuccessEntry(eventId, response, webHook));
-                    }
+                    response = await _webHookSender.SendWebHookAsync(webHookWorkItem);
 
                     result++;
                 }
                 catch (Exception ex)
                 {
-                    _logger.Log(WebHookFeedUtils.CreateErrorEntry(ex.Message, eventId, response, webHook));
+                    _logger.Log(WebHookFeedUtils.CreateErrorEntry(webHookWorkItem, response, ex.Message));
                 }
             }
 
@@ -101,7 +93,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         }
 
         /// <inheritdoc />
-        public virtual Task<WebHookResponse> VerifyWebHookAsync(WebHook webHook)
+        public virtual Task<WebHookSendResponse> VerifyWebHookAsync(WebHook webHook)
         {
             throw new NotImplementedException();
         }
