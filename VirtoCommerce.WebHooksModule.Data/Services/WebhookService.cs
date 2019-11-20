@@ -127,11 +127,10 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                 query = query.OrderBySortInfos(sortInfos).ThenBy(x => x.Id);
 
                 var webHookIds = query.Select(x => x.Id).Skip(searchCriteria.Skip).Take(searchCriteria.Take).ToArray();
-                result.Results = GetByIds(webHookIds);
+                result.Results = GetByIds(webHookIds).OrderBy(x => Array.IndexOf(webHookIds, x.Id)).ToArray();
             }
 
             return result;
         }
-
     }
 }
