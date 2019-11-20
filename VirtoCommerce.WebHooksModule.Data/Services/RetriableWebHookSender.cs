@@ -88,7 +88,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                 // Retry in the following intervals (in minutes): 1, 2, 4, …, 2^(RetryCount-1)
                 var policy = Policy
                     .HandleResult<WebHookSendResponse>(x => !x.IsSuccessfull)
-                    .WaitAndRetryAsync(RetryCount, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt - 1) * 10));
+                    .WaitAndRetryAsync(RetryCount, retryAttempt => TimeSpan.FromMinutes(Math.Pow(2, retryAttempt - 1)));
 
                 result = await policy.ExecuteAsync(async () => await PerformSend(webHookWorkItem));
 
