@@ -48,7 +48,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         }
 
         /// <summary>
-        /// Logs Success webHook notofocations by adding Attr
+        /// Logs Success webHook notifications by incrementing AttemptCount.
         /// </summary>
         /// <param name="feedEntry">Entry with the event data.</param>
         /// <returns>Saved feed entry.</returns>
@@ -77,7 +77,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         }
 
         /// <summary>
-        /// 
+        /// Logs Error in webHook notifications by saving log record.
         /// </summary>
         /// <param name="feedEntry"></param>
         /// <returns>Saved feed entry.</returns>

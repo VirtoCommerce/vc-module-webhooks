@@ -12,6 +12,6 @@ namespace VirtoCommerce.WebHooksModule.Core.Services
         /// Sends out the webhook.
         /// </summary>
         /// <param name="webHook">WebHook with filled <see cref="WebHook.RequestParams"/> to send.</param>
-        Task<WebHookResponse> SendWebHookAsync(WebHookWorkItem webHookWorkItem);
+        Task<WebHookSendResponse> SendWebHookAsync(WebHookWorkItem webHookWorkItem);
     }
 }

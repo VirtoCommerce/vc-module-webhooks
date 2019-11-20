@@ -5,17 +5,17 @@ namespace VirtoCommerce.WebHooksModule.Data.Utils
 {
     public static class WebHookFeedUtils
     {
-        public static WebHookFeedEntry CreateErrorEntry(string message, string eventId, WebHookResponse response, WebHook webHook)
+        public static WebHookFeedEntry CreateErrorEntry(WebHookWorkItem webHookWorkItem, WebHookSendResponse response, string errorMessage)
         {
-            return CreateFeedEntry(WebHookFeedEntryType.Error, eventId, response, webHook, message);
+            return CreateFeedEntry(WebHookFeedEntryType.Error, webHookWorkItem.EventId, response, webHookWorkItem.WebHook, errorMessage);
         }
 
-        public static WebHookFeedEntry CreateSuccessEntry(string eventId, WebHookResponse response, WebHook webHook)
+        public static WebHookFeedEntry CreateSuccessEntry(WebHookWorkItem webHookWorkItem, WebHookSendResponse response)
         {
-            return CreateFeedEntry(WebHookFeedEntryType.Success, eventId, response, webHook);
+            return CreateFeedEntry(WebHookFeedEntryType.Success, webHookWorkItem.EventId, response, webHookWorkItem.WebHook);
         }
 
-        public static WebHookFeedEntry CreateFeedEntry(WebHookFeedEntryType entryType, string eventId, WebHookResponse response, WebHook webHook, string error = null)
+        public static WebHookFeedEntry CreateFeedEntry(WebHookFeedEntryType entryType, string eventId, WebHookSendResponse response, WebHook webHook, string error = null)
         {
             var result = new WebHookFeedEntry()
             {

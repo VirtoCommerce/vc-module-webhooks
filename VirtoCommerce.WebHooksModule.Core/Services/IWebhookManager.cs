@@ -24,7 +24,7 @@ namespace VirtoCommerce.WebHooksModule.Core.Services
         /// is thrown with a detailed description of the problem.
         /// </summary>
         /// <param name="webHook">The <see cref="WebHook"/> with filled <see cref="WebHookHttpParams"/> to verify</param>
-        Task<WebHookResponse> VerifyWebHookAsync(WebHook webHook);
+        Task<WebHookSendResponse> VerifyWebHookAsync(WebHook webHook);
 
         /// <summary>
         /// Submits a notification to all registered WebHooks with eventId like <paramref name="eventId"/>. 

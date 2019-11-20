@@ -32,6 +32,18 @@
         <directory virtualPath="$/Scripts" searchPattern="*.js" searchSubdirectories="true" />
     </scripts>
 
+    <settings>
+        <group name="Webhooks|General">
+            <setting>
+                <name>Webhooks.General.SendRetryCount</name>
+                <valueType>integer</valueType>
+                <defaultValue>3</defaultValue>
+                <title>Number of retries for sending webhook notification in case of unsuccessful result</title>
+                <description>If webhook sending notification http request fails by some reason, operation will be repeated X number or times or until success. Intervals are the following (in minutes): 1, 2, 4, …, 2^(X-1)</description>
+            </setting>
+        </group>
+    </settings>
+
     <permissions>
         <group name="Webhooks">
             <permission id="webhooks:access" name="Open webhooks menu" />
