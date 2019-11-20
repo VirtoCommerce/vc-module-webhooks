@@ -14,8 +14,13 @@ namespace VirtoCommerce.WebHooksModule.Core.Models
         /// </summary>
         public string EventId { get; set; }
         /// <summary>
-        /// Gets or sets the offset (starting with zero) identifying the launch line to be used when firing.
+        /// Gets or sets the attempt count of notification sending.
         /// </summary>
-        public int Offset { get; set; }
+        public int AttemptCount { get; set; }
+        /// <summary>
+        /// Gets or sets log entry for this work item.
+        /// </summary>
+        public WebHookFeedEntry FeedEntry { get; set; }
+
     }
 }
