@@ -23,6 +23,8 @@ angular.module('virtoCommerce.webhooksModule')
 
         function initializeBlade(data) {
             data.contentType = blade.availableContentTypes[0].value;
+            data.events = _.map(data.events, function (event) { return { eventId: event.eventId }; });
+
             blade.item = angular.copy(data);
 
             blade.currentEntity = blade.item;
@@ -32,6 +34,8 @@ angular.module('virtoCommerce.webhooksModule')
                 blade.availableEvents = _.map(response, function (value) { return { eventId: value.id }; });
                 blade.isLoading = false;
             });
+
+
 
             blade.title = blade.isNew ? 'webhooks.blades.webhook-detail.title' : data.name;
             blade.subtitle = 'webhooks.blades.webhook-detail.subtitle';

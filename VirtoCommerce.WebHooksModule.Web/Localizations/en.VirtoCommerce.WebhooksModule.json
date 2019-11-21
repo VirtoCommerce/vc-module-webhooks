@@ -7,8 +7,9 @@
                 "labels": {
                     "name": "Name",
                     "active": "Active",
-                    "success-calls": "% of success calls",
-                    "unresolved-errors": "Unresolved errors"
+                    "percent-success-calls": "% of success calls",
+                    "unresolved-errors": "Unresolved errors",
+                    "total-count": "Total calls count"
                 }
             },
             "webhook-detail": {
@@ -27,6 +28,9 @@
                     "url": "The URL of the subscriber to be called on each event trigger",
                     "specify-events": "Specify for what kind of events this webhook should be triggered",
                     "content-type": "Select one of the allowed MIME types to be used as the value of the Content-type header"
+                },
+                "placeholders" : {
+                  "name":  "Enter WebHook name" 
                 }
             }
         },
