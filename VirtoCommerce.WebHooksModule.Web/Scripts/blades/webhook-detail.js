@@ -23,6 +23,8 @@ angular.module('virtoCommerce.webhooksModule')
 
         function initializeBlade(data) {
             data.contentType = blade.availableContentTypes[0].value;
+            data.events = _.map(data.events, function (event) { return { eventId: event.eventId }; });
+
             blade.item = angular.copy(data);
 
             blade.currentEntity = blade.item;
