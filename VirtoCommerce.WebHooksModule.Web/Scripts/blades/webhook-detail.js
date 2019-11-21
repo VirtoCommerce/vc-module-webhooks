@@ -23,6 +23,8 @@ angular.module('virtoCommerce.webhooksModule')
 
         function initializeBlade(data) {
             data.contentType = blade.availableContentTypes[0].value;
+            data.events = _.map(data.events, function (event) { return { eventId: event.eventId }; });
+
             blade.item = angular.copy(data);
 
             blade.currentEntity = blade.item;
@@ -96,6 +98,7 @@ angular.module('virtoCommerce.webhooksModule')
         blade.toolbarCommands = [
             {
                 name: "platform.commands.save", icon: 'fa fa-save',
+                permission: blade.updatePermission,
                 executeMethod: function () {
                     saveChanges();
                 },
@@ -112,6 +115,7 @@ angular.module('virtoCommerce.webhooksModule')
             },
             {
                 name: "platform.commands.delete", icon: 'fa fa-trash-o',
+                permission: 'webhooks:delete',
                 executeMethod: deleteEntry,
                 canExecuteMethod: function () {
                     return !blade.isNew;

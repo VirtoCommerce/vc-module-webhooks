@@ -59,7 +59,7 @@
     <Compile Include="Models\WebHookFeedSearchResult.cs" />
     <Compile Include="Models\WebHookHttpParams.cs" />
     <Compile Include="Models\WebHookFeedEntryType.cs" />
-    <Compile Include="Models\WebHookResponse.cs" />
+    <Compile Include="Models\WebHookSendResponse.cs" />
     <Compile Include="Models\WebHookSearchCriteria.cs" />
     <Compile Include="Models\WebHook.cs" />
     <Compile Include="Models\WebHookFeedEntry.cs" />

@@ -3,6 +3,7 @@ angular.module('virtoCommerce.webhooksModule')
         $scope.uiGridConstants = uiGridHelper.uiGridConstants;
         var blade = $scope.blade;
 
+        blade.updatePermission = 'webhooks:update';
         blade.title = 'Webhoks list';
         blade.subtitle = 'List of all user defined weebhoks';
         
@@ -20,10 +21,10 @@ angular.module('virtoCommerce.webhooksModule')
                     $scope.items = data.results;
                     angular.forEach($scope.items,
                         function (item) {
-                            var totalRaisedEventCount = item.errorCount + item.successCount;
-                            if (totalRaisedEventCount > 0) {
+                            item.totalRaisedEventCount = item.errorCount + item.successCount;
+                            if (item.totalRaisedEventCount > 0) {
                                 item.successPercent =
-                                    (item.errorCount * 100 / totalRaisedEventCount).toFixed(2);
+                                    (item.successCount * 100 / item.totalRaisedEventCount).toFixed(2);
                             } else {
                                 item.successPercent = 0;
                             }
@@ -109,6 +110,7 @@ angular.module('virtoCommerce.webhooksModule')
             var newBlade = {
                 id: "webhookDetail",
                 currentEntityId: listItem.id,
+                updatePermission: blade.updatePermission,
                 title: 'webhooks.blades.webhook-detail.title',
                 subtitle: 'webhooks.blades.webhook-detail.subtitle',
                 controller: 'virtoCommerce.webhooksModule.webhookDetailController',
@@ -122,6 +124,7 @@ angular.module('virtoCommerce.webhooksModule')
 
             var newBlade = {
                 id: 'webhookDetail',
+                updatePermission: blade.updatePermission,
                 controller: 'virtoCommerce.webhooksModule.webhookDetailController',
                 template: 'Modules/$(virtoCommerce.webhooksModule)/Scripts/blades/webhook-detail.tpl.html',
                 subtitle: 'webhooks.blades.webhook-detail.subtitle'
@@ -172,6 +175,7 @@ angular.module('virtoCommerce.webhooksModule')
             {
                 name: "platform.commands.add",
                 icon: 'fa fa-plus',
+                permission: blade.updatePermission,
                 executeMethod: function () {
                     $scope.selectNode({}, true);
                 },
@@ -182,6 +186,7 @@ angular.module('virtoCommerce.webhooksModule')
             {
                 name: "platform.commands.remove",
                 icon: 'fa fa-trash',
+                permission: 'webhooks:delete',
                 executeMethod: function () {
                     deleteWebHooks(getSelectedItems());
                 },
