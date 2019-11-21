@@ -35,8 +35,6 @@ angular.module('virtoCommerce.webhooksModule')
                 blade.isLoading = false;
             });
 
-
-
             blade.title = blade.isNew ? 'webhooks.blades.webhook-detail.title' : data.name;
             blade.subtitle = 'webhooks.blades.webhook-detail.subtitle';
         }
@@ -100,7 +98,6 @@ angular.module('virtoCommerce.webhooksModule')
         blade.toolbarCommands = [
             {
                 name: "platform.commands.save", icon: 'fa fa-save',
-                permission: blade.updatePermission,
                 executeMethod: function () {
                     saveChanges();
                 },
@@ -117,7 +114,6 @@ angular.module('virtoCommerce.webhooksModule')
             },
             {
                 name: "platform.commands.delete", icon: 'fa fa-trash-o',
-                permission: 'webhooks:delete',
                 executeMethod: deleteEntry,
                 canExecuteMethod: function () {
                     return !blade.isNew;

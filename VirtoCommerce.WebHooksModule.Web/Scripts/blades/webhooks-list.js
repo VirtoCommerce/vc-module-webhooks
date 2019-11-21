@@ -24,7 +24,7 @@ angular.module('virtoCommerce.webhooksModule')
                             item.totalRaisedEventCount = item.errorCount + item.successCount;
                             if (item.totalRaisedEventCount > 0) {
                                 item.successPercent =
-                                    (item.errorCount * 100 / item.totalRaisedEventCount).toFixed(2);
+                                    (item.successCount * 100 / item.totalRaisedEventCount).toFixed(2);
                             } else {
                                 item.successPercent = 0;
                             }
