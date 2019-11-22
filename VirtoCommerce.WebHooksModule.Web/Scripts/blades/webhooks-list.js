@@ -4,10 +4,7 @@ angular.module('virtoCommerce.webhooksModule')
         var blade = $scope.blade;
 
         blade.updatePermission = 'webhooks:update';
-        blade.title = 'Webhoks list';
-        blade.subtitle = 'List of all user defined weebhoks';
         
-
         blade.refresh = function () {
             blade.isLoading = true;
 

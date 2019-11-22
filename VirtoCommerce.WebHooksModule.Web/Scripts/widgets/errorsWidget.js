@@ -1,14 +1,14 @@
 angular.module('virtoCommerce.webhooksModule')
     .controller('virtoCommerce.webhooksModule.errorsWebhookController', ['$state', '$scope', 'platformWebApp.bladeNavigationService', function ($state, $scope, bladeNavigationService) {
-        //var blade = $scope.widget.blade;
+        var blade = $scope.blade;
         $scope.openBlade = function () {
             var newBlade = {
                 id: "webhookErrors",
-                webHookId: listItem.id,
-                title: 'webhooks.blades.webhook-detail.title',
-                subtitle: 'webhooks.blades.webhook-detail.subtitle',
-                controller: 'virtoCommerce.webhooksModule.webhookDetailController',
-                template: 'Modules/$(virtoCommerce.webhooksModule)/Scripts/blades/webhook-detail.tpl.html'
+                webHookId: blade.currentEntity.id,
+                title: 'webhooks.blades.webhook-error-list.title',
+                subtitle: 'webhooks.blades.webhook-error-list.subtitle',
+                controller: 'virtoCommerce.webhooksModule.feedListController',
+                template: 'Modules/$(virtoCommerce.webhooksModule)/Scripts/blades/webhook-error-list.tpl.html'
             };
             bladeNavigationService.showBlade(newBlade, blade);
         
