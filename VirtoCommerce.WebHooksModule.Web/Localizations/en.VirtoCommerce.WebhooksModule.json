@@ -3,7 +3,8 @@
         "main-menu-title": "Webhooks",
         "blades": {
             "webhooks-list": {
-                "title": "Webhooks list",
+              "title": "Webhook list",
+              "subtitle": "List of user-defined webhooks", 
                 "labels": {
                     "name": "Name",
                     "active": "Active",
@@ -32,7 +33,18 @@
                 "placeholders" : {
                   "name":  "Enter WebHook name" 
                 }
-            }
+            },
+            "webhook-error-list": {
+              "title": "Webhook errors",
+              "subtitle": "List of all unresolved errors for the webhook",
+              "labels": {
+                "event": "Event",
+                "attempt-count": "Attempt Count",
+                "created": "Created",
+                "last-attempt": "Last attempt",
+                "error": "Error" 
+              } 
+            } 
         },
         "widgets": {
             "errors-widget": {

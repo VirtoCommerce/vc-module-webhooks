@@ -1,10 +1,8 @@
 angular.module('virtoCommerce.webhooksModule')
-    .controller('virtoCommerce.webhooksModule.webhooksListController', ['$scope', 'virtoCommerce.webhooksModule.webApi', 'platformWebApp.bladeNavigationService', 'platformWebApp.dialogService', 'platformWebApp.authService', 'platformWebApp.uiGridHelper', 'platformWebApp.bladeUtils', '$timeout', function ($scope, webHookApi, bladeNavigationService, dialogService, authService, uiGridHelper, bladeUtils, $timeout) {
+    .controller('virtoCommerce.webhooksModule.feedListController', ['$scope', 'virtoCommerce.webhooksModule.webApi', 'platformWebApp.bladeNavigationService', 'platformWebApp.dialogService', 'platformWebApp.authService', 'platformWebApp.uiGridHelper', 'platformWebApp.bladeUtils', '$timeout', function ($scope, webHookApi, bladeNavigationService, dialogService, authService, uiGridHelper, bladeUtils, $timeout) {
         $scope.uiGridConstants = uiGridHelper.uiGridConstants;
         var blade = $scope.blade;
 
-        blade.updatePermission = 'webhooks:update';
-        
         blade.refresh = function () {
             blade.isLoading = true;
 
@@ -13,20 +11,9 @@ angular.module('virtoCommerce.webhooksModule')
 
             var searchCriteria = getSearchCriteria();
 
-            webHookApi.search(searchCriteria,
+            webHookApi.searchFeed(searchCriteria,
                 function (data) {
                     $scope.items = data.results;
-                    angular.forEach($scope.items,
-                        function (item) {
-                            item.totalRaisedEventCount = item.errorCount + item.successCount;
-                            if (item.totalRaisedEventCount > 0) {
-                                item.successPercent =
-                                    (item.successCount * 100 / item.totalRaisedEventCount).toFixed(2);
-                            } else {
-                                item.successPercent = 0;
-                            }
-                        });
-
                     $scope.pageSettings.totalItems = $scope.items.length;
                     $scope.hasMore = data.results.length === $scope.pageSettings.itemsPerPageCount;
 
@@ -37,8 +24,8 @@ angular.module('virtoCommerce.webhooksModule')
                         }
                     });
                 }).$promise.finally(function () {
-                blade.isLoading = false;
-            });
+                    blade.isLoading = false;
+                });
             //reset state grid
             resetStateGrid();
 
@@ -52,7 +39,7 @@ angular.module('virtoCommerce.webhooksModule')
                 blade.isLoading = true;
                 var searchCriteria = getSearchCriteria();
 
-                webHookApi.search(searchCriteria,
+                webHookApi.searchFeed(searchCriteria,
                     function (data) {
                         $scope.items = $scope.items.concat(data.results);
                         $scope.pageSettings.totalItems = $scope.items.length;
@@ -67,27 +54,27 @@ angular.module('virtoCommerce.webhooksModule')
                         });
 
                     }).$promise.finally(function () {
-                    blade.isLoading = false;
-                });
+                        blade.isLoading = false;
+                    });
             }
         }
 
-        $scope.deleteWebHook = function(item) {
-            deleteWebHooks([item]);
+        $scope.deleteWebHookFeed = function (item) {
+            deleteWebHookFeeds([item]);
         };
 
-        function deleteWebHooks(selection) {
+        function deleteWebHookFeeds(selection) {
             var dialog = {
                 id: "confirmDelete",
                 title: "webhooks.dialogs.setting-delete.title",
                 message: "webhooks.dialogs.setting-delete.message",
-                callback: function(remove) {
+                callback: function (remove) {
                     if (remove) {
                         blade.isLoading = true;
                         bladeNavigationService.closeChildrenBlades(blade);
-                        var ids = _.map(selection, function(item) { return item.id; });
-						webHookApi.remove({ ids: ids },
-                            function() {
+                        var ids = _.map(selection, function (item) { return item.id; });
+                        webHookApi.removeFeed({ ids: ids },
+                            function () {
                                 blade.refresh();
                             });
                     }
@@ -104,50 +91,26 @@ angular.module('virtoCommerce.webhooksModule')
 
         $scope.selectItem = function (e, listItem) {
             blade.setSelectedItem(listItem);
-            var newBlade = {
-                id: "webhookDetail",
-                currentEntityId: listItem.id,
-                updatePermission: blade.updatePermission,
-                title: 'webhooks.blades.webhook-detail.title',
-                subtitle: 'webhooks.blades.webhook-detail.subtitle',
-                controller: 'virtoCommerce.webhooksModule.webhookDetailController',
-                template: 'Modules/$(virtoCommerce.webhooksModule)/Scripts/blades/webhook-detail.tpl.html'
-            };
-            bladeNavigationService.showBlade(newBlade, blade);
         };
 
         $scope.selectNode = function (node, isNew) {
             $scope.selectedNodeId = node.id;
 
-            var newBlade = {
-                id: 'webhookDetail',
-                updatePermission: blade.updatePermission,
-                controller: 'virtoCommerce.webhooksModule.webhookDetailController',
-                template: 'Modules/$(virtoCommerce.webhooksModule)/Scripts/blades/webhook-detail.tpl.html',
-                subtitle: 'webhooks.blades.webhook-detail.subtitle'
-            };
+            //TODO: add blade to view one feed
+            //var newBlade = {
+            //    id: 'webhookDetail',
+            //    controller: 'virtoCommerce.webhooksModule.webhookDetailController',
+            //    template: 'Modules/$(virtoCommerce.webhooksModule)/Scripts/blades/webhook-detail.tpl.html',
+            //    subtitle: 'webhooks.blades.webhook-detail.subtitle'
+            //};
 
-            if (isNew) {
-                angular.extend(newBlade, {
-                    title: 'webhooks.blades.webhook-detail.title',
-                    
-                    isNew: true,
-                    saveCallback: function (newPricelist) {
-                        newBlade.isNew = false;
-                        blade.refresh(true).then(function () {
-                            newBlade.currentEntityId = newPricelist.id;
-                            bladeNavigationService.showBlade(newBlade, blade);
-                        });
-                    }
-                });
-            } else {
                 angular.extend(newBlade, {
                     currentEntityId: node.id,
                     title: node.name
                 });
-            }
 
-            bladeNavigationService.showBlade(newBlade, blade);
+
+           // bladeNavigationService.showBlade(newBlade, blade);
         };
 
 
@@ -165,27 +128,26 @@ angular.module('virtoCommerce.webhooksModule')
                 name: "platform.commands.refresh",
                 icon: 'fa fa-refresh',
                 executeMethod: blade.refresh,
-                canExecuteMethod: function() {
-                    return true;
-                }
-            },
-            {
-                name: "platform.commands.add",
-                icon: 'fa fa-plus',
-                permission: blade.updatePermission,
-                executeMethod: function () {
-                    $scope.selectNode({}, true);
-                },
                 canExecuteMethod: function () {
                     return true;
                 }
             },
+            //TODO: Add  button to resend feed
+            //{
+            //    name: "platform.commands.add",
+            //    icon: 'fa fa-plus',
+            //    executeMethod: function () {
+            //        $scope.selectNode({}, true);
+            //    },
+            //    canExecuteMethod: function () {
+            //        return true;
+            //    }
+            //},
             {
                 name: "platform.commands.remove",
                 icon: 'fa fa-trash',
-                permission: 'webhooks:delete',
                 executeMethod: function () {
-                    deleteWebHooks(getSelectedItems());
+                    deleteWebHookFeeds(getSelectedItems());
                 },
                 canExecuteMethod: isItemsChecked
             }
@@ -231,6 +193,8 @@ angular.module('virtoCommerce.webhooksModule')
         // Search Criteria
         function getSearchCriteria() {
             var searchCriteria = {
+                webHookId: blade.webHookId,
+                recordTypes: [1],
                 searchPhrase: filter.keyword ? filter.keyword : undefined,
                 sort: uiGridHelper.getSortExpression($scope),
                 skip: ($scope.pageSettings.currentPage - 1) * $scope.pageSettings.itemsPerPageCount,

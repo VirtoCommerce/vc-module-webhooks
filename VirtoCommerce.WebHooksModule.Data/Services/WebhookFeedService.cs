@@ -92,6 +92,11 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
                 var query = repository.WebHookFeedEntries;
 
+                if (!string.IsNullOrWhiteSpace(searchCriteria.SearchPhrase))
+                {
+                    query = query.Where(x => x.EventId.ToLower().Contains(searchCriteria.SearchPhrase.ToLower()));
+                }
+
                 if (!searchCriteria.WebHookIds.IsNullOrEmpty())
                 {
                     query = query.Where(x => searchCriteria.WebHookIds.Contains(x.WebHookId));
