@@ -89,7 +89,7 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
         /// <param name="ids">WebHook Feeds ids to delete.</param>
         /// <returns></returns>
         [HttpDelete]
-        [Route("feed/remove")]
+        [Route("feed")]
         [ResponseType(typeof(void))]
         [CheckPermission(Permission = ModuleConstants.Security.Permissions.Delete)]
         public IHttpActionResult DeleteWebHookFeeds([FromUri] string[] ids)

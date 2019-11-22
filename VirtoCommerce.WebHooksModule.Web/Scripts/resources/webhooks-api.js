@@ -8,7 +8,7 @@ angular.module('virtoCommerce.webhooksModule')
 				save: { method: 'POST', url: 'api/webhooks', isArray: true },
                 send: { method: 'POST', url: 'api/webhooks/send' },
                 getEvents: { method: 'GET', url: 'api/webhooks/events', isArray: true },
-                removeFeed: { method: 'DELETE', url:'api/webhooks/feed/remove'}
+                removeFeed: { method: 'DELETE', url:'api/webhooks/feed'}
 			});
 	}
 	]);
