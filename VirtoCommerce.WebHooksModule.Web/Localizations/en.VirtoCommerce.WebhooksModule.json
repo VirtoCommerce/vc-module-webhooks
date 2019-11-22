@@ -3,7 +3,7 @@
         "main-menu-title": "Webhooks",
         "blades": {
             "webhooks-list": {
-              "title": "WebHook list",
+              "title": "Webhook list",
               "subtitle": "List of user-defined webhooks", 
                 "labels": {
                     "name": "Name",
@@ -35,8 +35,8 @@
                 }
             },
             "webhook-error-list": {
-              "title": "WebHook errors",
-              "subtitle": "List of all unresolved errors for Web hook",
+              "title": "Webhook errors",
+              "subtitle": "List of all unresolved errors for the webhook",
               "labels": {
                 "event": "Event",
                 "attempt-count": "Attempt Count",
