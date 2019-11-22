@@ -17,18 +17,21 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
         private readonly IWebHookService _webHookService;
         private readonly IWebHookManager _webHookManager;
         private readonly IRegisteredEventStore _registeredEventStore;
+        private readonly IWebHookFeedService _webHookFeedService;
 
         public WebHooksController(IWebHookSearchService webHookSearchService,
             IWebHookFeedSearchService webHookFeedSearchService,
             IWebHookService webHookService,
             IWebHookManager webHookManager,
-            IRegisteredEventStore registeredEventStore)
+            IRegisteredEventStore registeredEventStore,
+            IWebHookFeedService webHookFeedService)
         {
             _webHookSearchService = webHookSearchService;
             _webHookFeedSearchService = webHookFeedSearchService;
             _webHookService = webHookService;
             _webHookManager = webHookManager;
             _registeredEventStore = registeredEventStore;
+            _webHookFeedService = webHookFeedService;
         }
 
         // GET: api/webhooks/:id
@@ -81,6 +84,22 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
         }
 
         /// <summary>
+        /// Delete webHookFeeds by ids.
+        /// </summary>
+        /// <param name="ids">WebHook Feeds ids to delete.</param>
+        /// <returns></returns>
+        [HttpDelete]
+        [Route("feed")]
+        [ResponseType(typeof(void))]
+        [CheckPermission(Permission = ModuleConstants.Security.Permissions.Delete)]
+        public IHttpActionResult DeleteWebHookFeeds([FromUri] string[] ids)
+        {
+            _webHookFeedService.DeleteByIds(ids);
+
+            return Ok();
+        }
+
+        /// <summary>
         /// Creates or updates the webhooks.
         /// </summary>
         /// <param name="webhooks">Webhooks to save.</param>
@@ -105,7 +124,7 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
         [Route("")]
         [ResponseType(typeof(void))]
         [CheckPermission(Permission = ModuleConstants.Security.Permissions.Delete)]
-        public IHttpActionResult DeleteWebhooks([FromUri] string[] ids)
+        public IHttpActionResult DeleteWebHooks([FromUri] string[] ids)
         {
             _webHookService.DeleteByIds(ids);
 

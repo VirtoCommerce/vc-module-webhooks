@@ -16,6 +16,8 @@ angular.module(moduleName, [])
                         '$scope', 'platformWebApp.bladeNavigationService', function ($scope, bladeNavigationService) {
                             var newBlade = {
                                 id: 'webhooks-list',
+                                title: 'webhooks.blades.webhooks-list.title',
+                                subtitle:'webhooks.blades.webhooks-list.subtitle',
                                 controller: 'virtoCommerce.webhooksModule.webhooksListController',
                                 template: 'Modules/$(virtoCommerce.webhooksModule)/Scripts/blades/webhooks-list.tpl.html',
                                 isClosingDisabled: true
