@@ -6,19 +6,34 @@ The webhooks module allows to register and send webhook notifications for any ev
 
 ## Features
 
- - Manage webhooks (add/update/delete) to all available events in the system (DomainEvent descendants);
- - All 
-Webhook notification is sent using a POST request with JSON serialized event data to the specified URL, retry policy available;
-You can see the count of success and error notification sendings in the UI;
-Azure LogicApps is a primary recipient for now;
+- Webhook notifications are sent in background via a POST request with JSON serialized event data to the specified URL;
+- Managing the list of webhooks:
+![WebhookList](docs/media/webhook-list.png)
+- Viewing or updating Webhook details:
+![WebhookDetails](docs/media/webhook-details.png)
+- Any `DomainEvent` descendant could be used to trigger webhook notification;
+- Sending retry policy with configurable exponential intervals:
+![WebhookSettings](docs/media/webhook-settings.png)
+- Viewing the list of errors for the webhook failed notifications:
+![WebhookErrorList](docs/media/webhook-error-list.png)
 
 ## How to install
 
+You can find the module in the list of VirtoCommerce available modules.
+![WebhookInstall](docs/media/webhook-install.png)
+
 ## How to configure
+To create a webhook, you need to "Add" button in the webhook list, and fill the following:
+- Name;
+- URL to send the notofication (e.g. the one from Azure LogicApp HttpResponse);
+- Content type;
+- The list of events you want this webhook be triggered for, or "Trigger all events" for any event;
+Turn on "Is active" to make the webhook active, and Save. 
+Now the webhook will trigger notification sending for the events you chose.
 
-## Sample of Event notification body
+## Sample of Event JSON
 
-<details><summary>Example of notification, sent on Order creation:</summary>
+<details><summary>Example of notification, sent on Order creation</summary>
 
 ```
 {
