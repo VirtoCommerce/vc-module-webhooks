@@ -66,8 +66,8 @@ angular.module('virtoCommerce.webhooksModule')
         function deleteWebHookFeeds(selection) {
             var dialog = {
                 id: "confirmDelete",
-                title: "webhooks.dialogs.setting-delete.title",
-                message: "webhooks.dialogs.setting-delete.message",
+                title: "webhooks.dialogs.feed-delete.title",
+                message: "webhooks.dialogs.feed-delete.message",
                 callback: function (remove) {
                     if (remove) {
                         blade.isLoading = true;
@@ -193,7 +193,7 @@ angular.module('virtoCommerce.webhooksModule')
         // Search Criteria
         function getSearchCriteria() {
             var searchCriteria = {
-                webHookId: blade.webHookId,
+                webHookIds: [blade.webHookId],
                 recordTypes: [1],
                 searchPhrase: filter.keyword ? filter.keyword : undefined,
                 sort: uiGridHelper.getSortExpression($scope),

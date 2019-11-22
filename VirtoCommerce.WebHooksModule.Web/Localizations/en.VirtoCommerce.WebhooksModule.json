@@ -59,7 +59,12 @@
             "setting-delete": {
                 "title": "Delete confirmation",
                 "message": "Are you sure you want to delete this webhook?"
+            },
+            "feed-delete": {
+              "title": "Delete confirmation",
+              "message": "Are you sure you want to delete this feed?"
             }
+
         },
         "events": {
             "types": {
