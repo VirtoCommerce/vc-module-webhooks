@@ -2,12 +2,12 @@
 <module>
     <id>VirtoCommerce.WebHooksModule</id>
     <version>0.1.2</version>
-    <platformVersion>2.13.52</platformVersion>
+    <platformVersion>2.13.42</platformVersion>
     <dependencies>
         <dependency id="VirtoCommerce.Core" version="2.25.29" />
     </dependencies>
 
-    <title>Webhooks</title>
+    <title>Webhooks (preview)</title>
     <description>Manage user defined webhooks</description>
     <authors>
         <author>Eugeny Tatarincev</author>
