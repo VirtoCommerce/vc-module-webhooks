@@ -2,7 +2,7 @@
 <module>
     <id>VirtoCommerce.WebHooksModule</id>
     <version>0.1.3</version>
-    <platformVersion>2.13.42</platformVersion>
+    <platformVersion>2.13.53</platformVersion>
     <dependencies>
         <dependency id="VirtoCommerce.Core" version="2.25.29" />
     </dependencies>
