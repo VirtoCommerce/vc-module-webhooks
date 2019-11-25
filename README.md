@@ -6,20 +6,20 @@ The webhooks module allows to register and send webhook notifications for any ev
 
 ## Features
 
-- Webhook notifications are sent in background via a POST request with JSON serialized event data to the specified URL;
-- Managing the list of webhooks:
+- Webhook notifications are sent in background via a POST request with JSON serialized event data to the specified URL;  
+- Managing the list of webhooks:  
 ![WebhookList](docs/media/webhook-list.png)
-- Viewing or updating Webhook details:
+- Viewing or updating Webhook details:  
 ![WebhookDetails](docs/media/webhook-details.png)
-- Any `DomainEvent` descendant could be used to trigger webhook notification;
-- Sending retry policy with configurable exponential intervals:
+- Any `DomainEvent` descendant could be used to trigger webhook notification;  
+- Sending retry policy with configurable exponential intervals:  
 ![WebhookSettings](docs/media/webhook-settings.png)
-- Viewing the list of errors for the webhook failed notifications:
+- Viewing the list of errors for the webhook failed notifications:  
 ![WebhookErrorList](docs/media/webhook-error-list.png)
 
 ## How to install
 
-You can find the module in the list of VirtoCommerce available modules.
+You can find the module in the list of VirtoCommerce available modules.  
 ![WebhookInstall](docs/media/webhook-install.png)
 
 ## How to configure
