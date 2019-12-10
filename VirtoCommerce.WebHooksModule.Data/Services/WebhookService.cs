@@ -12,6 +12,7 @@ using VirtoCommerce.WebHooksModule.Core.Services;
 
 namespace VirtoCommerce.WebHooksModule.Data.Services
 {
+    //CodeReview: Need to add caching for all Get/Search methods with cache eviction on changes.
     public class WebHookService : ServiceBase, IWebHookSearchService, IWebHookService
     {
         private readonly Func<IWebHookRepository> _webHookRepositoryFactory;
@@ -112,6 +113,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
                 if (!string.IsNullOrWhiteSpace(searchCriteria.SearchPhrase))
                 {
+                    //CodeReview: Name.ToLower() is redundant because SQL all strings compare as case insensitive 
                     query = query.Where(x => x.Name.ToLower().Contains(searchCriteria.SearchPhrase.ToLower()));
                 }
 
@@ -125,6 +127,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                 var sortInfos = searchCriteria.SortInfos;
                 if (sortInfos.IsNullOrEmpty())
                 {
+                    //CodeReview: You can use nameof instead of ReflectionUtility.GetPropertyName
                     sortInfos = new[] { new SortInfo { SortColumn = ReflectionUtility.GetPropertyName<WebHookEntity>(x => x.Name), SortDirection = SortDirection.Descending } };
                 }
                 query = query.OrderBySortInfos(sortInfos).ThenBy(x => x.Id);

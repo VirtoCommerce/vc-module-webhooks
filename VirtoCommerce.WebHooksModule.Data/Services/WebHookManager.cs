@@ -45,6 +45,8 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         }
 
         /// <inheritdoc />
+        //CodeReview: because of this method will run by Habgfire as background task there are strict  serialization requirements for actual argument
+        //it would be better to accept a WebHookRequest here as formal parameter
         public virtual async Task<int> NotifyAsync(string eventId, object eventObject, CancellationToken cancellationToken)
         {
             var result = 0;
@@ -60,6 +62,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             WebHookSendResponse response = null;
 
             // TechDebt: Make batch handling
+            //CodeReview: In addition, you must support throttling for grouped events and batch sending them to a subscribed web hook.
             var webHooksSearchResult = _webHookSearchService.Search(criteria);
 
             foreach (var webHook in webHooksSearchResult.Results)
@@ -76,6 +79,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
                     webHook.RequestParams = new WebHookHttpParams()
                     {
+                        //CodeReview: You must understand well-known event types, such as IChangedEntryEvent, and use it to exclude domain objects and send it as a request payload.
                         Body = eventObject,
                     };
 
@@ -85,6 +89,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                 }
                 catch (Exception ex)
                 {
+                    //CodeReview: Log errors in many  places is detected RetriableWebHookSender logs errors as well.
                     _logger.Log(WebHookFeedUtils.CreateErrorEntry(webHookWorkItem, response, ex.Message));
                 }
             }
@@ -119,6 +124,9 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
         protected virtual Task HandleEvent(DomainEvent domainEvent, CancellationToken cancellationToken)
         {
+
+            //CodeReview: This method will run BackgroundTask for every event in the system it can be resource utilization bottleneck.
+            //Better will be checking that given event is has subscriber before schedule background task. (this is required adding caching to the IWebHookSearchService
             BackgroundJob.Enqueue(() =>
                 NotifyAsync(domainEvent.GetType().FullName,
                     domainEvent,

@@ -86,6 +86,8 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             try
             {
                 // Retry in the following intervals (in minutes): 1, 2, 4, …, 2^(RetryCount-1)
+                //CodeReview: Need to create retry policy is more selective and do retry only for specific kind of errors that can be classified as transient fault.
+                //Instead of this you would call multiple times a endpoint that can be misconfigured.
                 var policy = Policy
                     .HandleResult<WebHookSendResponse>(x => !x.IsSuccessfull)
                     .WaitAndRetryAsync(RetryCount, retryAttempt => TimeSpan.FromMinutes(Math.Pow(2, retryAttempt - 1)));
@@ -113,6 +115,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             try
             {
                 var request = CreateWebHookRequest(webHookWorkItem);
+                //CodeReview: Use named or typed HttpClientFactory instead
                 response = await _httpClient.SendAsync(request);
 
                 result = await CreateSendResponse(response);

@@ -122,6 +122,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                 var sortInfos = searchCriteria.SortInfos;
                 if (sortInfos.IsNullOrEmpty())
                 {
+                    //CodeReview: You can use nameof instead of ReflectionUtility.GetPropertyName
                     sortInfos = new[] { new SortInfo { SortColumn = ReflectionUtility.GetPropertyName<WebHookFeedEntryEntity>(x => x.CreatedDate), SortDirection = SortDirection.Descending } };
                 }
                 query = query.OrderBySortInfos(sortInfos).ThenBy(x => x.Id);
