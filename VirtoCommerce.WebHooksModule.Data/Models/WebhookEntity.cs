@@ -79,7 +79,7 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
 
             if (!Events.IsNullCollection())
             {
-                var eventComparer = AnonymousComparer.Create((WebHookEventEntity x) => $"{x.EventId}");
+                var eventComparer = AnonymousComparer.Create((WebHookEventEntity x) => $"{x.Id}");
                 Events.Patch(target.Events, eventComparer, (sourceEvent, targetEvent) => sourceEvent.Patch(targetEvent));
             }
         }
