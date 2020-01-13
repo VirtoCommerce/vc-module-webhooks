@@ -8,13 +8,13 @@
     <div class="blade-inner">
         <div class="inner-block" ng-init="setGridOptions({
                     useExternalSorting: true,
-                    rowTemplate: 'list.row.html',
+                    rowTemplate: 'errorList.row.html',
                     virtualizationThreshold: 1000,
                     data: 'items',
                     rowHeight: 60,
                     columnDefs: [
                                 {
-                                  name: 'eventId', displayName: 'webhooks.blades.webhook-error-list.labels.event', width: 180, sort: { direction: uiGridConstants.ASC }, cellTemplate: 'list-name.cell.html'
+                                  name: 'eventId', displayName: 'webhooks.blades.webhook-error-list.labels.event', width: 180, sort: { direction: uiGridConstants.ASC }, cellTemplate: 'errorList-name.cell.html'
                                 },
                                 { name: 'error', displayName: 'webhooks.blades.webhook-error-list.labels.error', width: 60},
                                 { name: 'createdDate', displayName: 'webhooks.blades.webhook-error-list.labels.created', width: 60},
@@ -34,7 +34,7 @@
     </div>
 </div>
 
-<script type="text/ng-template" id="list.row.html">
+<script type="text/ng-template" id="errorList.row.html">
     <div ng-click='grid.appScope.selectItem($event, row.entity)' ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" ui-grid-one-bind-id-grid="rowRenderIndex + '-' + col.uid + '-cell'" class="ui-grid-cell" ng-class="{'ui-grid-row-header-cell': col.isRowHeader, '__hovered': grid.appScope.contextMenuEntity === row.entity, '__selected': row.entity.id===grid.appScope.selectedNodeId }" role="{{col.isRowHeader ? 'rowheader' : 'gridcell' }}" ui-grid-cell context-menu="grid.appScope.contextMenuEntity = row.entity"  data-target="cl_feeds_menu"></div>
 </script>
 
@@ -44,7 +44,7 @@
     </div>
 </script>
 
-<script type="text/ng-template" id="list-name.cell.html">
+<script type="text/ng-template" id="errorList-name.cell.html">
     <div class="ui-grid-cell-contents">
         <div class="inner-contents">
             <div class="ui-grid-cell-contents">{{ ('webhooks.events.types.' + row.entity.eventId) | translate}}</div>
