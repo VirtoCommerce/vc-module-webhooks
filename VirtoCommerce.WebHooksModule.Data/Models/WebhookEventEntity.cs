@@ -55,7 +55,6 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
         public virtual void Patch(WebHookEventEntity target)
         {
             target.EventId = this.EventId;
-            target.WebHookId = this.WebHookId;
         }
     }
 }
