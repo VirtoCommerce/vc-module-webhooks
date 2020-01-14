@@ -207,8 +207,24 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             return new WebHookHttpParams()
             {
                 Headers = response?.Headers.ToDictionary(x => x.Key, x => string.Join(";", x.Value)) ?? new Dictionary<string, string>(),
-                Body = !string.IsNullOrEmpty(responseString) ? JObject.Parse(responseString) : null,
+                Body = !string.IsNullOrEmpty(responseString) ? ParseResponseBody(responseString) : null,
             };
+        }
+
+        protected virtual JObject ParseResponseBody(string responseString)
+        {
+            JObject result;
+
+            try
+            {
+                result = JObject.Parse(responseString);
+            }
+            catch (Exception)
+            {
+                result = new JObject(new JProperty("ParseError", "Content is not valid JSON object."));
+            }
+
+            return result;
         }
 
         protected virtual string GetErrorText(int attemptCount, string errorDetail)

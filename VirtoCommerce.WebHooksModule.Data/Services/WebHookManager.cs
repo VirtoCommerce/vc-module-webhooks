@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -14,6 +15,8 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 {
     public class WebHookManager : IWebHookManager
     {
+        private const int _webhooksPerButch = 20;
+
         private readonly IRegisteredEventStore _registeredEventStore;
         private readonly IHandlerRegistrar _eventHandlerRegistrar;
         private readonly IWebHookSearchService _webHookSearchService;
@@ -45,51 +48,39 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         }
 
         /// <inheritdoc />
-        public virtual async Task<int> NotifyAsync(string eventId, object eventObject, CancellationToken cancellationToken)
+        public virtual Task<int> NotifyAsync(string eventId, object eventObject, CancellationToken cancellationToken)
         {
-            var result = 0;
+            int skip = 0, take = _webhooksPerButch;
+            WebHookSearchResult webHookSearchResult;
+            var tasks = new List<Task<WebHookSendResponse>>();
 
-            var criteria = new WebHookSearchCriteria()
+            do
             {
-                IsActive = true,
-                EventIds = new[] { eventId },
-                Skip = 0,
-                Take = int.MaxValue,
-            };
-
-            WebHookSendResponse response = null;
-
-            // TechDebt: Make batch handling
-            var webHooksSearchResult = _webHookSearchService.Search(criteria);
-
-            foreach (var webHook in webHooksSearchResult.Results)
-            {
-                var webHookWorkItem = new WebHookWorkItem()
+                var criteria = new WebHookSearchCriteria()
                 {
-                    EventId = eventId,
-                    WebHook = webHook,
+                    IsActive = true,
+                    EventIds = new[] { eventId },
+                    Skip = skip,
+                    Take = take,
                 };
 
-                try
-                {
-                    cancellationToken.ThrowIfCancellationRequested();
+                webHookSearchResult = _webHookSearchService.Search(criteria);
 
-                    webHook.RequestParams = new WebHookHttpParams()
-                    {
-                        Body = eventObject,
-                    };
 
-                    response = await _webHookSender.SendWebHookAsync(webHookWorkItem);
+                // TechDebt: Here we could create a lot of tasks. Need to add throttling. Also need to decrease pool threads usage.
+                tasks.AddRange(
+                    webHookSearchResult.Results
+                        .Select(x => Task.Run(() => NotifyWebHook(eventId, eventObject, x, cancellationToken)))
+                        .ToArray()
+               );
 
-                    result++;
-                }
-                catch (Exception ex)
-                {
-                    _logger.Log(WebHookFeedUtils.CreateErrorEntry(webHookWorkItem, response, ex.Message));
-                }
+                skip += take;
             }
+            while (webHookSearchResult.TotalCount > skip);
 
-            return result;
+            Task.WaitAll(tasks.ToArray());
+
+            return Task.FromResult(webHookSearchResult.TotalCount);
         }
 
         /// <inheritdoc />
@@ -125,6 +116,36 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                     cancellationToken));
 
             return Task.CompletedTask;
+        }
+
+        protected virtual async Task<WebHookSendResponse> NotifyWebHook(string eventId, object eventObject, WebHook webHook, CancellationToken cancellationToken)
+        {
+            WebHookSendResponse response = null;
+
+            var webHookWorkItem = new WebHookWorkItem()
+            {
+                EventId = eventId,
+                WebHook = webHook,
+            };
+
+            try
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+
+                webHook.RequestParams = new WebHookHttpParams()
+                {
+                    Body = eventObject,
+                };
+
+                response = await _webHookSender.SendWebHookAsync(webHookWorkItem);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(WebHookFeedUtils.CreateErrorEntry(webHookWorkItem, response, ex.Message));
+            }
+
+            return response;
         }
     }
 }
