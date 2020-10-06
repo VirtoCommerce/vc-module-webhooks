@@ -1,6 +1,6 @@
 namespace VirtoCommerce.WebHooksModule.Core
 {
-    public static class ModuleConstants
+	public static class ModuleConstants
     {
         public static class Security
         {
@@ -14,5 +14,7 @@ namespace VirtoCommerce.WebHooksModule.Core
                 public const string ReadFeed = "webhooks:feed:read";
             }
         }
+
+        public const string WebhooksSearchCacheRegion = "WebhooksSearchCacheRegion";
     }
 }

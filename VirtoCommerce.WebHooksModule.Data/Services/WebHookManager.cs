@@ -1,10 +1,10 @@
+using Hangfire;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Hangfire;
 using VirtoCommerce.Platform.Core.Bus;
 using VirtoCommerce.Platform.Core.Events;
 using VirtoCommerce.WebHooksModule.Core.Models;
@@ -13,7 +13,7 @@ using VirtoCommerce.WebHooksModule.Data.Utils;
 
 namespace VirtoCommerce.WebHooksModule.Data.Services
 {
-    public class WebHookManager : IWebHookManager
+	public class WebHookManager : IWebHookManager
     {
         private const int _webhooksPerButch = 20;
 
@@ -48,39 +48,22 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         }
 
         /// <inheritdoc />
-        public virtual Task<int> NotifyAsync(string eventId, object eventObject, CancellationToken cancellationToken)
+        public virtual Task<int> NotifyAsync(string eventId, object eventObject, ICollection<WebHook> webhooks, CancellationToken cancellationToken)
         {
-            int skip = 0, take = _webhooksPerButch;
-            WebHookSearchResult webHookSearchResult;
+            var webhooksCount = webhooks.Count;
             var tasks = new List<Task<WebHookSendResponse>>();
 
-            do
+            for (var i = 0; i < webhooksCount; i += _webhooksPerButch)
             {
-                var criteria = new WebHookSearchCriteria()
-                {
-                    IsActive = true,
-                    EventIds = new[] { eventId },
-                    Skip = skip,
-                    Take = take,
-                };
-
-                webHookSearchResult = _webHookSearchService.Search(criteria);
-
-
                 // TechDebt: Here we could create a lot of tasks. Need to add throttling. Also need to decrease pool threads usage.
-                tasks.AddRange(
-                    webHookSearchResult.Results
+                tasks.AddRange(webhooks.Skip(i).Take(_webhooksPerButch)
                         .Select(x => Task.Run(() => NotifyWebHook(eventId, eventObject, x, cancellationToken)))
-                        .ToArray()
-               );
-
-                skip += take;
+                        .ToArray());
             }
-            while (webHookSearchResult.TotalCount > skip);
 
             Task.WaitAll(tasks.ToArray());
 
-            return Task.FromResult(webHookSearchResult.TotalCount);
+            return Task.FromResult(webhooks.Count);
         }
 
         /// <inheritdoc />
@@ -110,10 +93,25 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
         protected virtual Task HandleEvent(DomainEvent domainEvent, CancellationToken cancellationToken)
         {
-            BackgroundJob.Enqueue(() =>
-                NotifyAsync(domainEvent.GetType().FullName,
-                    domainEvent,
-                    cancellationToken));
+            var eventId = domainEvent.GetType().FullName;
+            var criteria = new WebHookSearchCriteria()
+            {
+                IsActive = true,
+                EventIds = new[] { eventId },
+                Skip = 0,
+                Take = int.MaxValue,
+            };
+
+            var webHookSearchResult = _webHookSearchService.Search(criteria);
+
+            if (webHookSearchResult.TotalCount > 0)
+            {
+                BackgroundJob.Enqueue(() =>
+                    NotifyAsync(domainEvent.GetType().FullName,
+                        domainEvent,
+                        webHookSearchResult.Results,
+                        cancellationToken));
+            }
 
             return Task.CompletedTask;
         }

@@ -1,27 +1,32 @@
+using CacheManager.Core;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using VirtoCommerce.Domain.Common.Events;
 using VirtoCommerce.Platform.Core.Common;
+using VirtoCommerce.Platform.Data.Common;
 using VirtoCommerce.Platform.Data.Infrastructure;
 using VirtoCommerce.WebhooksModule.Data.Models;
 using VirtoCommerce.WebhooksModule.Data.Repositories;
+using VirtoCommerce.WebHooksModule.Core;
 using VirtoCommerce.WebHooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Services;
 
 namespace VirtoCommerce.WebHooksModule.Data.Services
 {
-    public class WebHookService : ServiceBase, IWebHookSearchService, IWebHookService
+	public class WebHookService : ServiceBase, IWebHookSearchService, IWebHookService
     {
         private readonly Func<IWebHookRepository> _webHookRepositoryFactory;
         private readonly IWebHookFeedReader _feedReader;
+        private readonly ICacheManager<object> _cacheManager;
 
 
-        public WebHookService(Func<IWebHookRepository> webHookRepositoryFactory, IWebHookFeedReader feedReader)
+        public WebHookService(Func<IWebHookRepository> webHookRepositoryFactory, IWebHookFeedReader feedReader, ICacheManager<object> cacheManager)
         {
             _webHookRepositoryFactory = webHookRepositoryFactory;
             _feedReader = feedReader;
+            _cacheManager = cacheManager;
         }
 
         public void DeleteByIds(string[] ids)
@@ -30,6 +35,8 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             {
                 repository.DeleteWebHooksByIds(ids);
                 repository.UnitOfWork.Commit();
+
+                ResetCache();
             }
         }
 
@@ -91,49 +98,72 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                     }
                 }
                 CommitChanges(repository);
+
+                ResetCache();
+
                 pkMap.ResolvePrimaryKeys();
             }
         }
 
         public WebHookSearchResult Search(WebHookSearchCriteria searchCriteria)
         {
-            var result = new WebHookSearchResult();
-
-            using (var repository = _webHookRepositoryFactory())
+            return _cacheManager.Get($"{nameof(ModuleConstants.WebhooksSearchCacheRegion)}-{searchCriteria.GetCacheKey()}", ModuleConstants.WebhooksSearchCacheRegion, () =>
             {
-                repository.DisableChangesTracking();
+                var result = new WebHookSearchResult();
 
-                var query = repository.WebHooks;
-
-                if (searchCriteria.IsActive.HasValue)
+                using (var repository = _webHookRepositoryFactory())
                 {
-                    query = repository.WebHooks.Where(x => x.IsActive == searchCriteria.IsActive);
+                    repository.DisableChangesTracking();
+
+                    var query = BuildQuery(searchCriteria, repository);
+
+                    result.TotalCount = query.Count();
+
+                    if (searchCriteria.Take > 0 && result.TotalCount > 0)
+                    {
+                        var sortInfos = searchCriteria.SortInfos;
+
+                        if (sortInfos.IsNullOrEmpty())
+                        {
+                            sortInfos = new[] { new SortInfo { SortColumn = ReflectionUtility.GetPropertyName<WebHookEntity>(x => x.Name), SortDirection = SortDirection.Descending } };
+                        }
+
+                        query = query.OrderBySortInfos(sortInfos).ThenBy(x => x.Id);
+
+                        var webHookIds = query.Select(x => x.Id).Skip(searchCriteria.Skip).Take(searchCriteria.Take).ToArray();
+
+                        result.Results = GetByIds(webHookIds).OrderBy(x => Array.IndexOf(webHookIds, x.Id)).ToArray();
+                    }
                 }
 
-                if (!string.IsNullOrWhiteSpace(searchCriteria.SearchPhrase))
-                {
-                    query = query.Where(x => x.Name.ToLower().Contains(searchCriteria.SearchPhrase.ToLower()));
-                }
+                return result;
+            });
+        }
 
-                if (!searchCriteria.EventIds.IsNullOrEmpty())
-                {
-                    query = query.Where(x => x.IsAllEvents || x.Events.Any(y => searchCriteria.EventIds.Contains(y.EventId)));
-                }
+        protected virtual IQueryable<WebHookEntity> BuildQuery(WebHookSearchCriteria searchCriteria, IWebHookRepository repository)
+        {
+            var query = repository.WebHooks;
 
-                result.TotalCount = query.Count();
-
-                var sortInfos = searchCriteria.SortInfos;
-                if (sortInfos.IsNullOrEmpty())
-                {
-                    sortInfos = new[] { new SortInfo { SortColumn = ReflectionUtility.GetPropertyName<WebHookEntity>(x => x.Name), SortDirection = SortDirection.Descending } };
-                }
-                query = query.OrderBySortInfos(sortInfos).ThenBy(x => x.Id);
-
-                var webHookIds = query.Select(x => x.Id).Skip(searchCriteria.Skip).Take(searchCriteria.Take).ToArray();
-                result.Results = GetByIds(webHookIds).OrderBy(x => Array.IndexOf(webHookIds, x.Id)).ToArray();
+            if (searchCriteria.IsActive.HasValue)
+            {
+                query = repository.WebHooks.Where(x => x.IsActive == searchCriteria.IsActive);
             }
 
-            return result;
+            if (!string.IsNullOrWhiteSpace(searchCriteria.SearchPhrase))
+            {
+                query = query.Where(x => x.Name.ToLower().Contains(searchCriteria.SearchPhrase.ToLower()));
+            }
+
+            if (!searchCriteria.EventIds.IsNullOrEmpty())
+            {
+                query = query.Where(x => x.IsAllEvents || x.Events.Any(y => searchCriteria.EventIds.Contains(y.EventId)));
+            }
+
+            return query;
+        }
+        protected virtual void ResetCache()
+        {
+            _cacheManager.ClearRegion(ModuleConstants.WebhooksSearchCacheRegion);
         }
     }
 }
