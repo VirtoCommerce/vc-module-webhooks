@@ -15,8 +15,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("Virto Commerce WebHooks Module")]
 [assembly: AssemblyCopyright("Copyright © VirtoCommerce 2019")]
 
-[assembly: AssemblyFileVersion("0.1.5.0")]
-[assembly: AssemblyVersion("0.1.5.0")]
+[assembly: AssemblyFileVersion("0.1.6.0")]
+[assembly: AssemblyVersion("0.1.6.0")]
 
 #if DEBUG
 [assembly: AssemblyConfiguration("Debug")]
