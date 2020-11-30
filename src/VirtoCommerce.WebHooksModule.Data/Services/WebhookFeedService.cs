@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using VirtoCommerce.Domain.Common.Events;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using VirtoCommerce.Platform.Core.Common;
+using VirtoCommerce.Platform.Core.Events;
 using VirtoCommerce.Platform.Data.Infrastructure;
 using VirtoCommerce.WebhooksModule.Data.Models;
 using VirtoCommerce.WebhooksModule.Data.Repositories;
@@ -11,7 +13,7 @@ using VirtoCommerce.WebHooksModule.Core.Services;
 
 namespace VirtoCommerce.WebHooksModule.Data.Services
 {
-    public class WebHookFeedService : ServiceBase, IWebHookFeedService, IWebHookFeedSearchService, IWebHookFeedReader
+    public class WebHookFeedService : IWebHookFeedService, IWebHookFeedSearchService, IWebHookFeedReader
     {
         private readonly Func<IWebHookRepository> _webHookRepositoryFactory;
 
@@ -20,16 +22,16 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             _webHookRepositoryFactory = webHookRepositoryFactory;
         }
 
-        public void DeleteByIds(string[] ids)
+        public async Task DeleteByIdsAsync(string[] ids)
         {
             using (var repository = _webHookRepositoryFactory())
             {
-                repository.DeleteWebHookFeedEntriesByIds(ids);
-                repository.UnitOfWork.Commit();
+                await repository.DeleteWebHookFeedEntriesByIdsAsync(ids);
+                await repository.UnitOfWork.CommitAsync();
             }
         }
 
-        public WebHookFeedEntry[] GetByIds(string[] ids)
+        public async Task<WebHookFeedEntry[]> GetByIdsAsync(string[] ids)
         {
             var result = new List<WebHookFeedEntry>();
 
@@ -37,7 +39,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             {
                 using (var repository = _webHookRepositoryFactory())
                 {
-                    var entities = repository.GetWebHookFeedEntriesByIds(ids);
+                    var entities = await repository.GetWebHookFeedEntriesByIdsAsync(ids);
 
                     if (!entities.IsNullOrEmpty())
                     {
@@ -49,16 +51,15 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             return result.ToArray();
         }
 
-        public void SaveChanges(WebHookFeedEntry[] webhookLogEntries)
+        public async Task SaveChangesAsync(WebHookFeedEntry[] webhookLogEntries)
         {
             var pkMap = new PrimaryKeyResolvingMap();
             var changedEntries = new List<GenericChangedEntry<WebHookFeedEntry>>();
 
             using (var repository = _webHookRepositoryFactory())
-            using (var changeTracker = GetChangeTracker(repository))
             {
                 var existingIds = webhookLogEntries.Where(x => !x.IsTransient()).Select(x => x.Id).ToArray();
-                var originalEntities = repository.GetWebHookFeedEntriesByIds(existingIds).ToList();
+                var originalEntities = await repository.GetWebHookFeedEntriesByIdsAsync(existingIds);
 
                 foreach (var webHookFeedEntry in webhookLogEntries)
                 {
@@ -67,7 +68,6 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
                     if (originalEntity != null)
                     {
-                        changeTracker.Attach(originalEntity);
                         changedEntries.Add(new GenericChangedEntry<WebHookFeedEntry>(webHookFeedEntry, originalEntity.ToModel(AbstractTypeFactory<WebHookFeedEntry>.TryCreateInstance()), EntryState.Modified));
                         modifiedEntity.Patch(originalEntity);
                     }
@@ -77,59 +77,81 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                         changedEntries.Add(new GenericChangedEntry<WebHookFeedEntry>(webHookFeedEntry, EntryState.Added));
                     }
                 }
-                CommitChanges(repository);
+                await repository.UnitOfWork.CommitAsync();
                 pkMap.ResolvePrimaryKeys();
             }
         }
 
-        public WebHookFeedSearchResult Search(WebHookFeedSearchCriteria searchCriteria)
+        public async Task<WebHookFeedSearchResult> SearchAsync(WebHookFeedSearchCriteria searchCriteria)
         {
-            var result = new WebHookFeedSearchResult();
-
             using (var repository = _webHookRepositoryFactory())
             {
                 repository.DisableChangesTracking();
 
-                var query = repository.WebHookFeedEntries;
+                var result = AbstractTypeFactory<WebHookFeedSearchResult>.TryCreateInstance();
 
-                if (!string.IsNullOrWhiteSpace(searchCriteria.SearchPhrase))
+                var sortInfos = BuildSortExpression(searchCriteria);
+                var query = BuildQuery(repository, searchCriteria);
+
+                result.TotalCount = await query.CountAsync();
+
+
+                if (searchCriteria.Take > 0)
                 {
-                    query = query.Where(x => x.EventId.ToLower().Contains(searchCriteria.SearchPhrase.ToLower()));
+                    var ids = await query.OrderBySortInfos(sortInfos).ThenBy(x => x.Id)
+                                        .Select(x => x.Id)
+                                        .Skip(searchCriteria.Skip).Take(searchCriteria.Take)
+                                        .ToArrayAsync();
+
+                    result.Results = (await GetByIdsAsync(ids)).OrderBy(x => Array.IndexOf(ids, x.Id)).ToList();
                 }
 
-                if (!searchCriteria.WebHookIds.IsNullOrEmpty())
-                {
-                    query = query.Where(x => searchCriteria.WebHookIds.Contains(x.WebHookId));
-                }
-
-                if (!searchCriteria.EventIds.IsNullOrEmpty())
-                {
-                    query = query.Where(x => searchCriteria.EventIds.Contains(x.EventId));
-                }
-
-                if (!searchCriteria.RecordTypes.IsNullOrEmpty())
-                {
-                    query = query.Where(x => searchCriteria.RecordTypes.Contains(x.RecordType));
-                }
-
-                if (!searchCriteria.Statuses.IsNullOrEmpty())
-                {
-                    query = query.Where(x => searchCriteria.Statuses.Contains(x.Status));
-                }
-
-                result.TotalCount = query.Count();
-
-                var sortInfos = searchCriteria.SortInfos;
-                if (sortInfos.IsNullOrEmpty())
-                {
-                    sortInfos = new[] { new SortInfo { SortColumn = ReflectionUtility.GetPropertyName<WebHookFeedEntryEntity>(x => x.CreatedDate), SortDirection = SortDirection.Descending } };
-                }
-                query = query.OrderBySortInfos(sortInfos).ThenBy(x => x.Id);
-
-                var webHookFeedIds = query.Select(x => x.Id).Skip(searchCriteria.Skip).Take(searchCriteria.Take).ToArray();
-                result.Results = GetByIds(webHookFeedIds);
+                return result;
             }
-            return result;
+        }
+
+        protected virtual IQueryable<WebHookFeedEntryEntity> BuildQuery(IWebHookRepository repository, WebHookFeedSearchCriteria searchCriteria)
+        {
+            var query = repository.WebHookFeedEntries;
+
+            if (!string.IsNullOrWhiteSpace(searchCriteria.SearchPhrase))
+            {
+                query = query.Where(x => x.EventId.ToLower().Contains(searchCriteria.SearchPhrase.ToLower()));
+            }
+
+            if (!searchCriteria.WebHookIds.IsNullOrEmpty())
+            {
+                query = query.Where(x => searchCriteria.WebHookIds.Contains(x.WebHookId));
+            }
+
+            if (!searchCriteria.EventIds.IsNullOrEmpty())
+            {
+                query = query.Where(x => searchCriteria.EventIds.Contains(x.EventId));
+            }
+
+            if (!searchCriteria.RecordTypes.IsNullOrEmpty())
+            {
+                query = query.Where(x => searchCriteria.RecordTypes.Contains(x.RecordType));
+            }
+
+            if (!searchCriteria.Statuses.IsNullOrEmpty())
+            {
+                query = query.Where(x => searchCriteria.Statuses.Contains(x.Status));
+            }
+
+            return query;
+        }
+
+        protected virtual IList<SortInfo> BuildSortExpression(WebHookFeedSearchCriteria criteria)
+        {
+            var sortInfos = criteria.SortInfos;
+            if (sortInfos.IsNullOrEmpty())
+            {
+                sortInfos = new[] {
+                            new SortInfo { SortColumn = nameof(WebHookFeedEntryEntity.CreatedDate), SortDirection = SortDirection.Descending }
+                        };
+            }
+            return sortInfos;
         }
 
         #region IWebHookFeedReader

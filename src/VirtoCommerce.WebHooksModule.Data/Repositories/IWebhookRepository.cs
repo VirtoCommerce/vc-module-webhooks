@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Threading.Tasks;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.WebhooksModule.Data.Models;
 
@@ -10,10 +11,10 @@ namespace VirtoCommerce.WebhooksModule.Data.Repositories
         IQueryable<WebHookEventEntity> WebHookEvents { get; }
         IQueryable<WebHookFeedEntryEntity> WebHookFeedEntries { get; }
 
-        WebHookEntity[] GetWebHooksByIds(string[] ids);
-        void DeleteWebHooksByIds(string[] ids);
+        Task<WebHookEntity[]> GetWebHooksByIdsAsync(string[] ids);
+        Task DeleteWebHooksByIdsAsync(string[] ids);
 
-        WebHookFeedEntryEntity[] GetWebHookFeedEntriesByIds(string[] ids);
-        void DeleteWebHookFeedEntriesByIds(string[] ids);
+        Task<WebHookFeedEntryEntity[]> GetWebHookFeedEntriesByIdsAsync(string[] ids);
+        Task DeleteWebHookFeedEntriesByIdsAsync(string[] ids);
     }
 }

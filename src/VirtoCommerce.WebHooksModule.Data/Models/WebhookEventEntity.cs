@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.WebHooksModule.Core.Models;
 
@@ -13,7 +12,6 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
 
         #region Navigation Properties
         [StringLength(128)]
-        [Index]
         public string WebHookId { get; set; }
         public virtual WebHookEntity WebHook { get; set; }
         #endregion
@@ -23,13 +21,13 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             if (webHookEvent == null)
                 throw new ArgumentNullException(nameof(webHookEvent));
 
-            webHookEvent.Id = this.Id;
-            webHookEvent.CreatedBy = this.CreatedBy;
-            webHookEvent.CreatedDate = this.CreatedDate;
-            webHookEvent.ModifiedBy = this.ModifiedBy;
-            webHookEvent.ModifiedDate = this.ModifiedDate;
-            webHookEvent.EventId = this.EventId;
-            webHookEvent.WebHookId = this.WebHookId;
+            webHookEvent.Id = Id;
+            webHookEvent.CreatedBy = CreatedBy;
+            webHookEvent.CreatedDate = CreatedDate;
+            webHookEvent.ModifiedBy = ModifiedBy;
+            webHookEvent.ModifiedDate = ModifiedDate;
+            webHookEvent.EventId = EventId;
+            webHookEvent.WebHookId = WebHookId;
 
             return webHookEvent;
         }
@@ -39,13 +37,13 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             if (webHookEvent == null)
                 throw new ArgumentNullException(nameof(webHookEvent));
 
-            this.Id = webHookEvent.Id;
-            this.CreatedBy = webHookEvent.CreatedBy;
-            this.CreatedDate = webHookEvent.CreatedDate;
-            this.ModifiedBy = webHookEvent.ModifiedBy;
-            this.ModifiedDate = webHookEvent.ModifiedDate;
-            this.EventId = webHookEvent.EventId;
-            this.WebHookId = webHookEvent.WebHookId;
+            Id = webHookEvent.Id;
+            CreatedBy = webHookEvent.CreatedBy;
+            CreatedDate = webHookEvent.CreatedDate;
+            ModifiedBy = webHookEvent.ModifiedBy;
+            ModifiedDate = webHookEvent.ModifiedDate;
+            EventId = webHookEvent.EventId;
+            WebHookId = webHookEvent.WebHookId;
 
             pkMap.AddPair(webHookEvent, this);
 
@@ -54,7 +52,7 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
 
         public virtual void Patch(WebHookEventEntity target)
         {
-            target.EventId = this.EventId;
+            target.EventId = EventId;
         }
     }
 }

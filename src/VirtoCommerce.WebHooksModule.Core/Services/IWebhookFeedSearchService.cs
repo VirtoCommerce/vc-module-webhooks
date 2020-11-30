@@ -1,9 +1,10 @@
-﻿using VirtoCommerce.WebHooksModule.Core.Models;
+using System.Threading.Tasks;
+using VirtoCommerce.WebHooksModule.Core.Models;
 
 namespace VirtoCommerce.WebHooksModule.Core.Services
 {
 	public interface IWebHookFeedSearchService
 	{
-		WebHookFeedSearchResult Search(WebHookFeedSearchCriteria searchCriteria);
+		Task<WebHookFeedSearchResult> SearchAsync(WebHookFeedSearchCriteria searchCriteria);
 	}
 }

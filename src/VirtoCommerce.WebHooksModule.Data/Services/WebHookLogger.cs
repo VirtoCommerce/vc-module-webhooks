@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
+using System.Threading.Tasks;
+using VirtoCommerce.Platform.Core.Caching;
+using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.WebHooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Services;
 
@@ -19,7 +22,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             _webHookFeedSearchService = webHookFeedSearchService;
         }
 
-        public virtual WebHookFeedEntry Log(WebHookFeedEntry feedEntry)
+        public virtual async Task<WebHookFeedEntry> LogAsync(WebHookFeedEntry feedEntry)
         {
             if (feedEntry == null)
             {
@@ -29,15 +32,15 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             var syncRoot = syncRoots.GetOrAdd(feedEntry.WebHookId, (x) => new object());
             WebHookFeedEntry result = null;
 
-            lock (syncRoot)
+            using (await AsyncLock.GetLockByKey(CacheKey.With(typeof(WebHookFeedEntry))).LockAsync())
             {
                 switch (feedEntry.RecordType)
                 {
                     case (int)WebHookFeedEntryType.Success:
-                        result = LogSuccess(feedEntry);
+                        result = await LogSuccessAsync(feedEntry);
                         break;
                     case (int)WebHookFeedEntryType.Error:
-                        result = LogError(feedEntry);
+                        result = await LogErrorAsync(feedEntry);
                         break;
                     default:
                         throw new ArgumentException($"Unsupported {nameof(WebHookFeedEntry.RecordType)}: {feedEntry.RecordType}.");
@@ -52,7 +55,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         /// </summary>
         /// <param name="feedEntry">Entry with the event data.</param>
         /// <returns>Saved feed entry.</returns>
-        protected WebHookFeedEntry LogSuccess(WebHookFeedEntry feedEntry)
+        protected async Task<WebHookFeedEntry> LogSuccessAsync(WebHookFeedEntry feedEntry)
         {
             var criteria = new WebHookFeedSearchCriteria()
             {
@@ -61,7 +64,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                 Skip = 0,
                 Take = 1,
             };
-            var feedEntrySearchResult = _webHookFeedSearchService.Search(criteria);
+            var feedEntrySearchResult = await _webHookFeedSearchService.SearchAsync(criteria);
             var feedEntryToSave = feedEntrySearchResult.Results.FirstOrDefault();
 
             if (feedEntryToSave == null)
@@ -71,7 +74,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
             feedEntryToSave.AttemptCount++;
 
-            _webHookFeedService.SaveChanges(new[] { feedEntryToSave });
+            await _webHookFeedService.SaveChangesAsync(new[] { feedEntryToSave });
 
             return feedEntryToSave;
         }
@@ -81,9 +84,9 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         /// </summary>
         /// <param name="feedEntry"></param>
         /// <returns>Saved feed entry.</returns>
-        protected virtual WebHookFeedEntry LogError(WebHookFeedEntry feedEntry)
+        protected virtual async Task<WebHookFeedEntry> LogErrorAsync(WebHookFeedEntry feedEntry)
         {
-            _webHookFeedService.SaveChanges(new[] { feedEntry });
+            await _webHookFeedService.SaveChangesAsync(new[] { feedEntry });
 
             return feedEntry;
         }

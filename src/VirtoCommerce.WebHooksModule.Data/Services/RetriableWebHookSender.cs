@@ -98,7 +98,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                 var feedEntry = webHookWorkItem?.FeedEntry ?? WebHookFeedUtils.CreateErrorEntry(webHookWorkItem, result, ex.Message);
 
                 feedEntry.Error = ex.Message;
-                _logger.Log(feedEntry);
+                await _logger.LogAsync(feedEntry);
             }
 
 
@@ -156,13 +156,13 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             // Clear error records on this sending after success
             if (webHookWorkItem.FeedEntry?.RecordType == (int)WebHookFeedEntryType.Error && !string.IsNullOrEmpty(webHookWorkItem.FeedEntry.Id))
             {
-                _webHookFeedService.DeleteByIds(new[] { webHookWorkItem.FeedEntry.Id });
+                _webHookFeedService.DeleteByIdsAsync(new[] { webHookWorkItem.FeedEntry.Id });
             }
 
             // Create new record (not using and updating existing one!) for proper logging, as all Success entries are accumulated in one record in our current logging policy.
             var feedEntry = WebHookFeedUtils.CreateSuccessEntry(webHookWorkItem, webHookSendResponse);
 
-            _logger.Log(feedEntry);
+            _logger.LogAsync(feedEntry);
             webHookWorkItem.FeedEntry = feedEntry;
         }
 
@@ -174,7 +174,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             feedEntry.Error = errorMessage;
             feedEntry.Status = webHookSendResponse?.StatusCode ?? webHookWorkItem.FeedEntry.Status;
 
-            _logger.Log(feedEntry);
+            _logger.LogAsync(feedEntry);
             webHookWorkItem.FeedEntry = feedEntry;
         }
 

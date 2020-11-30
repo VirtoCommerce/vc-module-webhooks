@@ -1,73 +1,46 @@
-using System.Data.Common;
-using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using VirtoCommerce.Platform.Data.Infrastructure;
-using VirtoCommerce.Platform.Data.Infrastructure.Interceptors;
 using VirtoCommerce.WebhooksModule.Data.Models;
 
 namespace VirtoCommerce.WebhooksModule.Data.Repositories
 {
-    public class WebHookRepository : EFRepositoryBase, IWebHookRepository
+    public class WebHookRepository : DbContextRepositoryBase<WebhookDbContext>, IWebHookRepository
     {
-        public WebHookRepository()
+        public WebHookRepository(WebhookDbContext dbContext) : base(dbContext)
         {
         }
 
-        public WebHookRepository(string nameOrConnectionString, params IInterceptor[] interceptors) : base(nameOrConnectionString, null, interceptors)
-        {
-            Database.SetInitializer<WebHookRepository>(null);
-        }
+        public IQueryable<WebHookEntity> WebHooks => DbContext.Set<WebHookEntity>();
+        public IQueryable<WebHookEventEntity> WebHookEvents => DbContext.Set<WebHookEventEntity>();
+        public IQueryable<WebHookFeedEntryEntity> WebHookFeedEntries => DbContext.Set<WebHookFeedEntryEntity>();
 
-        public WebHookRepository(DbConnection existingConnection, IInterceptor[] interceptors = null) : base(existingConnection, null, interceptors)
-        {
-        }
-
-        public IQueryable<WebHookEntity> WebHooks => GetAsQueryable<WebHookEntity>();
-        public IQueryable<WebHookEventEntity> WebHookEvents => GetAsQueryable<WebHookEventEntity>();
-        public IQueryable<WebHookFeedEntryEntity> WebHookFeedEntries => GetAsQueryable<WebHookFeedEntryEntity>();
-        public WebHookEntity[] GetWebHooksByIds(string[] ids)
-        {
-            return WebHooks
+        public Task<WebHookEntity[]> GetWebHooksByIdsAsync(string[] ids) => WebHooks
                 .Where(x => ids.Contains(x.Id))
                 .Include(x => x.Events)
-                .ToArray();
-        }
+                .ToArrayAsync();
 
-        public void DeleteWebHooksByIds(string[] ids)
+        public async Task DeleteWebHooksByIdsAsync(string[] ids)
         {
-            var webHooks = GetWebHooksByIds(ids);
+            var webHooks = await GetWebHooksByIdsAsync(ids);
             foreach (var webHook in webHooks)
             {
                 Remove(webHook);
             }
         }
 
-        public WebHookFeedEntryEntity[] GetWebHookFeedEntriesByIds(string[] ids)
-        {
-            return WebHookFeedEntries
+        public Task<WebHookFeedEntryEntity[]> GetWebHookFeedEntriesByIdsAsync(string[] ids) => WebHookFeedEntries
                 .Where(x => ids.Contains(x.Id))
-                .ToArray();
-        }
+                .ToArrayAsync();
 
-        public void DeleteWebHookFeedEntriesByIds(string[] ids)
+        public async Task DeleteWebHookFeedEntriesByIdsAsync(string[] ids)
         {
-            var webHookFeedEntries = GetWebHookFeedEntriesByIds(ids);
+            var webHookFeedEntries = await GetWebHookFeedEntriesByIdsAsync(ids);
             foreach (var webHookFeedEntryEntity in webHookFeedEntries)
             {
                 Remove(webHookFeedEntryEntity);
             }
-        }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<WebHookEntity>().ToTable("WebHook").HasKey(x => x.Id).Property(x => x.Id);
-
-            modelBuilder.Entity<WebHookEventEntity>().ToTable("WebHookEvent").HasKey(x => x.Id).Property(x => x.Id);
-            modelBuilder.Entity<WebHookEventEntity>().HasOptional(m => m.WebHook).WithMany(x => x.Events).HasForeignKey(x => x.WebHookId).WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<WebHookFeedEntryEntity>().ToTable("WebHookFeedEntry").HasKey(x => x.Id).Property(x => x.Id);
-
-            base.OnModelCreating(modelBuilder);
         }
     }
 }

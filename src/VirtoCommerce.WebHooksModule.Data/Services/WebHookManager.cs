@@ -91,7 +91,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             registerExecutorMethod.Invoke(registrar, new object[] { del });
         }
 
-        protected virtual Task HandleEvent(DomainEvent domainEvent, CancellationToken cancellationToken)
+        protected virtual async Task HandleEvent(DomainEvent domainEvent, CancellationToken cancellationToken)
         {
             var eventId = domainEvent.GetType().FullName;
             var criteria = new WebHookSearchCriteria()
@@ -102,7 +102,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                 Take = int.MaxValue,
             };
 
-            var webHookSearchResult = _webHookSearchService.Search(criteria);
+            var webHookSearchResult = await _webHookSearchService.SearchAsync(criteria);
 
             if (webHookSearchResult.TotalCount > 0)
             {
@@ -112,8 +112,6 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                         webHookSearchResult.Results,
                         cancellationToken));
             }
-
-            return Task.CompletedTask;
         }
 
         protected virtual async Task<WebHookSendResponse> NotifyWebHook(string eventId, object eventObject, WebHook webHook, CancellationToken cancellationToken)
@@ -140,7 +138,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             }
             catch (Exception ex)
             {
-                _logger.Log(WebHookFeedUtils.CreateErrorEntry(webHookWorkItem, response, ex.Message));
+                await _logger.LogAsync(WebHookFeedUtils.CreateErrorEntry(webHookWorkItem, response, ex.Message));
             }
 
             return response;

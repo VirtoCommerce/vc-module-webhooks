@@ -1,46 +1,41 @@
-using CacheManager.Core;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using VirtoCommerce.Domain.Common.Events;
+using System.Threading.Tasks;
 using VirtoCommerce.Platform.Core.Common;
-using VirtoCommerce.Platform.Data.Common;
+using VirtoCommerce.Platform.Core.Events;
 using VirtoCommerce.Platform.Data.Infrastructure;
 using VirtoCommerce.WebhooksModule.Data.Models;
 using VirtoCommerce.WebhooksModule.Data.Repositories;
-using VirtoCommerce.WebHooksModule.Core;
 using VirtoCommerce.WebHooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Services;
 
 namespace VirtoCommerce.WebHooksModule.Data.Services
 {
-	public class WebHookService : ServiceBase, IWebHookSearchService, IWebHookService
+	public class WebHookService : IWebHookSearchService, IWebHookService
     {
         private readonly Func<IWebHookRepository> _webHookRepositoryFactory;
         private readonly IWebHookFeedReader _feedReader;
-        private readonly ICacheManager<object> _cacheManager;
 
-
-        public WebHookService(Func<IWebHookRepository> webHookRepositoryFactory, IWebHookFeedReader feedReader, ICacheManager<object> cacheManager)
+        public WebHookService(Func<IWebHookRepository> webHookRepositoryFactory, IWebHookFeedReader feedReader)
         {
             _webHookRepositoryFactory = webHookRepositoryFactory;
             _feedReader = feedReader;
-            _cacheManager = cacheManager;
         }
 
-        public void DeleteByIds(string[] ids)
+        public async Task DeleteByIdsAsync(string[] ids)
         {
             using (var repository = _webHookRepositoryFactory())
             {
-                repository.DeleteWebHooksByIds(ids);
-                repository.UnitOfWork.Commit();
+                await repository.DeleteWebHooksByIdsAsync(ids);
+                await repository.UnitOfWork.CommitAsync();
 
                 ResetCache();
             }
         }
 
-        public WebHook[] GetByIds(string[] ids)
+        public async Task<WebHook[]> GetByIdsAsync(string[] ids)
         {
             var result = new List<WebHook>();
 
@@ -48,7 +43,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             {
                 using (var repository = _webHookRepositoryFactory())
                 {
-                    var entities = repository.GetWebHooksByIds(ids);
+                    var entities = await repository.GetWebHooksByIdsAsync(ids);
 
                     if (!entities.IsNullOrEmpty())
                     {
@@ -66,16 +61,15 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             return result.ToArray();
         }
 
-        public void SaveChanges(WebHook[] webHooks)
+        public async Task SaveChangesAsync(WebHook[] webHooks)
         {
             var pkMap = new PrimaryKeyResolvingMap();
             var changedEntries = new List<GenericChangedEntry<WebHook>>();
 
             using (var repository = _webHookRepositoryFactory())
-            using (var changeTracker = GetChangeTracker(repository))
             {
                 var existingIds = webHooks.Where(x => !x.IsTransient()).Select(x => x.Id).ToArray();
-                var originalEntities = repository.GetWebHooksByIds(existingIds).ToList();
+                var originalEntities = await repository.GetWebHooksByIdsAsync(existingIds);
 
                 foreach (var webHook in webHooks)
                 {
@@ -84,7 +78,6 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
                     if (originalEntity != null)
                     {
-                        changeTracker.Attach(originalEntity);
                         changedEntries.Add(new GenericChangedEntry<WebHook>(webHook, originalEntity.ToModel(new WebHook()), EntryState.Modified));
                         modifiedEntity.Patch(originalEntity);
 
@@ -97,17 +90,17 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                         changedEntries.Add(new GenericChangedEntry<WebHook>(webHook, EntryState.Added));
                     }
                 }
-                CommitChanges(repository);
 
+                await repository.UnitOfWork.CommitAsync();
                 ResetCache();
 
                 pkMap.ResolvePrimaryKeys();
             }
         }
 
-        public WebHookSearchResult Search(WebHookSearchCriteria searchCriteria)
+        public async Task<WebHookSearchResult> SearchAsync(WebHookSearchCriteria searchCriteria)
         {
-            return _cacheManager.Get($"{nameof(ModuleConstants.WebhooksSearchCacheRegion)}-{searchCriteria.GetCacheKey()}", ModuleConstants.WebhooksSearchCacheRegion, () =>
+            //return _cacheManager.Get($"{nameof(ModuleConstants.WebhooksSearchCacheRegion)}-{searchCriteria.GetCacheKey()}", ModuleConstants.WebhooksSearchCacheRegion, () =>
             {
                 var result = new WebHookSearchResult();
 
@@ -117,7 +110,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
                     var query = BuildQuery(searchCriteria, repository);
 
-                    result.TotalCount = query.Count();
+                    result.TotalCount = await query.CountAsync();
 
                     if (searchCriteria.Take > 0 && result.TotalCount > 0)
                     {
@@ -132,12 +125,12 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
                         var webHookIds = query.Select(x => x.Id).Skip(searchCriteria.Skip).Take(searchCriteria.Take).ToArray();
 
-                        result.Results = GetByIds(webHookIds).OrderBy(x => Array.IndexOf(webHookIds, x.Id)).ToArray();
+                        result.Results = (await GetByIdsAsync(webHookIds)).OrderBy(x => Array.IndexOf(webHookIds, x.Id)).ToArray();
                     }
                 }
 
                 return result;
-            });
+            }
         }
 
         protected virtual IQueryable<WebHookEntity> BuildQuery(WebHookSearchCriteria searchCriteria, IWebHookRepository repository)
@@ -163,7 +156,8 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         }
         protected virtual void ResetCache()
         {
-            _cacheManager.ClearRegion(ModuleConstants.WebhooksSearchCacheRegion);
+            //TODO
+            //_cacheManager.ClearRegion(ModuleConstants.WebhooksSearchCacheRegion);
         }
     }
 }

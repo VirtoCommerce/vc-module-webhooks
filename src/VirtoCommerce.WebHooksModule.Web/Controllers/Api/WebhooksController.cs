@@ -46,7 +46,7 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
         [CheckPermission(Permission = ModuleConstants.Security.Permissions.Read)]
         public IHttpActionResult GetWebhookById(string id)
         {
-            var result = _webHookService.GetByIds(new[] { id });
+            var result = _webHookService.GetByIdsAsync(new[] { id });
 
             return Ok(result?.FirstOrDefault());
         }
@@ -62,7 +62,7 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
         [CheckPermission(Permission = ModuleConstants.Security.Permissions.Read)]
         public WebHookSearchResult Search(WebHookSearchCriteria criteria)
         {
-            var result = _webHookSearchService.Search(criteria);
+            var result = _webHookSearchService.SearchAsync(criteria);
 
             return result;
         }
@@ -78,7 +78,7 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
         [CheckPermission(Permission = ModuleConstants.Security.Permissions.ReadFeed)]
         public WebHookFeedSearchResult SearchWebhookFeed(WebHookFeedSearchCriteria criteria)
         {
-            var result = _webHookFeedSearchService.Search(criteria);
+            var result = _webHookFeedSearchService.SearchAsync(criteria);
 
             return result;
         }
@@ -94,7 +94,7 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
         [CheckPermission(Permission = ModuleConstants.Security.Permissions.Delete)]
         public IHttpActionResult DeleteWebHookFeeds([FromUri] string[] ids)
         {
-            _webHookFeedService.DeleteByIds(ids);
+            _webHookFeedService.DeleteByIdsAsync(ids);
 
             return Ok();
         }
@@ -110,7 +110,7 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
         [ResponseType(typeof(WebHook[]))]
         public IHttpActionResult SaveWebhooks(WebHook[] webhooks)
         {
-            _webHookService.SaveChanges(webhooks);
+            _webHookService.SaveChangesAsync(webhooks);
 
             return Ok(webhooks);
         }
