@@ -19,7 +19,7 @@ angular.module(moduleName, [])
                                 title: 'webhooks.blades.webhooks-list.title',
                                 subtitle:'webhooks.blades.webhooks-list.subtitle',
                                 controller: 'virtoCommerce.webhooksModule.webhooksListController',
-                                template: 'Modules/$(virtoCommerce.webhooksModule)/Scripts/blades/webhooks-list.tpl.html',
+                                template: 'Modules/$(virtoCommerce.webhooks)/Scripts/blades/webhooks-list.tpl.html',
                                 isClosingDisabled: true
                             };
                             bladeNavigationService.showBlade(newBlade);
@@ -46,7 +46,7 @@ angular.module(moduleName, [])
 
             var webhookErrorsWidget = {
                 controller: 'virtoCommerce.webhooksModule.errorsWebhookController',
-                template: 'Modules/$(virtoCommerce.webhooksModule)/Scripts/widgets/errorsWidget.tpl.html'
+                template: 'Modules/$(virtoCommerce.webhooks)/Scripts/widgets/errorsWidget.tpl.html'
             };
             widgetService.registerWidget(webhookErrorsWidget, 'webhookDetail');
         }

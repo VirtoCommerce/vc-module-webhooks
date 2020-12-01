@@ -113,9 +113,11 @@
   },
   "settings": {
     "Webhooks": {
-      "SendRetryCount": {
-        "description": "If webhook sending notification http request fails by some reason, operation will be repeated X number or times or until success. Intervals are the following (in minutes): 1, 2, 4, …, 2^N",
-        "title": "Number of retries for sending webhook notification in case of unsuccessful result"
+      "General": {
+        "SendRetryCount": {
+          "description": "If webhook sending notification http request fails by some reason, operation will be repeated X number or times or until success. Intervals are the following (in minutes): 1, 2, 4, …, 2^N",
+          "title": "Number of retries for sending webhook notification in case of unsuccessful result"
+        }
       }
     }
   }

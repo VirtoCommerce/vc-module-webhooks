@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <module>
-    <id>VirtoCommerce.WebHooksModule</id>
+    <id>VirtoCommerce.WebHooks</id>
     <version>3.0.0</version>
     <version-tag />
     <platformVersion>3.0.0</platformVersion>

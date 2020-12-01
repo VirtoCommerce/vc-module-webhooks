@@ -100,7 +100,7 @@ angular.module('virtoCommerce.webhooksModule')
             //var newBlade = {
             //    id: 'webhookDetail',
             //    controller: 'virtoCommerce.webhooksModule.webhookDetailController',
-            //    template: 'Modules/$(virtoCommerce.webhooksModule)/Scripts/blades/webhook-detail.tpl.html',
+            //    template: 'Modules/$(virtoCommerce.webhooks)/Scripts/blades/webhook-detail.tpl.html',
             //    subtitle: 'webhooks.blades.webhook-detail.subtitle'
             //};
 
