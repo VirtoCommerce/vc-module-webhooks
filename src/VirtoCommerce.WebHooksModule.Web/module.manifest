@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <module>
     <id>VirtoCommerce.WebHooksModule</id>
-    <version>0.1.5</version>
-    <platformVersion>2.13.53</platformVersion>
+    <version>3.0.0</version>
+    <version-tag />
+    <platformVersion>3.0.0</platformVersion>
     <dependencies>
-        <dependency id="VirtoCommerce.Core" version="2.25.29" />
+        <dependency id="VirtoCommerce.Core" version="3.0.0" />
     </dependencies>
 
     <title>Webhooks (preview)</title>
@@ -19,39 +20,9 @@
     </owners>
 
     <releaseNotes></releaseNotes>
-    <copyright>Copyright © 2019 . All rights reserved</copyright>
+    <copyright>Copyright © 2020 . All rights reserved</copyright>
     <tags>webhooks module</tags>
   
     <assemblyFile>VirtoCommerce.WebHooksModule.Web.dll</assemblyFile>
     <moduleType>VirtoCommerce.WebHooksModule.Web.Module, VirtoCommerce.WebHooksModule.Web</moduleType>
-
-    <styles>
-        <directory virtualPath="$/Content/css" searchPattern="*.css" searchSubdirectories="true" />
-    </styles>
-    <scripts>
-        <directory virtualPath="$/Scripts" searchPattern="*.js" searchSubdirectories="true" />
-    </scripts>
-
-    <settings>
-        <group name="Webhooks|General">
-            <setting>
-                <name>Webhooks.General.SendRetryCount</name>
-                <valueType>integer</valueType>
-                <defaultValue>3</defaultValue>
-                <title>Number of retries for sending webhook notification in case of unsuccessful result</title>
-                <description>If webhook sending notification http request fails by some reason, operation will be repeated X number or times or until success. Intervals are the following (in minutes): 1, 2, 4, …, 2^N</description>
-            </setting>
-        </group>
-    </settings>
-
-    <permissions>
-        <group name="Webhooks">
-            <permission id="webhooks:access" name="Open webhooks menu" />
-            <permission id="webhooks:read" name="Read webhooks" />
-            <permission id="webhooks:feed:read" name="Read webhook logs" />
-            <permission id="webhooks:execute" name="Manually send webhooks" />
-            <permission id="webhooks:update" name="Create or update webhooks" />
-            <permission id="webhooks:delete" name="Delete webhooks" />
-        </group>
-    </permissions>
 </module>

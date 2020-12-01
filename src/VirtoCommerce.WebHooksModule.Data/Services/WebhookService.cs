@@ -1,11 +1,12 @@
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VirtoCommerce.Platform.Core.Caching;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Events;
-using VirtoCommerce.Platform.Data.Infrastructure;
+using VirtoCommerce.WebhooksModule.Data.Caching;
 using VirtoCommerce.WebhooksModule.Data.Models;
 using VirtoCommerce.WebhooksModule.Data.Repositories;
 using VirtoCommerce.WebHooksModule.Core.Models;
@@ -13,52 +14,49 @@ using VirtoCommerce.WebHooksModule.Core.Services;
 
 namespace VirtoCommerce.WebHooksModule.Data.Services
 {
-	public class WebHookService : IWebHookSearchService, IWebHookService
+	public class WebHookService : IWebHookService
     {
         private readonly Func<IWebHookRepository> _webHookRepositoryFactory;
         private readonly IWebHookFeedReader _feedReader;
+        private readonly IPlatformMemoryCache _platformMemoryCache;
 
-        public WebHookService(Func<IWebHookRepository> webHookRepositoryFactory, IWebHookFeedReader feedReader)
+        public WebHookService(Func<IWebHookRepository> webHookRepositoryFactory, IWebHookFeedReader feedReader, IPlatformMemoryCache platformMemoryCache)
         {
             _webHookRepositoryFactory = webHookRepositoryFactory;
             _feedReader = feedReader;
+            _platformMemoryCache = platformMemoryCache;
         }
-
-        public async Task DeleteByIdsAsync(string[] ids)
-        {
-            using (var repository = _webHookRepositoryFactory())
-            {
-                await repository.DeleteWebHooksByIdsAsync(ids);
-                await repository.UnitOfWork.CommitAsync();
-
-                ResetCache();
-            }
-        }
-
+                
         public async Task<WebHook[]> GetByIdsAsync(string[] ids)
         {
-            var result = new List<WebHook>();
-
-            if (!ids.IsNullOrEmpty())
+            var cacheKey = CacheKey.With(GetType(), nameof(GetByIdsAsync), string.Join("-", ids));
+            return await _platformMemoryCache.GetOrCreateExclusiveAsync(cacheKey, async (cacheEntry) =>
             {
-                using (var repository = _webHookRepositoryFactory())
-                {
-                    var entities = await repository.GetWebHooksByIdsAsync(ids);
+                cacheEntry.AddExpirationToken(WebhookCacheRegion.CreateChangeToken());
 
-                    if (!entities.IsNullOrEmpty())
+                var result = new List<WebHook>();
+
+                if (!ids.IsNullOrEmpty())
+                {
+                    using (var repository = _webHookRepositoryFactory())
                     {
-                        result.AddRange(entities.Select(x => x.ToModel(AbstractTypeFactory<WebHook>.TryCreateInstance())));
+                        var entities = await repository.GetWebHooksByIdsAsync(ids);
+
+                        if (!entities.IsNullOrEmpty())
+                        {
+                            result.AddRange(entities.Select(x => x.ToModel(AbstractTypeFactory<WebHook>.TryCreateInstance())));
+                        }
+                    }
+
+                    foreach (var webHook in result)
+                    {
+                        webHook.SuccessCount = _feedReader.GetSuccessCount(webHook.Id);
+                        webHook.ErrorCount = _feedReader.GetErrorCount(webHook.Id);
                     }
                 }
 
-                foreach (var webHook in result)
-                {
-                    webHook.SuccessCount = _feedReader.GetSuccessCount(webHook.Id);
-                    webHook.ErrorCount = _feedReader.GetErrorCount(webHook.Id);
-                }
-            }
-
-            return result.ToArray();
+                return result.ToArray();
+            });
         }
 
         public async Task SaveChangesAsync(WebHook[] webHooks)
@@ -92,72 +90,27 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                 }
 
                 await repository.UnitOfWork.CommitAsync();
-                ResetCache();
-
                 pkMap.ResolvePrimaryKeys();
+
+                ClearCache();
             }
         }
 
-        public async Task<WebHookSearchResult> SearchAsync(WebHookSearchCriteria searchCriteria)
+        public async Task DeleteByIdsAsync(string[] ids)
         {
-            //return _cacheManager.Get($"{nameof(ModuleConstants.WebhooksSearchCacheRegion)}-{searchCriteria.GetCacheKey()}", ModuleConstants.WebhooksSearchCacheRegion, () =>
+            using (var repository = _webHookRepositoryFactory())
             {
-                var result = new WebHookSearchResult();
+                await repository.DeleteWebHooksByIdsAsync(ids);
+                await repository.UnitOfWork.CommitAsync();
 
-                using (var repository = _webHookRepositoryFactory())
-                {
-                    repository.DisableChangesTracking();
-
-                    var query = BuildQuery(searchCriteria, repository);
-
-                    result.TotalCount = await query.CountAsync();
-
-                    if (searchCriteria.Take > 0 && result.TotalCount > 0)
-                    {
-                        var sortInfos = searchCriteria.SortInfos;
-
-                        if (sortInfos.IsNullOrEmpty())
-                        {
-                            sortInfos = new[] { new SortInfo { SortColumn = ReflectionUtility.GetPropertyName<WebHookEntity>(x => x.Name), SortDirection = SortDirection.Descending } };
-                        }
-
-                        query = query.OrderBySortInfos(sortInfos).ThenBy(x => x.Id);
-
-                        var webHookIds = query.Select(x => x.Id).Skip(searchCriteria.Skip).Take(searchCriteria.Take).ToArray();
-
-                        result.Results = (await GetByIdsAsync(webHookIds)).OrderBy(x => Array.IndexOf(webHookIds, x.Id)).ToArray();
-                    }
-                }
-
-                return result;
+                ClearCache();
             }
         }
 
-        protected virtual IQueryable<WebHookEntity> BuildQuery(WebHookSearchCriteria searchCriteria, IWebHookRepository repository)
+
+        protected virtual void ClearCache()
         {
-            var query = repository.WebHooks;
-
-            if (searchCriteria.IsActive.HasValue)
-            {
-                query = repository.WebHooks.Where(x => x.IsActive == searchCriteria.IsActive);
-            }
-
-            if (!string.IsNullOrWhiteSpace(searchCriteria.SearchPhrase))
-            {
-                query = query.Where(x => x.Name.ToLower().Contains(searchCriteria.SearchPhrase.ToLower()));
-            }
-
-            if (!searchCriteria.EventIds.IsNullOrEmpty())
-            {
-                query = query.Where(x => x.IsAllEvents || x.Events.Any(y => searchCriteria.EventIds.Contains(y.EventId)));
-            }
-
-            return query;
-        }
-        protected virtual void ResetCache()
-        {
-            //TODO
-            //_cacheManager.ClearRegion(ModuleConstants.WebhooksSearchCacheRegion);
+            WebhookCacheRegion.ExpireRegion();
         }
     }
 }

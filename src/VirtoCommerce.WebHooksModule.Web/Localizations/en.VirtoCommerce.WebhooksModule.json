@@ -1,106 +1,122 @@
 {
-    "webhooks": {
-        "main-menu-title": "Webhooks",
-        "blades": {
-            "webhooks-list": {
-              "title": "Webhook list",
-              "subtitle": "List of user-defined webhooks", 
-                "labels": {
-                    "name": "Name",
-                    "active": "Active",
-                    "percent-success-calls": "% of success calls",
-                    "unresolved-errors": "Unresolved errors",
-                    "total-count": "Total calls count"
-                }
-            },
-            "webhook-detail": {
-                "title": "Webhooks list",
-                "subtitle": "Manage the webhook setting and details",
-                "labels": {
-                    "name": "Name",
-                    "is-active": "Is active",
-                    "url": "URL",
-                    "content-type": "Content type",
-                    "triggering-events": "Triggering events",
-                    "trigger-all-events": "Trigger for all events"
-                },
-                "discription": {
-                    "name": "The display webhook name",
-                    "url": "The URL of the subscriber to be called on each event trigger",
-                    "specify-events": "Specify for what kind of events this webhook should be triggered",
-                    "content-type": "Select one of the allowed MIME types to be used as the value of the Content-type header"
-                },
-                "placeholders" : {
-                  "name":  "Enter WebHook name" 
-                }
-            },
-            "webhook-error-list": {
-              "title": "Webhook errors",
-              "subtitle": "List of all unresolved errors for the webhook",
-              "labels": {
-                "event": "Event",
-                "attempt-count": "Attempt Count",
-                "created": "Created",
-                "last-attempt": "Last attempt",
-                "error": "Error" 
-              } 
-            } 
+  "webhooks": {
+    "main-menu-title": "Webhooks",
+    "blades": {
+      "webhooks-list": {
+        "title": "Webhook list",
+        "subtitle": "List of user-defined webhooks",
+        "labels": {
+          "name": "Name",
+          "active": "Active",
+          "percent-success-calls": "% of success calls",
+          "unresolved-errors": "Unresolved errors",
+          "total-count": "Total calls count"
+        }
+      },
+      "webhook-detail": {
+        "title": "Webhooks list",
+        "subtitle": "Manage the webhook setting and details",
+        "labels": {
+          "name": "Name",
+          "is-active": "Is active",
+          "url": "URL",
+          "content-type": "Content type",
+          "triggering-events": "Triggering events",
+          "trigger-all-events": "Trigger for all events"
         },
-        "widgets": {
-            "errors-widget": {
-                "title": "Error count"
-            }
+        "discription": {
+          "name": "The display webhook name",
+          "url": "The URL of the subscriber to be called on each event trigger",
+          "specify-events": "Specify for what kind of events this webhook should be triggered",
+          "content-type": "Select one of the allowed MIME types to be used as the value of the Content-type header"
         },
-        "dialogs": {
-            "setting-save": {
-                "title": "Save changes",
-                "message": "The webhook has been modified. Do you want to save changes?"
-            },
-            "setting-delete": {
-                "title": "Delete confirmation",
-                "message": "Are you sure you want to delete this webhook?"
-            },
-            "feed-delete": {
-              "title": "Delete confirmation",
-              "message": "Are you sure you want to delete this feed?"
-            }
+        "placeholders": {
+          "name": "Enter WebHook name"
+        }
+      },
+      "webhook-error-list": {
+        "title": "Webhook errors",
+        "subtitle": "List of all unresolved errors for the webhook",
+        "labels": {
+          "event": "Event",
+          "attempt-count": "Attempt Count",
+          "created": "Created",
+          "last-attempt": "Last attempt",
+          "error": "Error"
+        }
+      }
+    },
+    "widgets": {
+      "errors-widget": {
+        "title": "Error count"
+      }
+    },
+    "dialogs": {
+      "setting-save": {
+        "title": "Save changes",
+        "message": "The webhook has been modified. Do you want to save changes?"
+      },
+      "setting-delete": {
+        "title": "Delete confirmation",
+        "message": "Are you sure you want to delete this webhook?"
+      },
+      "feed-delete": {
+        "title": "Delete confirmation",
+        "message": "Are you sure you want to delete this feed?"
+      }
 
-        },
-        "events": {
-            "types": {
-                "VirtoCommerce.Platform.Core.Security.Events.UserChangedEvent": "User Changed Event",
-                "VirtoCommerce.Platform.Core.Security.Events.UserChangingEvent": "User Changing Event",
-                "VirtoCommerce.Platform.Core.Security.Events.UserPasswordChangedEvent": "User PasswordChanged Event",
-                "VirtoCommerce.Platform.Core.Security.Events.UserResetPasswordEvent": "User ResetPassword Event",
-                "VirtoCommerce.Platform.Core.Security.Events.UserLogoutEvent": "User Logout Event",
-                "VirtoCommerce.Platform.Core.Security.Events.UserLoginEvent": "User Login Event",
-                "VirtoCommerce.Platform.Core.Events.DomainEvent": "Domain Event",
-                "VirtoCommerce.Domain.Quote.Events.QuoteRequestChangeEvent": "Quote RequestChange Event",
-                "VirtoCommerce.Domain.Pricing.Events.PriceChangedEvent": "Price Changed Event",
-                "VirtoCommerce.Domain.Pricing.Events.PriceChangingEvent": "Price Changing Event",
-                "VirtoCommerce.Domain.Order.Events.OrderChangedEvent": "Order Changed Event",
-                "VirtoCommerce.Domain.Order.Events.OrderChangeEvent": "Order Change Event",
-                "VirtoCommerce.Domain.Customer.Events.MemberChangedEvent": "Member Changed Event",
-                "VirtoCommerce.Domain.Customer.Events.MemberChangingEvent": "Member Changing Event",
-                "VirtoCommerce.Domain.Inventory.Events.InventoryChangedEvent": "Inventory Changed Event",
-                "VirtoCommerce.Domain.Inventory.Events.InventoryChangingEvent": "Inventory Changing Event",
-                "VirtoCommerce.Domain.Inventory.Events.FulfillmentCenterChangedEvent": "FulfillmentCenter Changed Event",
-                "VirtoCommerce.Domain.Inventory.Events.FulfillmentCenterChangingEvent": "FulfillmentCenter Changing Event",
-                "VirtoCommerce.Domain.Catalog.Events.CategoryChangedEvent": "Category Changed Event",
-                "VirtoCommerce.Domain.Catalog.Events.CategoryChangingEvent": "Category Changing Event",
-                "VirtoCommerce.Domain.Catalog.Events.PropertyChangingEvent": "Property Changing Event",
-                "VirtoCommerce.Domain.Catalog.Events.PropertyChangedEvent": "Property Changed Event",
-                "VirtoCommerce.Domain.Catalog.Events.ProductChangedEvent": "Product Changed Event",
-                "VirtoCommerce.Domain.Catalog.Events.CatalogChangedEvent": "Catalog Changed Event",
-                "VirtoCommerce.Domain.Catalog.Events.ProductChangingEvent": "Product Changing Event",
-                "VirtoCommerce.Domain.Catalog.Events.CatalogChangingEvent": "Catalog Changing Event",
-                "VirtoCommerce.Domain.Cart.Events.CartChangedEvent": "CartChanged Event",
-                "VirtoCommerce.Domain.Cart.Events.CartChangeEvent": "CartChange Event",
-                "VirtoCommerce.SubscriptionModule.Core.Events.PaymentPlanChangedEvent": "PaymentPlan Changed Event",
-                "VirtoCommerce.SubscriptionModule.Core.Events.SubscriptionChangedEvent": "Subscription Changed Event",
-                "VirtoCommerce.SubscriptionModule.Core.Events.PaymentPlanChangingEvent": "PaymentPlan Changing Event",
-                "VirtoCommerce.SubscriptionModule.Core.Events.SubscriptionChangingEvent": "Subscription Changing Event"
-            } 
-        } 
+    },
+    "events": {
+      "types": {
+        "VirtoCommerce.Platform.Core.Security.Events.UserChangedEvent": "User Changed Event",
+        "VirtoCommerce.Platform.Core.Security.Events.UserChangingEvent": "User Changing Event",
+        "VirtoCommerce.Platform.Core.Security.Events.UserPasswordChangedEvent": "User PasswordChanged Event",
+        "VirtoCommerce.Platform.Core.Security.Events.UserResetPasswordEvent": "User ResetPassword Event",
+        "VirtoCommerce.Platform.Core.Security.Events.UserLogoutEvent": "User Logout Event",
+        "VirtoCommerce.Platform.Core.Security.Events.UserLoginEvent": "User Login Event",
+        "VirtoCommerce.Platform.Core.Events.DomainEvent": "Domain Event",
+        "VirtoCommerce.Domain.Quote.Events.QuoteRequestChangeEvent": "Quote RequestChange Event",
+        "VirtoCommerce.Domain.Pricing.Events.PriceChangedEvent": "Price Changed Event",
+        "VirtoCommerce.Domain.Pricing.Events.PriceChangingEvent": "Price Changing Event",
+        "VirtoCommerce.Domain.Order.Events.OrderChangedEvent": "Order Changed Event",
+        "VirtoCommerce.Domain.Order.Events.OrderChangeEvent": "Order Change Event",
+        "VirtoCommerce.Domain.Customer.Events.MemberChangedEvent": "Member Changed Event",
+        "VirtoCommerce.Domain.Customer.Events.MemberChangingEvent": "Member Changing Event",
+        "VirtoCommerce.Domain.Inventory.Events.InventoryChangedEvent": "Inventory Changed Event",
+        "VirtoCommerce.Domain.Inventory.Events.InventoryChangingEvent": "Inventory Changing Event",
+        "VirtoCommerce.Domain.Inventory.Events.FulfillmentCenterChangedEvent": "FulfillmentCenter Changed Event",
+        "VirtoCommerce.Domain.Inventory.Events.FulfillmentCenterChangingEvent": "FulfillmentCenter Changing Event",
+        "VirtoCommerce.Domain.Catalog.Events.CategoryChangedEvent": "Category Changed Event",
+        "VirtoCommerce.Domain.Catalog.Events.CategoryChangingEvent": "Category Changing Event",
+        "VirtoCommerce.Domain.Catalog.Events.PropertyChangingEvent": "Property Changing Event",
+        "VirtoCommerce.Domain.Catalog.Events.PropertyChangedEvent": "Property Changed Event",
+        "VirtoCommerce.Domain.Catalog.Events.ProductChangedEvent": "Product Changed Event",
+        "VirtoCommerce.Domain.Catalog.Events.CatalogChangedEvent": "Catalog Changed Event",
+        "VirtoCommerce.Domain.Catalog.Events.ProductChangingEvent": "Product Changing Event",
+        "VirtoCommerce.Domain.Catalog.Events.CatalogChangingEvent": "Catalog Changing Event",
+        "VirtoCommerce.Domain.Cart.Events.CartChangedEvent": "CartChanged Event",
+        "VirtoCommerce.Domain.Cart.Events.CartChangeEvent": "CartChange Event",
+        "VirtoCommerce.SubscriptionModule.Core.Events.PaymentPlanChangedEvent": "PaymentPlan Changed Event",
+        "VirtoCommerce.SubscriptionModule.Core.Events.SubscriptionChangedEvent": "Subscription Changed Event",
+        "VirtoCommerce.SubscriptionModule.Core.Events.PaymentPlanChangingEvent": "PaymentPlan Changing Event",
+        "VirtoCommerce.SubscriptionModule.Core.Events.SubscriptionChangingEvent": "Subscription Changing Event"
+      }
     }
+  },
+  "permissions": {
+    "webhooks:access": "Open webhooks menu",
+    "webhooks:read": "View webhook related data",
+    "webhooks:feed:read": "Read webhook logs",
+    "webhooks:execute": "Manually send webhooks",
+    "webhooks:update": "Create or update webhooks",
+    "webhooks:delete": "Delete webhooks"
+  },
+  "settings": {
+    "Webhooks": {
+      "SendRetryCount": {
+        "description": "If webhook sending notification http request fails by some reason, operation will be repeated X number or times or until success. Intervals are the following (in minutes): 1, 2, 4, …, 2^N",
+        "title": "Number of retries for sending webhook notification in case of unsuccessful result"
+      }
+    }
+  }
 }

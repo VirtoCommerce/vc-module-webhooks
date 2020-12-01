@@ -1,16 +1,16 @@
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Description;
-using VirtoCommerce.Platform.Core.Web.Security;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VirtoCommerce.WebHooksModule.Core;
 using VirtoCommerce.WebHooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Services;
 
 namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
 {
-    [RoutePrefix("api/webhooks")]
-    public class WebHooksController : ApiController
+    [Route("api/webhooks")]
+    [Authorize]
+    public class WebHooksController : Controller
     {
         private readonly IWebHookSearchService _webHookSearchService;
         private readonly IWebHookFeedSearchService _webHookFeedSearchService;
@@ -42,11 +42,10 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
         /// <returns></returns>
         [HttpGet]
         [Route("{id}")]
-        [ResponseType(typeof(WebHook))]
-        [CheckPermission(Permission = ModuleConstants.Security.Permissions.Read)]
-        public IHttpActionResult GetWebhookById(string id)
+        [Authorize(ModuleConstants.Security.Permissions.Read)]
+        public async Task<ActionResult<WebHook>> GetWebhookById(string id)
         {
-            var result = _webHookService.GetByIdsAsync(new[] { id });
+            var result = await _webHookService.GetByIdsAsync(new[] { id });
 
             return Ok(result?.FirstOrDefault());
         }
@@ -58,13 +57,12 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
         /// <returns></returns>
         [HttpPost]
         [Route("search")]
-        [ResponseType(typeof(WebHookSearchResult))]
-        [CheckPermission(Permission = ModuleConstants.Security.Permissions.Read)]
-        public WebHookSearchResult Search(WebHookSearchCriteria criteria)
+        [Authorize(ModuleConstants.Security.Permissions.Read)]
+        public async Task<ActionResult<WebHookSearchResult>> Search([FromBody] WebHookSearchCriteria criteria)
         {
-            var result = _webHookSearchService.SearchAsync(criteria);
+            var result = await _webHookSearchService.SearchAsync(criteria);
 
-            return result;
+            return Ok(result);
         }
 
         /// <summary>
@@ -74,13 +72,12 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
         /// <returns></returns>
         [HttpPost]
         [Route("feed/search")]
-        [ResponseType(typeof(WebHookFeedSearchResult))]
-        [CheckPermission(Permission = ModuleConstants.Security.Permissions.ReadFeed)]
-        public WebHookFeedSearchResult SearchWebhookFeed(WebHookFeedSearchCriteria criteria)
+        [Authorize(ModuleConstants.Security.Permissions.ReadFeed)]
+        public async Task<ActionResult<WebHookFeedSearchResult>> SearchWebhookFeed([FromBody] WebHookFeedSearchCriteria criteria)
         {
-            var result = _webHookFeedSearchService.SearchAsync(criteria);
+            var result = await _webHookFeedSearchService.SearchAsync(criteria);
 
-            return result;
+            return Ok(result);
         }
 
         /// <summary>
@@ -90,11 +87,10 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
         /// <returns></returns>
         [HttpDelete]
         [Route("feed")]
-        [ResponseType(typeof(void))]
-        [CheckPermission(Permission = ModuleConstants.Security.Permissions.Delete)]
-        public IHttpActionResult DeleteWebHookFeeds([FromUri] string[] ids)
+        [Authorize(ModuleConstants.Security.Permissions.Delete)]
+        public async Task<ActionResult> DeleteWebHookFeeds([FromQuery] string[] ids)
         {
-            _webHookFeedService.DeleteByIdsAsync(ids);
+            await _webHookFeedService.DeleteByIdsAsync(ids);
 
             return Ok();
         }
@@ -106,11 +102,10 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
         /// <returns></returns>
         [HttpPost]
         [Route("")]
-        [CheckPermission(Permission = ModuleConstants.Security.Permissions.Update)]
-        [ResponseType(typeof(WebHook[]))]
-        public IHttpActionResult SaveWebhooks(WebHook[] webhooks)
+        [Authorize(ModuleConstants.Security.Permissions.Update)]
+        public async Task<ActionResult<WebHook[]>> SaveWebhooks([FromBody] WebHook[] webhooks)
         {
-            _webHookService.SaveChangesAsync(webhooks);
+            await _webHookService.SaveChangesAsync(webhooks);
 
             return Ok(webhooks);
         }
@@ -122,11 +117,10 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
         /// <returns></returns>
         [HttpDelete]
         [Route("")]
-        [ResponseType(typeof(void))]
-        [CheckPermission(Permission = ModuleConstants.Security.Permissions.Delete)]
-        public IHttpActionResult DeleteWebHooks([FromUri] string[] ids)
+        [Authorize(ModuleConstants.Security.Permissions.Delete)]
+        public async Task<ActionResult> DeleteWebHooks([FromQuery] string[] ids)
         {
-            _webHookService.DeleteByIds(ids);
+            await _webHookService.DeleteByIdsAsync(ids);
 
             return Ok();
         }
@@ -134,13 +128,12 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
         /// <summary>
         /// Sends request with given params to webhook and returns result
         /// </summary>
-        /// <param name="testRequest">Request params.</param>
+        /// <param name="webHook">Request params.</param>
         /// <returns>Result of sent request.</returns>
         [HttpPost]
         [Route("send")]
-        [ResponseType(typeof(WebHookSendResponse))]
-        [CheckPermission(Permission = ModuleConstants.Security.Permissions.Execute)]
-        public async Task<IHttpActionResult> Run(WebHook webHook)
+        [Authorize(ModuleConstants.Security.Permissions.Execute)]
+        public async Task<ActionResult<WebHookSendResponse>> Run([FromBody] WebHook webHook)
         {
             var result = await _webHookManager.VerifyWebHookAsync(webHook);
 
@@ -154,9 +147,8 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
         /// <returns></returns>
         [HttpGet]
         [Route("events")]
-        [ResponseType(typeof(RegisteredEvent[]))]
-        [CheckPermission(Permission = ModuleConstants.Security.Permissions.Read)]
-        public IHttpActionResult GetAllRegisteredEvents()
+        [Authorize(ModuleConstants.Security.Permissions.Read)]
+        public ActionResult<RegisteredEvent[]> GetAllRegisteredEvents()
         {
             var result = _registeredEventStore.GetAllEvents();
 

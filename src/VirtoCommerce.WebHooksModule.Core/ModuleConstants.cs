@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using VirtoCommerce.Platform.Core.Settings;
+
 namespace VirtoCommerce.WebHooksModule.Core
 {
 	public static class ModuleConstants
@@ -14,7 +17,22 @@ namespace VirtoCommerce.WebHooksModule.Core
                 public const string ReadFeed = "webhooks:feed:read";
             }
         }
+                
+        public static class Settings
+        {
+            public static class General
+            {
+                public static SettingDescriptor SendRetryCount { get; } = new SettingDescriptor
+                {
+                    Name = "Webhooks.General.SendRetryCount",
+                    ValueType = SettingValueType.Integer,
+                    GroupName = "Webhooks|General",
+                    IsDictionary = true,
+                    DefaultValue = 3
+                };
 
-        public const string WebhooksSearchCacheRegion = "WebhooksSearchCacheRegion";
+                public static IEnumerable<SettingDescriptor> AllSettings => new List<SettingDescriptor> { SendRetryCount };
+            }
+        }
     }
 }

@@ -1,72 +1,65 @@
 using System;
-using Microsoft.Practices.Unity;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Modularity;
-using VirtoCommerce.Platform.Data.Infrastructure;
-using VirtoCommerce.Platform.Data.Infrastructure.Interceptors;
-using VirtoCommerce.WebhooksModule.Data.Migrations;
+using VirtoCommerce.Platform.Data.Extensions;
 using VirtoCommerce.WebhooksModule.Data.Repositories;
+using VirtoCommerce.WebhooksModule.Data.Services;
 using VirtoCommerce.WebHooksModule.Core.Services;
 using VirtoCommerce.WebHooksModule.Data.Services;
 
 namespace VirtoCommerce.WebHooksModule.Web
 {
-    public class Module : ModuleBase
+    public class Module : IModule
     {
-        private readonly string _connectionString = ConfigurationHelper.GetConnectionStringValue("VirtoCommerce.WebhooksModule") ?? ConfigurationHelper.GetConnectionStringValue("VirtoCommerce");
-        private readonly IUnityContainer _container;
+        public ManifestModuleInfo ModuleInfo { get; set; }
 
-        public Module(IUnityContainer container)
+        public void Initialize(IServiceCollection serviceCollection)
         {
-            _container = container;
+            serviceCollection.AddTransient<IWebHookRepository, WebHookRepository>();
+            serviceCollection.AddDbContext<WebhookDbContext>((provider, options) =>
+            {
+                var configuration = provider.GetRequiredService<IConfiguration>();
+                options.UseSqlServer(configuration.GetConnectionString("VirtoCommerce.Catalog") ?? configuration.GetConnectionString("VirtoCommerce"));
+            });
+            serviceCollection.AddTransient<Func<IWebHookRepository>>(provider => () => provider.CreateScope().ServiceProvider.GetRequiredService<IWebHookRepository>());
+
+            serviceCollection.AddTransient<IWebHookService, WebHookService>();
+            serviceCollection.AddTransient<IWebHookSearchService, WebHookSearchService>();
+
+            serviceCollection.AddTransient<IWebHookFeedService, WebHookFeedService>();
+            serviceCollection.AddTransient<IWebHookFeedSearchService, WebHookFeedService>();
+            serviceCollection.AddTransient<IWebHookFeedReader, WebHookFeedService>();
+
+            serviceCollection.AddSingleton<IWebHookLogger>(provider =>
+                new WebHookLogger(provider.GetService<IWebHookFeedService>(), provider.GetService<IWebHookFeedSearchService>()));
+
+            serviceCollection.AddSingleton<IRegisteredEventStore,RegisteredEventStore>();
+            serviceCollection.AddTransient<IWebHookSender, RetriableWebHookSender>();
+            serviceCollection.AddTransient<IWebHookManager, WebHookManager>();
         }
 
-        public override void SetupDatabase()
+        public void PostInitialize(IApplicationBuilder appBuilder)
         {
-            // Modify database schema with EF migrations
-            using (var context = new WebHookRepository(_connectionString))
+            var webHookManager = appBuilder.ApplicationServices.GetService<IWebHookManager>();
+            webHookManager.SubscribeToAllEvents();
+
+            //Force migrations
+            using (var serviceScope = appBuilder.ApplicationServices.CreateScope())
             {
-                var initializer = new SetupDatabaseInitializer<WebHookRepository, Configuration>();
-                initializer.InitializeDatabase(context);
+                var catalogDbContext = serviceScope.ServiceProvider.GetRequiredService<WebhookDbContext>();
+                catalogDbContext.Database.MigrateIfNotApplied(MigrationName.GetUpdateV2MigrationName(ModuleInfo.Id));
+                catalogDbContext.Database.EnsureCreated();
+                catalogDbContext.Database.Migrate();
             }
         }
 
-        public override void Initialize()
+        public void Uninstall()
         {
-            base.Initialize();
-
-            Func<IWebHookRepository> webHookRepositoryFactory = () =>
-                new WebHookRepository(_connectionString, _container.Resolve<AuditableInterceptor>(), new EntityPrimaryKeyGeneratorInterceptor());
-
-            _container.RegisterInstance(webHookRepositoryFactory);
-
-            // Register implementations:
-            _container.RegisterType<IWebHookRepository>(new InjectionFactory(c => new WebHookRepository(_connectionString, new EntityPrimaryKeyGeneratorInterceptor())));
-
-            _container.RegisterType<IWebHookService, WebHookService>();
-            _container.RegisterType<IWebHookSearchService, WebHookService>();
-
-            _container.RegisterType<IWebHookFeedService, WebHookFeedService>();
-            _container.RegisterType<IWebHookFeedSearchService, WebHookFeedService>();
-            _container.RegisterType<IWebHookFeedReader, WebHookFeedService>();
-
-            var webHookFeedService = _container.Resolve<IWebHookFeedService>();
-            var webHookFeedSearchService = _container.Resolve<IWebHookFeedSearchService>();
-            var webHookLogger = new WebHookLogger(webHookFeedService, webHookFeedSearchService);
-
-            _container.RegisterInstance<IWebHookLogger>(webHookLogger);
-
-            _container.RegisterInstance<IRegisteredEventStore>(new RegisteredEventStore());
-            _container.RegisterType<IWebHookSender, RetriableWebHookSender>();
-            _container.RegisterType<IWebHookManager, WebHookManager>();
-        }
-
-        public override void PostInitialize()
-        {
-            base.PostInitialize();
-
-            var webHookManager = _container.Resolve<IWebHookManager>();
-            webHookManager.SubscribeToAllEvents();
+            // Method intentionally left empty.
         }
     }
 }

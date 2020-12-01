@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Polly;
 using VirtoCommerce.Platform.Core.Settings;
+using VirtoCommerce.WebHooksModule.Core;
 using VirtoCommerce.WebHooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Services;
 using VirtoCommerce.WebHooksModule.Data.Utils;
@@ -34,7 +35,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             {
                 if (_retryCount == null)
                 {
-                    _retryCount = _settingsManager.GetValue("Webhooks.General.SendRetryCount", 3);
+                    _retryCount = _settingsManager.GetValue(ModuleConstants.Settings.General.SendRetryCount.Name, 3);
                 }
 
                 return (int)_retryCount;

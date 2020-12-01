@@ -14,8 +14,6 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         private readonly IWebHookFeedService _webHookFeedService;
         private readonly IWebHookFeedSearchService _webHookFeedSearchService;
 
-        private readonly ConcurrentDictionary<string, object> syncRoots = new ConcurrentDictionary<string, object>();
-
         public WebHookLogger(IWebHookFeedService webHookFeedService, IWebHookFeedSearchService webHookFeedSearchService)
         {
             _webHookFeedService = webHookFeedService;
@@ -29,10 +27,9 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                 throw new ArgumentNullException(nameof(feedEntry));
             }
 
-            var syncRoot = syncRoots.GetOrAdd(feedEntry.WebHookId, (x) => new object());
             WebHookFeedEntry result = null;
 
-            using (await AsyncLock.GetLockByKey(CacheKey.With(typeof(WebHookFeedEntry))).LockAsync())
+            using (await AsyncLock.GetLockByKey(CacheKey.With(typeof(WebHookFeedEntry), feedEntry.WebHookId)).LockAsync())
             {
                 switch (feedEntry.RecordType)
                 {
