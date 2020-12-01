@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using VirtoCommerce.Platform.Core.Bus;
 using VirtoCommerce.Platform.Core.Events;
+using VirtoCommerce.WebhooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Services;
 using VirtoCommerce.WebHooksModule.Data.Utils;
@@ -100,6 +101,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                 EventIds = new[] { eventId },
                 Skip = 0,
                 Take = int.MaxValue,
+                ResponseGroup = WebhookResponseGroup.Info.ToString()
             };
 
             var webHookSearchResult = await _webHookSearchService.SearchAsync(criteria);

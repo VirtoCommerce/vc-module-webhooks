@@ -120,14 +120,14 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
                 if (response.IsSuccessStatusCode)
                 {
-                    HandleSuccess(webHookWorkItem, result);
+                    await HandleSuccessAsync(webHookWorkItem, result);
                 }
                 else
                 {
                     var errorMessage = GetErrorText(webHookWorkItem.FeedEntry?.AttemptCount + 1 ?? 0, $"Response staus code does not indicate success: {(int)response.StatusCode}");
 
                     result.Error = errorMessage;
-                    HandleError(webHookWorkItem, result, errorMessage);
+                    await HandleErrorAsync(webHookWorkItem, result, errorMessage);
                 }
             }
             catch (Exception ex)
@@ -137,7 +137,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
                 result = await CreateSendResponse(response);
                 result.Error = errorMessage;
-                HandleError(webHookWorkItem, result, errorMessage);
+                await HandleErrorAsync(webHookWorkItem, result, errorMessage);
             }
 
             return result;
@@ -152,22 +152,22 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             };
         }
 
-        protected virtual void HandleSuccess(WebHookWorkItem webHookWorkItem, WebHookSendResponse webHookSendResponse)
+        protected virtual async Task HandleSuccessAsync(WebHookWorkItem webHookWorkItem, WebHookSendResponse webHookSendResponse)
         {
             // Clear error records on this sending after success
             if (webHookWorkItem.FeedEntry?.RecordType == (int)WebHookFeedEntryType.Error && !string.IsNullOrEmpty(webHookWorkItem.FeedEntry.Id))
             {
-                _webHookFeedService.DeleteByIdsAsync(new[] { webHookWorkItem.FeedEntry.Id });
+                await _webHookFeedService.DeleteByIdsAsync(new[] { webHookWorkItem.FeedEntry.Id });
             }
 
             // Create new record (not using and updating existing one!) for proper logging, as all Success entries are accumulated in one record in our current logging policy.
             var feedEntry = WebHookFeedUtils.CreateSuccessEntry(webHookWorkItem, webHookSendResponse);
 
-            _logger.LogAsync(feedEntry);
+            await _logger.LogAsync(feedEntry);
             webHookWorkItem.FeedEntry = feedEntry;
         }
 
-        protected virtual void HandleError(WebHookWorkItem webHookWorkItem, WebHookSendResponse webHookSendResponse, string errorMessage)
+        protected virtual async Task HandleErrorAsync(WebHookWorkItem webHookWorkItem, WebHookSendResponse webHookSendResponse, string errorMessage)
         {
             var feedEntry = GetOrCreateFeedEntry(webHookWorkItem, webHookSendResponse, errorMessage);
 
@@ -175,7 +175,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             feedEntry.Error = errorMessage;
             feedEntry.Status = webHookSendResponse?.StatusCode ?? webHookWorkItem.FeedEntry.Status;
 
-            _logger.LogAsync(feedEntry);
+            await _logger.LogAsync(feedEntry);
             webHookWorkItem.FeedEntry = feedEntry;
         }
 

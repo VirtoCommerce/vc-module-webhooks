@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using VirtoCommerce.Platform.Core.Caching;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Events;
+using VirtoCommerce.WebhooksModule.Core.Models;
 using VirtoCommerce.WebhooksModule.Data.Caching;
 using VirtoCommerce.WebhooksModule.Data.Models;
 using VirtoCommerce.WebhooksModule.Data.Repositories;
@@ -27,10 +28,12 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             _platformMemoryCache = platformMemoryCache;
         }
                 
-        public async Task<WebHook[]> GetByIdsAsync(string[] ids)
+        public async Task<WebHook[]> GetByIdsAsync(string[] ids, string responseGroup = null)
         {
+            var webhookResponseGroup = EnumUtility.SafeParse(responseGroup, WebhookResponseGroup.Full);
+
             var cacheKey = CacheKey.With(GetType(), nameof(GetByIdsAsync), string.Join("-", ids));
-            return await _platformMemoryCache.GetOrCreateExclusiveAsync(cacheKey, async (cacheEntry) =>
+            var result = await _platformMemoryCache.GetOrCreateExclusiveAsync(cacheKey, async (cacheEntry) =>
             {
                 cacheEntry.AddExpirationToken(WebhookCacheRegion.CreateChangeToken());
 
@@ -47,16 +50,25 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                             result.AddRange(entities.Select(x => x.ToModel(AbstractTypeFactory<WebHook>.TryCreateInstance())));
                         }
                     }
-
-                    foreach (var webHook in result)
-                    {
-                        webHook.SuccessCount = _feedReader.GetSuccessCount(webHook.Id);
-                        webHook.ErrorCount = _feedReader.GetErrorCount(webHook.Id);
-                    }
                 }
 
-                return result.ToArray();
+                return result;
             });
+
+            if (webhookResponseGroup.HasFlag(WebhookResponseGroup.WithFeed))
+            {
+                var webHookIds = result.Select(x => x.Id).ToArray();
+                var webHookSuccessCounts = await _feedReader.GetSuccessCountsAsync(webHookIds);
+                var webHookErrorCounts = await _feedReader.GetErrorCountsAsync(webHookIds);
+
+                foreach (var webHook in result)
+                {
+                    webHook.SuccessCount = webHookSuccessCounts.FirstOrDefault(w => w.Key.EqualsInvariant(webHook.Id)).Value;
+                    webHook.ErrorCount = webHookErrorCounts.FirstOrDefault(w => w.Key.EqualsInvariant(webHook.Id)).Value;
+                }
+            }
+
+            return result.ToArray();
         }
 
         public async Task SaveChangesAsync(WebHook[] webHooks)
@@ -110,6 +122,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
         protected virtual void ClearCache()
         {
+            WebhookCacheRegion.ExpireRegion();
             WebhookCacheRegion.ExpireRegion();
         }
     }

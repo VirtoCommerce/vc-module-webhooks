@@ -109,6 +109,36 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                 return result;
             }
         }
+                
+        #region IWebHookFeedReader
+
+        public async Task<IDictionary<string, int>> GetSuccessCountsAsync(string[] webHookIds)
+        {
+            using (var repository = _webHookRepositoryFactory())
+            {
+                var feedEntiries = await repository.WebHookFeedEntries
+                    .Where(x => webHookIds.Contains(x.WebHookId))
+                    .Where(x => x.RecordType == (int)WebHookFeedEntryType.Success)
+                    .Where(x => x.AttemptCount > 0)
+                    .ToArrayAsync();
+                return feedEntiries.ToDictionary(x => x.WebHookId, y => y.AttemptCount);
+            }
+        }
+
+        public async Task<IDictionary<string, int>> GetErrorCountsAsync(string[] webHookIds)
+        {
+            using (var repository = _webHookRepositoryFactory())
+            {
+                var result = await repository.WebHookFeedEntries
+                    .Where(x => webHookIds.Contains(x.WebHookId))
+                    .Where(x => x.RecordType == (int)WebHookFeedEntryType.Error)
+                    .ToArrayAsync();
+                return result.GroupBy(x => x.WebHookId).ToDictionary(k => k.Key, v => v.Count());
+            }
+        }
+
+        #endregion
+
 
         protected virtual IQueryable<WebHookFeedEntryEntity> BuildQuery(IWebHookRepository repository, WebHookFeedSearchCriteria searchCriteria)
         {
@@ -153,25 +183,5 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             }
             return sortInfos;
         }
-
-        #region IWebHookFeedReader
-
-        public int GetSuccessCount(string webHookId)
-        {
-            using (var repository = _webHookRepositoryFactory())
-            {
-                return repository.WebHookFeedEntries.FirstOrDefault(x => x.WebHookId == webHookId && x.RecordType == (int)WebHookFeedEntryType.Success)?.AttemptCount ?? 0;
-            }
-        }
-
-        public int GetErrorCount(string webHookId)
-        {
-            using (var repository = _webHookRepositoryFactory())
-            {
-                return repository.WebHookFeedEntries.Count(x => x.WebHookId == webHookId && x.RecordType == (int)WebHookFeedEntryType.Error);
-            }
-        }
-
-        #endregion
     }
 }
