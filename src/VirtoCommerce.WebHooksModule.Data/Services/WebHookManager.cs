@@ -10,11 +10,10 @@ using VirtoCommerce.Platform.Core.Events;
 using VirtoCommerce.WebhooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Services;
-using VirtoCommerce.WebHooksModule.Data.Utils;
 
 namespace VirtoCommerce.WebHooksModule.Data.Services
 {
-	public class WebHookManager : IWebHookManager
+    public class WebHookManager : IWebHookManager
     {
         private const int _webhooksPerButch = 20;
 
@@ -49,26 +48,26 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         }
 
         /// <inheritdoc />
-        public virtual Task<int> NotifyAsync(string eventId, object eventObject, ICollection<WebHook> webhooks, CancellationToken cancellationToken)
+        public virtual Task<int> NotifyAsync(WebhookRequest request, CancellationToken cancellationToken)
         {
-            var webhooksCount = webhooks.Count;
-            var tasks = new List<Task<WebHookSendResponse>>();
+            var webhooksCount = request.WebHooks.Count;
+            var tasks = new List<Task<WebhookSendResponse>>();
 
             for (var i = 0; i < webhooksCount; i += _webhooksPerButch)
             {
                 // TechDebt: Here we could create a lot of tasks. Need to add throttling. Also need to decrease pool threads usage.
-                tasks.AddRange(webhooks.Skip(i).Take(_webhooksPerButch)
-                        .Select(x => Task.Run(() => NotifyWebHook(eventId, eventObject, x, cancellationToken)))
+                tasks.AddRange(request.WebHooks.Skip(i).Take(_webhooksPerButch)
+                        .Select(x => Task.Run(() => NotifyWebHook(request.EventId, request.EventObject, x, cancellationToken)))
                         .ToArray());
             }
 
             Task.WaitAll(tasks.ToArray());
 
-            return Task.FromResult(webhooks.Count);
+            return Task.FromResult(request.WebHooks.Count);
         }
 
         /// <inheritdoc />
-        public virtual Task<WebHookSendResponse> VerifyWebHookAsync(WebHook webHook)
+        public virtual Task<WebhookSendResponse> VerifyWebHookAsync(Webhook webHook)
         {
             throw new NotImplementedException();
         }
@@ -95,7 +94,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         protected virtual async Task HandleEvent(DomainEvent domainEvent, CancellationToken cancellationToken)
         {
             var eventId = domainEvent.GetType().FullName;
-            var criteria = new WebHookSearchCriteria()
+            var criteria = new WebhookSearchCriteria()
             {
                 IsActive = true,
                 EventIds = new[] { eventId },
@@ -108,40 +107,29 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
             if (webHookSearchResult.TotalCount > 0)
             {
-                BackgroundJob.Enqueue(() =>
-                    NotifyAsync(domainEvent.GetType().FullName,
-                        domainEvent,
-                        webHookSearchResult.Results,
-                        cancellationToken));
+                var request = new WebhookRequest { EventId = eventId, EventObject = domainEvent, WebHooks = webHookSearchResult.Results };
+                BackgroundJob.Enqueue(() => NotifyAsync(request, cancellationToken));
             }
         }
 
-        protected virtual async Task<WebHookSendResponse> NotifyWebHook(string eventId, object eventObject, WebHook webHook, CancellationToken cancellationToken)
+        protected virtual async Task<WebhookSendResponse> NotifyWebHook(string eventId, object eventObject, Webhook webHook, CancellationToken cancellationToken)
         {
-            WebHookSendResponse response = null;
+            cancellationToken.ThrowIfCancellationRequested();
 
-            var webHookWorkItem = new WebHookWorkItem()
+            WebhookSendResponse response = null;
+
+            var webHookWorkItem = new WebhookWorkItem()
             {
                 EventId = eventId,
                 WebHook = webHook,
             };
 
-            try
+            webHook.RequestParams = new WebhookHttpParams()
             {
-                cancellationToken.ThrowIfCancellationRequested();
+                Body = eventObject,
+            };
 
-                webHook.RequestParams = new WebHookHttpParams()
-                {
-                    Body = eventObject,
-                };
-
-                response = await _webHookSender.SendWebHookAsync(webHookWorkItem);
-
-            }
-            catch (Exception ex)
-            {
-                await _logger.LogAsync(WebHookFeedUtils.CreateErrorEntry(webHookWorkItem, response, ex.Message));
-            }
+            response = await _webHookSender.SendWebHookAsync(webHookWorkItem);
 
             return response;
         }

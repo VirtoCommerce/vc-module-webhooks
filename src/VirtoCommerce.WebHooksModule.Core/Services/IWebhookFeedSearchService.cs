@@ -5,6 +5,6 @@ namespace VirtoCommerce.WebHooksModule.Core.Services
 {
 	public interface IWebHookFeedSearchService
 	{
-		Task<WebHookFeedSearchResult> SearchAsync(WebHookFeedSearchCriteria searchCriteria);
+		Task<WebHookFeedSearchResult> SearchAsync(WebhookFeedSearchCriteria searchCriteria);
 	}
 }

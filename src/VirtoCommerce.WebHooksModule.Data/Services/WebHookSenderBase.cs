@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+using VirtoCommerce.WebhooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Services;
 
@@ -37,7 +38,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         /// </summary>
 
         /// <inheritdoc />
-        public abstract Task<WebHookSendResponse> SendWebHookAsync(WebHookWorkItem webHookWorkItem);
+        public abstract Task<WebhookSendResponse> SendWebHookAsync(WebhookWorkItem webHookWorkItem);
 
         /// <inheritdoc />
         public void Dispose()
@@ -65,10 +66,10 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         /// <summary>
         /// Creates an <see cref="HttpRequestMessage"/> containing the headers and body by given <paramref name="workItem"/>.
         /// </summary>
-        /// <param name="workItem">A <see cref="WebHookWorkItem"/> representing the <see cref="WebHook"/> to be sent.</param>
+        /// <param name="workItem">A <see cref="WebhookWorkItem"/> representing the <see cref="Webhook"/> to be sent.</param>
         /// <returns>A filled in <see cref="HttpRequestMessage"/>.</returns>
         //[SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Request is disposed by caller.")]
-        protected virtual HttpRequestMessage CreateWebHookRequest(WebHookWorkItem workItem)
+        protected virtual HttpRequestMessage CreateWebHookRequest(WebhookWorkItem workItem)
         {
             if (workItem == null)
             {
@@ -97,7 +98,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             return request;
         }
 
-        private static void CreateWebHookRequestBody(WebHookWorkItem workItem, HttpRequestMessage request)
+        private static void CreateWebHookRequestBody(WebhookWorkItem workItem, HttpRequestMessage request)
         {
             var body = new Dictionary<string, object>
             {

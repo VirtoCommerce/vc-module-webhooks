@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using VirtoCommerce.WebhooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core;
 using VirtoCommerce.WebHooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Services;
@@ -36,14 +37,14 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
 
         // GET: api/webhooks/:id
         /// <summary>
-        /// Gets <see cref="WebHook"/> by id.
+        /// Gets <see cref="Webhook"/> by id.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
         [Route("{id}")]
         [Authorize(ModuleConstants.Security.Permissions.Read)]
-        public async Task<ActionResult<WebHook>> GetWebhookById(string id)
+        public async Task<ActionResult<Webhook>> GetWebhookById(string id)
         {
             var result = await _webHookService.GetByIdsAsync(new[] { id });
 
@@ -58,7 +59,7 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
         [HttpPost]
         [Route("search")]
         [Authorize(ModuleConstants.Security.Permissions.Read)]
-        public async Task<ActionResult<WebHookSearchResult>> Search([FromBody] WebHookSearchCriteria criteria)
+        public async Task<ActionResult<WebhookSearchResult>> Search([FromBody] WebhookSearchCriteria criteria)
         {
             var result = await _webHookSearchService.SearchAsync(criteria);
 
@@ -73,7 +74,7 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
         [HttpPost]
         [Route("feed/search")]
         [Authorize(ModuleConstants.Security.Permissions.ReadFeed)]
-        public async Task<ActionResult<WebHookFeedSearchResult>> SearchWebhookFeed([FromBody] WebHookFeedSearchCriteria criteria)
+        public async Task<ActionResult<WebHookFeedSearchResult>> SearchWebhookFeed([FromBody] WebhookFeedSearchCriteria criteria)
         {
             var result = await _webHookFeedSearchService.SearchAsync(criteria);
 
@@ -103,7 +104,7 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
         [HttpPost]
         [Route("")]
         [Authorize(ModuleConstants.Security.Permissions.Update)]
-        public async Task<ActionResult<WebHook[]>> SaveWebhooks([FromBody] WebHook[] webhooks)
+        public async Task<ActionResult<Webhook[]>> SaveWebhooks([FromBody] Webhook[] webhooks)
         {
             await _webHookService.SaveChangesAsync(webhooks);
 
@@ -133,7 +134,7 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
         [HttpPost]
         [Route("send")]
         [Authorize(ModuleConstants.Security.Permissions.Execute)]
-        public async Task<ActionResult<WebHookSendResponse>> Run([FromBody] WebHook webHook)
+        public async Task<ActionResult<WebhookSendResponse>> Run([FromBody] Webhook webHook)
         {
             var result = await _webHookManager.VerifyWebHookAsync(webHook);
 

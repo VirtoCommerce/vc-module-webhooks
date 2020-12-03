@@ -1,12 +1,12 @@
 using System.Threading.Tasks;
-using VirtoCommerce.WebHooksModule.Core.Models;
+using VirtoCommerce.WebhooksModule.Core.Models;
 
 namespace VirtoCommerce.WebHooksModule.Core.Services
 {
-	public interface IWebHookService
+    public interface IWebHookService
 	{
-		Task<WebHook[]> GetByIdsAsync(string[] ids, string responseGroup = null);
+        Task<Webhook[]> GetByIdsAsync(string[] ids, string responseGroup = null);
         Task DeleteByIdsAsync(string[] ids);
-        Task SaveChangesAsync(WebHook[] webHooks);
+        Task SaveChangesAsync(Webhook[] webHooks);
 	}
 }

@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using VirtoCommerce.Platform.Core.Common;
-using VirtoCommerce.WebHooksModule.Core.Models;
+using VirtoCommerce.WebhooksModule.Core.Models;
 
 namespace VirtoCommerce.WebhooksModule.Data.Models
 {
@@ -16,7 +16,7 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
         public virtual WebHookEntity WebHook { get; set; }
         #endregion
 
-        public virtual WebHookEvent ToModel(WebHookEvent webHookEvent)
+        public virtual WebhookEvent ToModel(WebhookEvent webHookEvent)
         {
             if (webHookEvent == null)
                 throw new ArgumentNullException(nameof(webHookEvent));
@@ -32,7 +32,7 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             return webHookEvent;
         }
 
-        public virtual WebHookEventEntity FromModel(WebHookEvent webHookEvent, PrimaryKeyResolvingMap pkMap)
+        public virtual WebHookEventEntity FromModel(WebhookEvent webHookEvent, PrimaryKeyResolvingMap pkMap)
         {
             if (webHookEvent == null)
                 throw new ArgumentNullException(nameof(webHookEvent));

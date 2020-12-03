@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using VirtoCommerce.Platform.Core.Common;
-using VirtoCommerce.WebHooksModule.Core.Models;
+using VirtoCommerce.WebhooksModule.Core.Models;
 
 namespace VirtoCommerce.WebhooksModule.Data.Models
 {
@@ -23,7 +23,7 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
         public bool IsActive { get; set; }
         public bool IsAllEvents { get; set; }
         public virtual ObservableCollection<WebHookEventEntity> Events { get; set; }
-        public virtual WebHook ToModel(WebHook webHook)
+        public virtual Webhook ToModel(Webhook webHook)
         {
             if (webHook == null)
                 throw new ArgumentNullException(nameof(webHook));
@@ -39,12 +39,12 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             webHook.IsActive = this.IsActive;
             webHook.IsAllEvents = this.IsAllEvents;
 
-            webHook.Events = this.Events.Select(x => x.ToModel(AbstractTypeFactory<WebHookEvent>.TryCreateInstance())).ToArray();
+            webHook.Events = this.Events.Select(x => x.ToModel(AbstractTypeFactory<WebhookEvent>.TryCreateInstance())).ToArray();
 
             return webHook;
         }
 
-        public virtual WebHookEntity FromModel(WebHook webHook, PrimaryKeyResolvingMap pkMap)
+        public virtual WebHookEntity FromModel(Webhook webHook, PrimaryKeyResolvingMap pkMap)
         {
             if (webHook == null)
                 throw new ArgumentNullException(nameof(webHook));

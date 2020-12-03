@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using VirtoCommerce.WebhooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Models;
 
 namespace VirtoCommerce.WebHooksModule.Core.Services
@@ -11,7 +12,7 @@ namespace VirtoCommerce.WebHooksModule.Core.Services
         /// <summary>
         /// Sends out the webhook.
         /// </summary>
-        /// <param name="webHook">WebHook with filled <see cref="WebHook.RequestParams"/> to send.</param>
-        Task<WebHookSendResponse> SendWebHookAsync(WebHookWorkItem webHookWorkItem);
+        /// <param name="webHook">WebHook with filled <see cref="Webhook.RequestParams"/> to send.</param>
+        Task<WebhookSendResponse> SendWebHookAsync(WebhookWorkItem webHookWorkItem);
     }
 }

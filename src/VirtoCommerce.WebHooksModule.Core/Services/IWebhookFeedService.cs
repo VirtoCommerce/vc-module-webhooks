@@ -5,8 +5,8 @@ namespace VirtoCommerce.WebHooksModule.Core.Services
 {
 	public interface IWebHookFeedService
 	{
-		Task<WebHookFeedEntry[]> GetByIdsAsync(string[] ids);
+		Task<WebhookFeedEntry[]> GetByIdsAsync(string[] ids);
 		Task DeleteByIdsAsync(string[] ids);
-		Task SaveChangesAsync(WebHookFeedEntry[] webhookLogEntries);
+		Task SaveChangesAsync(WebhookFeedEntry[] webhookLogEntries);
 	}
 }

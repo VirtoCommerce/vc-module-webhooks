@@ -1,23 +1,24 @@
 using Newtonsoft.Json.Linq;
+using VirtoCommerce.WebhooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Models;
 
 namespace VirtoCommerce.WebHooksModule.Data.Utils
 {
     public static class WebHookFeedUtils
     {
-        public static WebHookFeedEntry CreateErrorEntry(WebHookWorkItem webHookWorkItem, WebHookSendResponse response, string errorMessage)
+        public static WebhookFeedEntry CreateErrorEntry(WebhookWorkItem webHookWorkItem, WebhookSendResponse response, string errorMessage)
         {
-            return CreateFeedEntry(WebHookFeedEntryType.Error, webHookWorkItem.EventId, response, webHookWorkItem.WebHook, errorMessage);
+            return CreateFeedEntry(WebhookFeedEntryType.Error, webHookWorkItem.EventId, response, webHookWorkItem.WebHook, errorMessage);
         }
 
-        public static WebHookFeedEntry CreateSuccessEntry(WebHookWorkItem webHookWorkItem, WebHookSendResponse response)
+        public static WebhookFeedEntry CreateSuccessEntry(WebhookWorkItem webHookWorkItem, WebhookSendResponse response)
         {
-            return CreateFeedEntry(WebHookFeedEntryType.Success, webHookWorkItem.EventId, response, webHookWorkItem.WebHook);
+            return CreateFeedEntry(WebhookFeedEntryType.Success, webHookWorkItem.EventId, response, webHookWorkItem.WebHook);
         }
 
-        public static WebHookFeedEntry CreateFeedEntry(WebHookFeedEntryType entryType, string eventId, WebHookSendResponse response, WebHook webHook, string error = null)
+        public static WebhookFeedEntry CreateFeedEntry(WebhookFeedEntryType entryType, string eventId, WebhookSendResponse response, Webhook webHook, string error = null)
         {
-            var result = new WebHookFeedEntry()
+            var result = new WebhookFeedEntry()
             {
                 RecordType = (int)entryType,
                 WebHookId = webHook.Id,

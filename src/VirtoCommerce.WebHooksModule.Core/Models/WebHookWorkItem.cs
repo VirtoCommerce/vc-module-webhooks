@@ -1,14 +1,16 @@
+using VirtoCommerce.WebhooksModule.Core.Models;
+
 namespace VirtoCommerce.WebHooksModule.Core.Models
 {
     /// <summary>
     /// A work item represents the act of firing a single WebHook.
     /// </summary>
-    public class WebHookWorkItem
+    public class WebhookWorkItem
     {
         /// <summary>
-        /// Gets or sets the <see cref=Models.WebHook"/> to fire.
+        /// Gets or sets the <see cref=WebhooksModule.Core.Models.Webhook"/> to fire.
         /// </summary>
-        public WebHook WebHook { get; set; }
+        public Webhook WebHook { get; set; }
         /// <summary>
         /// Gets or sets the causing eventId.
         /// </summary>
@@ -20,7 +22,7 @@ namespace VirtoCommerce.WebHooksModule.Core.Models
         /// <summary>
         /// Gets or sets log entry for this work item.
         /// </summary>
-        public WebHookFeedEntry FeedEntry { get; set; }
+        public WebhookFeedEntry FeedEntry { get; set; }
 
     }
 }

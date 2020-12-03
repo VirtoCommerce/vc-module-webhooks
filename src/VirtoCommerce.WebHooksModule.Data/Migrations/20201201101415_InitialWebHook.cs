@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VirtoCommerce.WebhooksModule.Data.Migrations
@@ -72,7 +72,7 @@ namespace VirtoCommerce.WebhooksModule.Data.Migrations
                         column: x => x.WebHookId,
                         principalTable: "WebHook",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

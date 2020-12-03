@@ -13,6 +13,6 @@ namespace VirtoCommerce.WebHooksModule.Core.Services
         /// </summary>
         /// <param name="feedEntry">Entry to write.</param>
         /// <returns>Created/updated feed entry.</returns>
-        Task<WebHookFeedEntry> LogAsync(WebHookFeedEntry feedEntry);
+        Task<WebhookFeedEntry> LogAsync(WebhookFeedEntry feedEntry);
     }
 }

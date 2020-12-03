@@ -10,12 +10,11 @@ using VirtoCommerce.WebhooksModule.Core.Models;
 using VirtoCommerce.WebhooksModule.Data.Caching;
 using VirtoCommerce.WebhooksModule.Data.Models;
 using VirtoCommerce.WebhooksModule.Data.Repositories;
-using VirtoCommerce.WebHooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Services;
 
 namespace VirtoCommerce.WebHooksModule.Data.Services
 {
-	public class WebHookService : IWebHookService
+    public class WebHookService : IWebHookService
     {
         private readonly Func<IWebHookRepository> _webHookRepositoryFactory;
         private readonly IWebHookFeedReader _feedReader;
@@ -28,7 +27,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             _platformMemoryCache = platformMemoryCache;
         }
                 
-        public async Task<WebHook[]> GetByIdsAsync(string[] ids, string responseGroup = null)
+        public async Task<Webhook[]> GetByIdsAsync(string[] ids, string responseGroup = null)
         {
             var webhookResponseGroup = EnumUtility.SafeParse(responseGroup, WebhookResponseGroup.Full);
 
@@ -37,7 +36,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             {
                 cacheEntry.AddExpirationToken(WebhookCacheRegion.CreateChangeToken());
 
-                var result = new List<WebHook>();
+                var result = new List<Webhook>();
 
                 if (!ids.IsNullOrEmpty())
                 {
@@ -47,7 +46,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
                         if (!entities.IsNullOrEmpty())
                         {
-                            result.AddRange(entities.Select(x => x.ToModel(AbstractTypeFactory<WebHook>.TryCreateInstance())));
+                            result.AddRange(entities.Select(x => x.ToModel(AbstractTypeFactory<Webhook>.TryCreateInstance())));
                         }
                     }
                 }
@@ -71,10 +70,10 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             return result.ToArray();
         }
 
-        public async Task SaveChangesAsync(WebHook[] webHooks)
+        public async Task SaveChangesAsync(Webhook[] webHooks)
         {
             var pkMap = new PrimaryKeyResolvingMap();
-            var changedEntries = new List<GenericChangedEntry<WebHook>>();
+            var changedEntries = new List<GenericChangedEntry<Webhook>>();
 
             using (var repository = _webHookRepositoryFactory())
             {
@@ -88,7 +87,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
                     if (originalEntity != null)
                     {
-                        changedEntries.Add(new GenericChangedEntry<WebHook>(webHook, originalEntity.ToModel(new WebHook()), EntryState.Modified));
+                        changedEntries.Add(new GenericChangedEntry<Webhook>(webHook, originalEntity.ToModel(new Webhook()), EntryState.Modified));
                         modifiedEntity.Patch(originalEntity);
 
                         //Force set ModifiedDate property to mark a webHook changed. Special for update when only event list has changes and webHook table hasn't any changes
@@ -97,7 +96,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                     else
                     {
                         repository.Add(modifiedEntity);
-                        changedEntries.Add(new GenericChangedEntry<WebHook>(webHook, EntryState.Added));
+                        changedEntries.Add(new GenericChangedEntry<Webhook>(webHook, EntryState.Added));
                     }
                 }
 
@@ -123,7 +122,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         protected virtual void ClearCache()
         {
             WebhookCacheRegion.ExpireRegion();
-            WebhookCacheRegion.ExpireRegion();
+            WebhookSearchCacheRegion.ExpireRegion();
         }
     }
 }

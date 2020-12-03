@@ -26,7 +26,7 @@ namespace VirtoCommerce.WebhooksModule.Data.Repositories
             modelBuilder.Entity<WebHookEventEntity>().ToTable("WebHookEvent");
             modelBuilder.Entity<WebHookEventEntity>().Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
             modelBuilder.Entity<WebHookEventEntity>().HasOne(m => m.WebHook).WithMany(m => m.Events)
-                .HasForeignKey(m => m.WebHookId).OnDelete(DeleteBehavior.Restrict).IsRequired();
+                .HasForeignKey(m => m.WebHookId).OnDelete(DeleteBehavior.Cascade).IsRequired();
             modelBuilder.Entity<WebHookEventEntity>().HasIndex(i => i.WebHookId);
 
             modelBuilder.Entity<WebHookFeedEntryEntity>().HasKey(x => x.Id);

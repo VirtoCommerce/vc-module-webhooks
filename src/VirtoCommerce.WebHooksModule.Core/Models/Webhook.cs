@@ -1,8 +1,8 @@
 using VirtoCommerce.Platform.Core.Common;
 
-namespace VirtoCommerce.WebHooksModule.Core.Models
+namespace VirtoCommerce.WebhooksModule.Core.Models
 {
-    public class WebHook : AuditableEntity
+    public class Webhook : AuditableEntity
     {
         public string Name { get; set; }
         public string Url { get; set; }
@@ -11,7 +11,7 @@ namespace VirtoCommerce.WebHooksModule.Core.Models
         public bool IsAllEvents { get; set; }
         public long SuccessCount { get; set; }
         public long ErrorCount { get; set; }
-        public WebHookEvent[] Events { get; set; }
-        public WebHookHttpParams RequestParams { get; set; }
+        public WebhookEvent[] Events { get; set; }
+        public WebhookHttpParams RequestParams { get; set; }
     }
 }

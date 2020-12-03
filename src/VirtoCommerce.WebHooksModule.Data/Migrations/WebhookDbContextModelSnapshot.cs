@@ -171,7 +171,7 @@ namespace VirtoCommerce.WebhooksModule.Data.Migrations
                     b.HasOne("VirtoCommerce.WebhooksModule.Data.Models.WebHookEntity", "WebHook")
                         .WithMany("Events")
                         .HasForeignKey("WebHookId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

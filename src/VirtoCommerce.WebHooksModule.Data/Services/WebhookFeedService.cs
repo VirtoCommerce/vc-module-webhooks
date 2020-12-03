@@ -31,9 +31,9 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             }
         }
 
-        public async Task<WebHookFeedEntry[]> GetByIdsAsync(string[] ids)
+        public async Task<WebhookFeedEntry[]> GetByIdsAsync(string[] ids)
         {
-            var result = new List<WebHookFeedEntry>();
+            var result = new List<WebhookFeedEntry>();
 
             if (!ids.IsNullOrEmpty())
             {
@@ -43,7 +43,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
                     if (!entities.IsNullOrEmpty())
                     {
-                        result.AddRange(entities.Select(x => x.ToModel(AbstractTypeFactory<WebHookFeedEntry>.TryCreateInstance())));
+                        result.AddRange(entities.Select(x => x.ToModel(AbstractTypeFactory<WebhookFeedEntry>.TryCreateInstance())));
                     }
                 }
             }
@@ -51,10 +51,10 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             return result.ToArray();
         }
 
-        public async Task SaveChangesAsync(WebHookFeedEntry[] webhookLogEntries)
+        public async Task SaveChangesAsync(WebhookFeedEntry[] webhookLogEntries)
         {
             var pkMap = new PrimaryKeyResolvingMap();
-            var changedEntries = new List<GenericChangedEntry<WebHookFeedEntry>>();
+            var changedEntries = new List<GenericChangedEntry<WebhookFeedEntry>>();
 
             using (var repository = _webHookRepositoryFactory())
             {
@@ -68,13 +68,13 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
                     if (originalEntity != null)
                     {
-                        changedEntries.Add(new GenericChangedEntry<WebHookFeedEntry>(webHookFeedEntry, originalEntity.ToModel(AbstractTypeFactory<WebHookFeedEntry>.TryCreateInstance()), EntryState.Modified));
+                        changedEntries.Add(new GenericChangedEntry<WebhookFeedEntry>(webHookFeedEntry, originalEntity.ToModel(AbstractTypeFactory<WebhookFeedEntry>.TryCreateInstance()), EntryState.Modified));
                         modifiedEntity.Patch(originalEntity);
                     }
                     else
                     {
                         repository.Add(modifiedEntity);
-                        changedEntries.Add(new GenericChangedEntry<WebHookFeedEntry>(webHookFeedEntry, EntryState.Added));
+                        changedEntries.Add(new GenericChangedEntry<WebhookFeedEntry>(webHookFeedEntry, EntryState.Added));
                     }
                 }
                 await repository.UnitOfWork.CommitAsync();
@@ -82,7 +82,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             }
         }
 
-        public async Task<WebHookFeedSearchResult> SearchAsync(WebHookFeedSearchCriteria searchCriteria)
+        public async Task<WebHookFeedSearchResult> SearchAsync(WebhookFeedSearchCriteria searchCriteria)
         {
             using (var repository = _webHookRepositoryFactory())
             {
@@ -118,7 +118,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             {
                 var feedEntiries = await repository.WebHookFeedEntries
                     .Where(x => webHookIds.Contains(x.WebHookId))
-                    .Where(x => x.RecordType == (int)WebHookFeedEntryType.Success)
+                    .Where(x => x.RecordType == (int)WebhookFeedEntryType.Success)
                     .Where(x => x.AttemptCount > 0)
                     .ToArrayAsync();
                 return feedEntiries.ToDictionary(x => x.WebHookId, y => y.AttemptCount);
@@ -131,7 +131,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             {
                 var result = await repository.WebHookFeedEntries
                     .Where(x => webHookIds.Contains(x.WebHookId))
-                    .Where(x => x.RecordType == (int)WebHookFeedEntryType.Error)
+                    .Where(x => x.RecordType == (int)WebhookFeedEntryType.Error)
                     .ToArrayAsync();
                 return result.GroupBy(x => x.WebHookId).ToDictionary(k => k.Key, v => v.Count());
             }
@@ -140,7 +140,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         #endregion
 
 
-        protected virtual IQueryable<WebHookFeedEntryEntity> BuildQuery(IWebHookRepository repository, WebHookFeedSearchCriteria searchCriteria)
+        protected virtual IQueryable<WebHookFeedEntryEntity> BuildQuery(IWebHookRepository repository, WebhookFeedSearchCriteria searchCriteria)
         {
             var query = repository.WebHookFeedEntries;
 
@@ -172,7 +172,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             return query;
         }
 
-        protected virtual IList<SortInfo> BuildSortExpression(WebHookFeedSearchCriteria criteria)
+        protected virtual IList<SortInfo> BuildSortExpression(WebhookFeedSearchCriteria criteria)
         {
             var sortInfos = criteria.SortInfos;
             if (sortInfos.IsNullOrEmpty())

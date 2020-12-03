@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Polly;
 using VirtoCommerce.Platform.Core.Settings;
+using VirtoCommerce.WebhooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core;
 using VirtoCommerce.WebHooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Services;
@@ -15,7 +16,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 {
     /// <summary>
     /// Provides an implementation of <see cref="IWebHookSender"/> for sending HTTP requests to
-    /// registered <see cref="WebHook"/> instances with retry mechanism.
+    /// registered <see cref="Webhook"/> instances with retry mechanism.
     /// </summary>
     public class RetriableWebHookSender : WebHookSenderBase
     {
@@ -80,15 +81,15 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             }
         }
 
-        public override async Task<WebHookSendResponse> SendWebHookAsync(WebHookWorkItem webHookWorkItem)
+        public override async Task<WebhookSendResponse> SendWebHookAsync(WebhookWorkItem webHookWorkItem)
         {
-            WebHookSendResponse result = null;
+            WebhookSendResponse result = null;
 
             try
             {
                 // Retry in the following intervals (in minutes): 1, 2, 4, …, 2^(RetryCount-1)
                 var policy = Policy
-                    .HandleResult<WebHookSendResponse>(x => !x.IsSuccessfull)
+                    .HandleResult<WebhookSendResponse>(x => !x.IsSuccessfull)
                     .WaitAndRetryAsync(RetryCount, retryAttempt => TimeSpan.FromMinutes(Math.Pow(2, retryAttempt - 1)));
 
                 result = await policy.ExecuteAsync(async () => await PerformSend(webHookWorkItem));
@@ -106,9 +107,9 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             return result;
         }
 
-        private async Task<WebHookSendResponse> PerformSend(WebHookWorkItem webHookWorkItem)
+        private async Task<WebhookSendResponse> PerformSend(WebhookWorkItem webHookWorkItem)
         {
-            WebHookSendResponse result;
+            WebhookSendResponse result;
             HttpResponseMessage response = null;
 
             try
@@ -143,19 +144,19 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             return result;
         }
 
-        private async Task<WebHookSendResponse> CreateSendResponse(HttpResponseMessage response)
+        private async Task<WebhookSendResponse> CreateSendResponse(HttpResponseMessage response)
         {
-            return new WebHookSendResponse()
+            return new WebhookSendResponse()
             {
                 StatusCode = (int)(response?.StatusCode ?? 0),
                 ResponseParams = await CreateResponseParams(response),
             };
         }
 
-        protected virtual async Task HandleSuccessAsync(WebHookWorkItem webHookWorkItem, WebHookSendResponse webHookSendResponse)
+        protected virtual async Task HandleSuccessAsync(WebhookWorkItem webHookWorkItem, WebhookSendResponse webHookSendResponse)
         {
             // Clear error records on this sending after success
-            if (webHookWorkItem.FeedEntry?.RecordType == (int)WebHookFeedEntryType.Error && !string.IsNullOrEmpty(webHookWorkItem.FeedEntry.Id))
+            if (webHookWorkItem.FeedEntry?.RecordType == (int)WebhookFeedEntryType.Error && !string.IsNullOrEmpty(webHookWorkItem.FeedEntry.Id))
             {
                 await _webHookFeedService.DeleteByIdsAsync(new[] { webHookWorkItem.FeedEntry.Id });
             }
@@ -167,11 +168,11 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             webHookWorkItem.FeedEntry = feedEntry;
         }
 
-        protected virtual async Task HandleErrorAsync(WebHookWorkItem webHookWorkItem, WebHookSendResponse webHookSendResponse, string errorMessage)
+        protected virtual async Task HandleErrorAsync(WebhookWorkItem webHookWorkItem, WebhookSendResponse webHookSendResponse, string errorMessage)
         {
             var feedEntry = GetOrCreateFeedEntry(webHookWorkItem, webHookSendResponse, errorMessage);
 
-            feedEntry.RecordType = (int)WebHookFeedEntryType.Error;
+            feedEntry.RecordType = (int)WebhookFeedEntryType.Error;
             feedEntry.Error = errorMessage;
             feedEntry.Status = webHookSendResponse?.StatusCode ?? webHookWorkItem.FeedEntry.Status;
 
@@ -180,12 +181,12 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         }
 
         /// <summary>
-        /// Creates <see cref="WebHookFeedEntry"/> from <see cref="webHookWorkItem"/>. If it already has <see cref="WebHookFeedEntry"/>, inreases AttemptCount.
+        /// Creates <see cref="WebhookFeedEntry"/> from <see cref="webHookWorkItem"/>. If it already has <see cref="WebhookFeedEntry"/>, inreases AttemptCount.
         /// </summary>
         /// <param name="webHookWorkItem"></param>
         /// <param name="webHookSendResponse"></param>
         /// <returns></returns>
-        protected virtual WebHookFeedEntry GetOrCreateFeedEntry(WebHookWorkItem webHookWorkItem, WebHookSendResponse webHookSendResponse, string errorMessage)
+        protected virtual WebhookFeedEntry GetOrCreateFeedEntry(WebhookWorkItem webHookWorkItem, WebhookSendResponse webHookSendResponse, string errorMessage)
         {
             var feedEntry = webHookWorkItem.FeedEntry;
 
@@ -201,11 +202,11 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             return feedEntry;
         }
 
-        protected virtual async Task<WebHookHttpParams> CreateResponseParams(HttpResponseMessage response)
+        protected virtual async Task<WebhookHttpParams> CreateResponseParams(HttpResponseMessage response)
         {
-            var responseString = await response?.Content.ReadAsStringAsync();
+            var responseString = response != null ? await response.Content.ReadAsStringAsync() : string.Empty;
 
-            return new WebHookHttpParams()
+            return new WebhookHttpParams()
             {
                 Headers = response?.Headers.ToDictionary(x => x.Key, x => string.Join(";", x.Value)) ?? new Dictionary<string, string>(),
                 Body = !string.IsNullOrEmpty(responseString) ? ParseResponseBody(responseString) : null,

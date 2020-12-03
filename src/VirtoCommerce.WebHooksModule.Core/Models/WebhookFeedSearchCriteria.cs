@@ -2,7 +2,7 @@ using VirtoCommerce.Platform.Core.Common;
 
 namespace VirtoCommerce.WebHooksModule.Core.Models
 {
-    public class WebHookFeedSearchCriteria : SearchCriteriaBase
+    public class WebhookFeedSearchCriteria : SearchCriteriaBase
     {
         public string[] WebHookIds { get; set; }
         public string[] EventIds { get; set; }

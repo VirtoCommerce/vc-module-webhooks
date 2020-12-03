@@ -25,10 +25,7 @@ namespace VirtoCommerce.WebHooksModule.Web
         {
             serviceCollection.AddTransient<IWebHookRepository, WebHookRepository>();
             serviceCollection.AddDbContext<WebhookDbContext>((provider, options) =>
-            {
-                var configuration = provider.GetRequiredService<IConfiguration>();
-                options.UseSqlServer(configuration.GetConnectionString("VirtoCommerce.Catalog") ?? configuration.GetConnectionString("VirtoCommerce"));
-            });
+                options.UseSqlServer(provider.GetRequiredService<IConfiguration>().GetConnectionString("VirtoCommerce")));
             serviceCollection.AddTransient<Func<IWebHookRepository>>(provider => () => provider.CreateScope().ServiceProvider.GetRequiredService<IWebHookRepository>());
 
             serviceCollection.AddTransient<IWebHookService, WebHookService>();

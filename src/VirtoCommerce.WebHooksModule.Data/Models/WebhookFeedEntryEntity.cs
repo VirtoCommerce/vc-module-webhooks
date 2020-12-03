@@ -26,7 +26,7 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
         [MaxLength]
         public string ResponseBody { get; set; }
 
-        public virtual WebHookFeedEntry ToModel(WebHookFeedEntry webHookFeedEntry)
+        public virtual WebhookFeedEntry ToModel(WebhookFeedEntry webHookFeedEntry)
         {
             if (webHookFeedEntry == null)
                 throw new ArgumentNullException(nameof(webHookFeedEntry));
@@ -50,7 +50,7 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             return webHookFeedEntry;
         }
 
-        public virtual WebHookFeedEntryEntity FromModel(WebHookFeedEntry webHookFeedEntry, PrimaryKeyResolvingMap pkMap)
+        public virtual WebHookFeedEntryEntity FromModel(WebhookFeedEntry webHookFeedEntry, PrimaryKeyResolvingMap pkMap)
         {
             if (webHookFeedEntry == null)
                 throw new ArgumentNullException(nameof(webHookFeedEntry));

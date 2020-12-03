@@ -2,7 +2,7 @@ using VirtoCommerce.Platform.Core.Common;
 
 namespace VirtoCommerce.WebHooksModule.Core.Models
 {
-    public class WebHookFeedEntry : AuditableEntity
+    public class WebhookFeedEntry : AuditableEntity
     {
         public string WebHookId { get; set; }
         public string EventId { get; set; }
