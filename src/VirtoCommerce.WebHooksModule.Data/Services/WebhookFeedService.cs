@@ -146,7 +146,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
             if (!string.IsNullOrWhiteSpace(searchCriteria.SearchPhrase))
             {
-                query = query.Where(x => x.EventId.ToLower().Contains(searchCriteria.SearchPhrase.ToLower()));
+                query = query.Where(x => x.EventId.Contains(searchCriteria.SearchPhrase));
             }
 
             if (!searchCriteria.WebHookIds.IsNullOrEmpty())

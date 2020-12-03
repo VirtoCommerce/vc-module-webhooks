@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
-using VirtoCommerce.Platform.Core.Caching;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Data.Infrastructure;
-using VirtoCommerce.WebhooksModule.Data.Caching;
 using VirtoCommerce.WebhooksModule.Data.Models;
 using VirtoCommerce.WebhooksModule.Data.Repositories;
 using VirtoCommerce.WebHooksModule.Core.Models;
@@ -19,47 +16,41 @@ namespace VirtoCommerce.WebhooksModule.Data.Services
     {
         private readonly IWebHookService _webHookService;
         private readonly Func<IWebHookRepository> _webHookRepositoryFactory;
-        private readonly IPlatformMemoryCache _platformMemoryCache;
 
-        public WebHookSearchService(IWebHookService webHookService, Func<IWebHookRepository> webHookRepositoryFactory, IPlatformMemoryCache platformMemoryCache)
+        public WebHookSearchService(IWebHookService webHookService, Func<IWebHookRepository> webHookRepositoryFactory)
         {
             _webHookService = webHookService;
             _webHookRepositoryFactory = webHookRepositoryFactory;
-            _platformMemoryCache = platformMemoryCache;
         }
 
         public async Task<WebHookSearchResult> SearchAsync(WebHookSearchCriteria searchCriteria)
         {
-            //var cacheKey = CacheKey.With(GetType(), nameof(SearchAsync), searchCriteria.GetCacheKey());
-            //return await _platformMemoryCache.GetOrCreateExclusiveAsync(cacheKey, async (cacheEntry) =>
-            //{
-                //cacheEntry.AddExpirationToken(WebhookSearchCacheRegion.CreateChangeToken());
-                var result = new WebHookSearchResult();
+            
+            var result = new WebHookSearchResult();
 
-                using (var repository = _webHookRepositoryFactory())
+            using (var repository = _webHookRepositoryFactory())
+            {
+                repository.DisableChangesTracking();
+
+                var sortInfos = BuildSortExpression(searchCriteria);
+                var query = BuildQuery(searchCriteria, repository);
+
+                result.TotalCount = await query.CountAsync();
+
+                if (searchCriteria.Take > 0 && result.TotalCount > 0)
                 {
-                    repository.DisableChangesTracking();
+                    var webHookIds = query.OrderBySortInfos(sortInfos)
+                                        .ThenBy(x => x.Id)
+                                        .Select(x => x.Id)
+                                        .Skip(searchCriteria.Skip)
+                                        .Take(searchCriteria.Take)
+                                        .ToArray();
 
-                    var sortInfos = BuildSortExpression(searchCriteria);
-                    var query = BuildQuery(searchCriteria, repository);
-
-                    result.TotalCount = await query.CountAsync();
-
-                    if (searchCriteria.Take > 0 && result.TotalCount > 0)
-                    {
-                        var webHookIds = query.OrderBySortInfos(sortInfos)
-                                            .ThenBy(x => x.Id)
-                                            .Select(x => x.Id)
-                                            .Skip(searchCriteria.Skip)
-                                            .Take(searchCriteria.Take)
-                                            .ToArray();
-
-                        result.Results = (await _webHookService.GetByIdsAsync(webHookIds, searchCriteria.ResponseGroup)).OrderBy(x => Array.IndexOf(webHookIds, x.Id)).ToArray();
-                    }
+                    result.Results = (await _webHookService.GetByIdsAsync(webHookIds, searchCriteria.ResponseGroup)).OrderBy(x => Array.IndexOf(webHookIds, x.Id)).ToArray();
                 }
+            }
 
-                return result;
-            //});
+            return result;
         }
 
 
@@ -74,7 +65,7 @@ namespace VirtoCommerce.WebhooksModule.Data.Services
 
             if (!string.IsNullOrWhiteSpace(searchCriteria.SearchPhrase))
             {
-                query = query.Where(x => x.Name.ToLower().Contains(searchCriteria.SearchPhrase.ToLower()));
+                query = query.Where(x => x.Name.Contains(searchCriteria.SearchPhrase));
             }
 
             if (!searchCriteria.EventIds.IsNullOrEmpty())
