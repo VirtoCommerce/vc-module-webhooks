@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<module>
+    <id>VirtoCommerce.WebHooks</id>
+    <version>3.0.0</version>
+    <version-tag />
+    <platformVersion>3.30.0</platformVersion>
+    <dependencies>
+        <dependency id="VirtoCommerce.Core" version="3.0.0" />
+    </dependencies>
+
+    <title>Webhooks (preview)</title>
+    <description>Manage user defined webhooks</description>
+    <authors>
+        <author>Eugeny Tatarincev</author>
+        <author>Andrey Kozlov</author>
+        <author>Aleksandr Andreev</author>
+    </authors>
+    <owners>
+      <owner>Virto Commerce</owner>
+    </owners>
+
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright © 2020 . All rights reserved</copyright>
+    <tags>webhooks module</tags>
+  
+    <assemblyFile>VirtoCommerce.WebHooksModule.Web.dll</assemblyFile>
+    <moduleType>VirtoCommerce.WebHooksModule.Web.Module, VirtoCommerce.WebHooksModule.Web</moduleType>
+</module>

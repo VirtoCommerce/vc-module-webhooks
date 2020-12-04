@@ -3,13 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29025.244
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtoCommerce.WebHooksModule.Web", "VirtoCommerce.WebhooksModule.Web\VirtoCommerce.WebHooksModule.Web.csproj", "{DDF6200E-BA82-410B-AA02-7124F751B229}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{60ADC1B3-8809-429A-A274-6E53BF6D4AB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtoCommerce.WebHooksModule.Core", "VirtoCommerce.WebhooksModule.Core\VirtoCommerce.WebHooksModule.Core.csproj", "{D8D6CDE1-A306-4626-9CCE-1F8D8E1EDCBF}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A14F288A-E9E8-4D2C-A123-287B6853E880}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtoCommerce.WebHooksModule.Data", "VirtoCommerce.WebhooksModule.Data\VirtoCommerce.WebHooksModule.Data.csproj", "{93B4E2D3-2BAD-4408-98AE-EEB05011A800}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtoCommerce.WebhooksModule.Core", "src\VirtoCommerce.WebHooksModule.Core\VirtoCommerce.WebhooksModule.Core.csproj", "{051C4CF2-2D4A-454A-822A-A8A491E03C49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtoCommerce.WebHooksModule.Tests", "VirtoCommerce.WebhooksModule.Tests\VirtoCommerce.WebHooksModule.Tests.csproj", "{71F91276-B830-4924-8143-9C3385690A13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtoCommerce.WebhooksModule.Data", "src\VirtoCommerce.WebHooksModule.Data\VirtoCommerce.WebhooksModule.Data.csproj", "{36A4AB75-873E-44C2-B49B-F792DF228294}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtoCommerce.WebhooksModule.Web", "src\VirtoCommerce.WebHooksModule.Web\VirtoCommerce.WebhooksModule.Web.csproj", "{3E4B18DB-F043-4001-A425-B130180977FF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtoCommerce.WebhooksModule.Tests", "tests\VirtoCommerce.WebHooksModule.Tests\VirtoCommerce.WebhooksModule.Tests.csproj", "{3E36EF7C-272F-46D0-9480-D179E95F43CC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,25 +21,31 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DDF6200E-BA82-410B-AA02-7124F751B229}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DDF6200E-BA82-410B-AA02-7124F751B229}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DDF6200E-BA82-410B-AA02-7124F751B229}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DDF6200E-BA82-410B-AA02-7124F751B229}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D8D6CDE1-A306-4626-9CCE-1F8D8E1EDCBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D8D6CDE1-A306-4626-9CCE-1F8D8E1EDCBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D8D6CDE1-A306-4626-9CCE-1F8D8E1EDCBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D8D6CDE1-A306-4626-9CCE-1F8D8E1EDCBF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{93B4E2D3-2BAD-4408-98AE-EEB05011A800}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{93B4E2D3-2BAD-4408-98AE-EEB05011A800}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{93B4E2D3-2BAD-4408-98AE-EEB05011A800}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{93B4E2D3-2BAD-4408-98AE-EEB05011A800}.Release|Any CPU.Build.0 = Release|Any CPU
-		{71F91276-B830-4924-8143-9C3385690A13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{71F91276-B830-4924-8143-9C3385690A13}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{71F91276-B830-4924-8143-9C3385690A13}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{71F91276-B830-4924-8143-9C3385690A13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{051C4CF2-2D4A-454A-822A-A8A491E03C49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{051C4CF2-2D4A-454A-822A-A8A491E03C49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{051C4CF2-2D4A-454A-822A-A8A491E03C49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{051C4CF2-2D4A-454A-822A-A8A491E03C49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36A4AB75-873E-44C2-B49B-F792DF228294}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36A4AB75-873E-44C2-B49B-F792DF228294}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36A4AB75-873E-44C2-B49B-F792DF228294}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36A4AB75-873E-44C2-B49B-F792DF228294}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E4B18DB-F043-4001-A425-B130180977FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E4B18DB-F043-4001-A425-B130180977FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E4B18DB-F043-4001-A425-B130180977FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E4B18DB-F043-4001-A425-B130180977FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E36EF7C-272F-46D0-9480-D179E95F43CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E36EF7C-272F-46D0-9480-D179E95F43CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E36EF7C-272F-46D0-9480-D179E95F43CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E36EF7C-272F-46D0-9480-D179E95F43CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{051C4CF2-2D4A-454A-822A-A8A491E03C49} = {60ADC1B3-8809-429A-A274-6E53BF6D4AB0}
+		{36A4AB75-873E-44C2-B49B-F792DF228294} = {60ADC1B3-8809-429A-A274-6E53BF6D4AB0}
+		{3E4B18DB-F043-4001-A425-B130180977FF} = {60ADC1B3-8809-429A-A274-6E53BF6D4AB0}
+		{3E36EF7C-272F-46D0-9480-D179E95F43CC} = {A14F288A-E9E8-4D2C-A123-287B6853E880}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {929FD73A-C34A-43FB-BAF4-019ECCB82CBF}
