@@ -68,7 +68,7 @@ namespace VirtoCommerce.WebhooksModule.Data.Migrations
                 {
                     table.PrimaryKey("PK_WebHookEvent", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_WebHookEvent_WebHook_WebHookId",
+                        name: "FK_dbo.WebHookEvent_dbo.WebHook_WebHookId",
                         column: x => x.WebHookId,
                         principalTable: "WebHook",
                         principalColumn: "Id",

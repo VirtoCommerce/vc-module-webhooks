@@ -61,6 +61,8 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
         [Authorize(ModuleConstants.Security.Permissions.Read)]
         public async Task<ActionResult<WebhookSearchResult>> Search([FromBody] WebhookSearchCriteria criteria)
         {
+            //TODO need to remove after refactoring working with IBackgroundJob(VP-6287)
+            criteria.ForceCacheReset = true;
             var result = await _webHookSearchService.SearchAsync(criteria);
 
             return Ok(result);

@@ -130,10 +130,15 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             using (var repository = _webHookRepositoryFactory())
             {
                 var result = await repository.WebHookFeedEntries
-                    .Where(x => webHookIds.Contains(x.WebHookId))
-                    .Where(x => x.RecordType == (int)WebhookFeedEntryType.Error)
-                    .ToArrayAsync();
-                return result.GroupBy(x => x.WebHookId).ToDictionary(k => k.Key, v => v.Count());
+                    .Where(x => webHookIds.Contains(x.WebHookId) && x.RecordType == (int)WebhookFeedEntryType.Error)
+                    .GroupBy(p => p.WebHookId)
+                    .Select(g => new
+                    {
+                        WebHookId = g.Key,
+                        Count = g.Count()
+                    })
+                    .ToDictionaryAsync(k => k.WebHookId, v => v.Count);
+                return result;
             }
         }
 

@@ -171,6 +171,7 @@ namespace VirtoCommerce.WebhooksModule.Data.Migrations
                     b.HasOne("VirtoCommerce.WebhooksModule.Data.Models.WebHookEntity", "WebHook")
                         .WithMany("Events")
                         .HasForeignKey("WebHookId")
+                        .HasConstraintName("FK_dbo.WebHookEvent_dbo.WebHook_WebHookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
