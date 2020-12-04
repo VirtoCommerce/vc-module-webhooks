@@ -117,11 +117,17 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             using (var repository = _webHookRepositoryFactory())
             {
                 var feedEntiries = await repository.WebHookFeedEntries
-                    .Where(x => webHookIds.Contains(x.WebHookId))
-                    .Where(x => x.RecordType == (int)WebhookFeedEntryType.Success)
-                    .Where(x => x.AttemptCount > 0)
-                    .ToArrayAsync();
-                return feedEntiries.ToDictionary(x => x.WebHookId, y => y.AttemptCount);
+                    .Where(x => webHookIds.Contains(x.WebHookId)
+                        && x.RecordType == (int)WebhookFeedEntryType.Success
+                        && x.AttemptCount > 0)
+                    .GroupBy(p => p.WebHookId)
+                    .Select(g => new
+                    {
+                        WebHookId = g.Key,
+                        Count = g.Sum(x => x.AttemptCount)
+                    })
+                    .ToDictionaryAsync(k => k.WebHookId, v => v.Count);
+                return feedEntiries;
             }
         }
 
