@@ -12,6 +12,7 @@ using VirtoCommerce.WebhooksModule.Data.Models;
 using VirtoCommerce.WebhooksModule.Data.Repositories;
 using VirtoCommerce.WebHooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Services;
+using VirtoCommerce.WebHooksModule.Data.Services;
 
 namespace VirtoCommerce.WebhooksModule.Data.Services
 {
@@ -61,6 +62,13 @@ namespace VirtoCommerce.WebhooksModule.Data.Services
                                             .Skip(searchCriteria.Skip)
                                             .Take(searchCriteria.Take)
                                             .ToArray();
+
+                        //TODO need to force cache when open Webhook's List in UI
+                        //then remove the code after refactoring working with IBackgroundJob(VP-6287)
+                        if (searchCriteria.ForceCacheReset)
+                        {
+                            _platformMemoryCache.Remove(CacheKey.With(typeof(WebHookService), nameof(WebHookService.GetByIdsAsync), string.Join("-", webHookIds)));
+                        }
 
                         result.Results = (await _webHookService.GetByIdsAsync(webHookIds, searchCriteria.ResponseGroup)).OrderBy(x => Array.IndexOf(webHookIds, x.Id)).ToArray();
                     }

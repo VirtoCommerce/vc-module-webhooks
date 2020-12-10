@@ -6,9 +6,9 @@ namespace VirtoCommerce.WebHooksModule.Data.Utils
 {
     public static class WebHookFeedUtils
     {
-        public static WebhookFeedEntry CreateErrorEntry(WebhookWorkItem webHookWorkItem, WebhookSendResponse response, string errorMessage)
+        public static WebhookFeedEntry CreateErrorEntry(WebhookWorkItem webHookWorkItem, WebhookSendResponse response, string error = null)
         {
-            return CreateFeedEntry(WebhookFeedEntryType.Error, webHookWorkItem.EventId, response, webHookWorkItem.WebHook, errorMessage);
+            return CreateFeedEntry(WebhookFeedEntryType.Error, webHookWorkItem.EventId, response, webHookWorkItem.WebHook);
         }
 
         public static WebhookFeedEntry CreateSuccessEntry(WebhookWorkItem webHookWorkItem, WebhookSendResponse response)
@@ -27,9 +27,9 @@ namespace VirtoCommerce.WebHooksModule.Data.Utils
                 Error = error,
                 Status = response?.StatusCode ?? 0,
                 RequestHeaders = GetJsonString(webHook.RequestParams.Headers),
-                RequestBody = GetJsonString(webHook.RequestParams.Body),
+                RequestBody = webHook.RequestParams.Body,
                 ResponseHeaders = GetJsonString(response?.ResponseParams?.Headers),
-                ResponseBody = GetJsonString(response?.ResponseParams?.Body),
+                ResponseBody = response?.ResponseParams?.Body,
             };
 
             return result;

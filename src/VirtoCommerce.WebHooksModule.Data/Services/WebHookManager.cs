@@ -1,4 +1,5 @@
 using Hangfire;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,9 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using VirtoCommerce.Platform.Core.Bus;
+using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Events;
+using VirtoCommerce.WebhooksModule.Core.Extensions;
 using VirtoCommerce.WebhooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Services;
@@ -107,12 +110,18 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
             if (webHookSearchResult.TotalCount > 0)
             {
-                var request = new WebhookRequest { EventId = eventId, EventObject = domainEvent, WebHooks = webHookSearchResult.Results };
+                var eventObject = domainEvent.GetChangedEntriesWithInterface<IEntity>().Select(x => new { x.Id }).FirstOrDefault();
+                var request = new WebhookRequest
+                {
+                    EventId = eventId,
+                    EventObject = JsonConvert.SerializeObject(eventObject),
+                    WebHooks = webHookSearchResult.Results
+                };
                 BackgroundJob.Enqueue(() => NotifyAsync(request, cancellationToken));
             }
         }
 
-        protected virtual async Task<WebhookSendResponse> NotifyWebHook(string eventId, object eventObject, Webhook webHook, CancellationToken cancellationToken)
+        protected virtual async Task<WebhookSendResponse> NotifyWebHook(string eventId, string eventObject, Webhook webHook, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
