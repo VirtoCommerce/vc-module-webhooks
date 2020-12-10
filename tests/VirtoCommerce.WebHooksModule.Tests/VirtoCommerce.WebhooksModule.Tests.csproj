@@ -15,6 +15,6 @@
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\VirtoCommerce.WebhooksModule.Web\VirtoCommerce.WebhooksModule.Web.csproj" />
+    <ProjectReference Include="..\..\src\VirtoCommerce.WebHooksModule.Web\VirtoCommerce.WebhooksModule.Web.csproj" />
   </ItemGroup>
 </Project>
