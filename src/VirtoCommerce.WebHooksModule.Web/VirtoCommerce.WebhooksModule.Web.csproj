@@ -21,7 +21,7 @@
     <PackageReference Include="VirtoCommerce.Platform.Core" Version="3.30.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VirtoCommerce.WebhooksModule.Core\VirtoCommerce.WebhooksModule.Core.csproj" />
-    <ProjectReference Include="..\VirtoCommerce.WebhooksModule.Data\VirtoCommerce.WebhooksModule.Data.csproj" />
+    <ProjectReference Include="..\VirtoCommerce.WebHooksModule.Core\VirtoCommerce.WebhooksModule.Core.csproj" />
+    <ProjectReference Include="..\VirtoCommerce.WebHooksModule.Data\VirtoCommerce.WebhooksModule.Data.csproj" />
   </ItemGroup>
 </Project>
