@@ -67,12 +67,25 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
         public override async Task<WebhookSendResponse> SendWebHookAsync(WebhookWorkItem webHookWorkItem)
         {
-            // Retry in the following intervals (in minutes): 1, 2, 4, …, 2^(RetryCount-1)
-            var policy = Policy
-                .Handle<WebHookSendException>()
-                .WaitAndRetryAsync(RetryCount, retryAttempt => TimeSpan.FromMinutes(Math.Pow(2, retryAttempt - 1)));
+            WebhookSendResponse result = null;
+            try
+            {
+                // Retry in the following intervals (in minutes): 1, 2, 4, …, 2^(RetryCount-1)
+                var policy = Policy
+                    .Handle<WebHookSendException>()
+                    .WaitAndRetryAsync(RetryCount, retryAttempt => TimeSpan.FromMinutes(Math.Pow(2, retryAttempt - 1)));
 
-            return await policy.ExecuteAsync(() => PerformSend(webHookWorkItem));
+                result = await policy.ExecuteAsync(() => PerformSend(webHookWorkItem));
+            }
+            catch (Exception ex)
+            {
+                var feedEntry = webHookWorkItem?.FeedEntry ?? WebHookFeedUtils.CreateErrorEntry(webHookWorkItem, result);
+
+                feedEntry.Error = ex.Message;
+                await _logger.LogAsync(feedEntry);
+            }
+
+            return result;
         }
 
         private async Task<WebhookSendResponse> PerformSend(WebhookWorkItem webHookWorkItem)
@@ -158,7 +171,6 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             var feedEntry = GetOrCreateFeedEntry(webHookWorkItem, webHookSendResponse);
 
             feedEntry.RecordType = (int)WebhookFeedEntryType.Error;
-            feedEntry.Error = webHookSendResponse.Error;
             feedEntry.Status = webHookSendResponse?.StatusCode ?? webHookWorkItem.FeedEntry.Status;
 
             await _logger.LogAsync(feedEntry);

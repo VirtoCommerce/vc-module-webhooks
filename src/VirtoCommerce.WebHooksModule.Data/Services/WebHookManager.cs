@@ -51,7 +51,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         }
 
         /// <inheritdoc />
-        public virtual Task<int> NotifyAsync(WebhookRequest request, CancellationToken cancellationToken)
+        public virtual async Task<int> NotifyAsync(WebhookRequest request, CancellationToken cancellationToken)
         {
             var webhooksCount = request.WebHooks.Count;
             var tasks = new List<Task<WebhookSendResponse>>();
@@ -64,9 +64,9 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                         .ToArray());
             }
 
-            Task.WaitAll(tasks.ToArray());
+            await Task.WhenAll(tasks.ToArray());
 
-            return Task.FromResult(request.WebHooks.Count);
+            return request.WebHooks.Count;
         }
 
         /// <inheritdoc />
@@ -110,7 +110,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
             if (webHookSearchResult.TotalCount > 0)
             {
-                var eventObject = domainEvent.GetChangedEntriesWithInterface<IEntity>().Select(x => new { x.Id }).FirstOrDefault();
+                var eventObject = domainEvent.GetChangedEntriesWithInterface<IEntity>().Select(x => new { objectId = x.Id, objectType = x.GetType().FullName });
                 var request = new WebhookRequest
                 {
                     EventId = eventId,
