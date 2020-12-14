@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 using VirtoCommerce.WebhooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Models;
@@ -24,7 +26,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Utils
                 WebHookId = webHook.Id,
                 EventId = eventId,
                 AttemptCount = 0,
-                Error = !string.IsNullOrEmpty(response.Error) ? response.Error.Substring(0, 1024) : string.Empty,
+                Error = new string(response.Error.Take(1024).ToArray()),
                 Status = response?.StatusCode ?? 0,
                 RequestHeaders = GetJsonString(webHook.RequestParams.Headers),
                 RequestBody = webHook.RequestParams.Body,

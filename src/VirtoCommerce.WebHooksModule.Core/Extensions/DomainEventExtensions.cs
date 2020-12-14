@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Events;
 
 namespace VirtoCommerce.WebhooksModule.Core.Extensions
 {
     public static class DomainEventExtensions
     {
-        public static TResult[] GetChangedEntriesWithInterface<TResult>(this IEvent obj)
+        public static TResult[] GetChangedEntriesWithInterface<TResult>(this IEvent obj, string kindEntry)
         {
             var result = new List<TResult>();
 
@@ -26,7 +27,7 @@ namespace VirtoCommerce.WebhooksModule.Core.Extensions
             {
                 foreach (var collectionObject in collection)
                 {
-                    foreach (var pi in collectionObject.GetType().GetProperties())
+                    foreach (var pi in collectionObject.GetType().GetProperties().Where(x => x.Name.EqualsInvariant(kindEntry)))
                     {
                         if (pi.PropertyType.GetInterfaces().Contains(typeof(TResult)))
                         {

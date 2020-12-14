@@ -22,12 +22,14 @@ namespace VirtoCommerce.WebHooksModule.Tests
             {
                 new GenericChangedEntry<Webhook>(new Webhook { Id = Guid.NewGuid().ToString() },
                 new Webhook { Id = Guid.NewGuid().ToString() },
-                EntryState.Modified)
+                EntryState.Modified),
+                new GenericChangedEntry<Webhook>(new Webhook { Id = Guid.NewGuid().ToString() },
+                EntryState.Added)
             };
             var webHookChangedEvent = new WebHookChangedEventFake(list);
 
             //Act
-            var result = webHookChangedEvent.GetChangedEntriesWithInterface<IEntity>();
+            var result = webHookChangedEvent.GetChangedEntriesWithInterface<IEntity>(nameof(GenericChangedEntry<IEntity>.NewEntry));
 
             //Assert
             Assert.NotNull(result);

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using VirtoCommerce.Platform.Core.Bus;
@@ -25,18 +26,21 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         private readonly IWebHookSearchService _webHookSearchService;
         private readonly IWebHookSender _webHookSender;
         private readonly IWebHookLogger _logger;
+        private readonly IBackgroundJobClient _backgroundJobClient;
 
         public WebHookManager(IRegisteredEventStore registeredEventStore,
             IHandlerRegistrar eventHandlerRegistrar,
             IWebHookSearchService webHookSearchService,
             IWebHookSender webHookSender,
-            IWebHookLogger logger)
+            IWebHookLogger logger,
+            IBackgroundJobClient backgroundJobClient)
         {
             _registeredEventStore = registeredEventStore;
             _eventHandlerRegistrar = eventHandlerRegistrar;
             _webHookSearchService = webHookSearchService;
             _webHookSender = webHookSender;
             _logger = logger;
+            _backgroundJobClient = backgroundJobClient;
         }
 
         /// <inheritdoc />
@@ -52,8 +56,10 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
         /// <inheritdoc />
         [DisableConcurrentExecution(10)]
+        [AutomaticRetry(Attempts = 3, DelaysInSeconds = new[] { 10, 60, 120 }, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
         public virtual async Task<int> NotifyAsync(WebhookRequest request, CancellationToken cancellationToken)
         {
+
             var webhooksCount = request.WebHooks.Count;
             var tasks = new List<Task<WebhookSendResponse>>();
 
@@ -65,7 +71,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                         .ToArray());
             }
 
-            await Task.WhenAll(tasks.ToArray());
+            await Task.WhenAll(tasks);
 
             return request.WebHooks.Count;
         }
@@ -111,16 +117,22 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
             if (webHookSearchResult.TotalCount > 0)
             {
-                var eventObject = domainEvent.GetChangedEntriesWithInterface<IEntity>().Select(x => new { objectId = x.Id, objectType = x.GetType().FullName });
+                var eventObject = domainEvent
+                    .GetChangedEntriesWithInterface<IEntity>(nameof(GenericChangedEntry<IEntity>.NewEntry))
+                    .Select(x => new { objectId = x.Id, objectType = x.GetType().FullName })
+                    .ToArray();
+
                 var request = new WebhookRequest
                 {
                     EventId = eventId,
                     EventObject = JsonConvert.SerializeObject(eventObject),
                     WebHooks = webHookSearchResult.Results
                 };
-                BackgroundJob.Enqueue(() => NotifyAsync(request, cancellationToken));
+
+                _backgroundJobClient.Schedule(() => NotifyAsync(request, cancellationToken), TimeSpan.FromMinutes(1));
             }
         }
+
 
         protected virtual async Task<WebhookSendResponse> NotifyWebHook(string eventId, string eventObject, Webhook webHook, CancellationToken cancellationToken)
         {
