@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using VirtoCommerce.Platform.Core.Bus;
@@ -25,21 +24,18 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         private readonly IHandlerRegistrar _eventHandlerRegistrar;
         private readonly IWebHookSearchService _webHookSearchService;
         private readonly IWebHookSender _webHookSender;
-        private readonly IWebHookLogger _logger;
         private readonly IBackgroundJobClient _backgroundJobClient;
 
         public WebHookManager(IRegisteredEventStore registeredEventStore,
             IHandlerRegistrar eventHandlerRegistrar,
             IWebHookSearchService webHookSearchService,
             IWebHookSender webHookSender,
-            IWebHookLogger logger,
             IBackgroundJobClient backgroundJobClient)
         {
             _registeredEventStore = registeredEventStore;
             _eventHandlerRegistrar = eventHandlerRegistrar;
             _webHookSearchService = webHookSearchService;
             _webHookSender = webHookSender;
-            _logger = logger;
             _backgroundJobClient = backgroundJobClient;
         }
 
