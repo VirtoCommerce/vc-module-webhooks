@@ -63,7 +63,7 @@ namespace VirtoCommerce.WebhooksModule.Data.Services
                                             .Take(searchCriteria.Take)
                                             .ToArray();
 
-                        //TODO need to force cache when open Webhook's List in UI
+                        //TechDebt: need to force cache when open Webhook's List in UI
                         //then remove the code after refactoring working with IBackgroundJob(VP-6287)
                         if (searchCriteria.ForceCacheReset)
                         {
