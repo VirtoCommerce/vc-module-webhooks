@@ -33,7 +33,7 @@ namespace VirtoCommerce.WebhooksModule.Data.Services
         {
             var cacheKey = CacheKey.With(GetType(), nameof(SearchAsync), searchCriteria.GetCacheKey());
 
-            //TODO need to force cache when open Webhook's List in UI
+            // TechDebt: need to force cache when open Webhook's List in UI
             //then remove the code after refactoring working with IBackgroundJob(VP-6287)
             if (searchCriteria.ForceCacheReset)
             {

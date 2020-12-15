@@ -86,6 +86,8 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                 {
                     throw new WebHookSendException(responseContent, webHookWorkItem.WebHook.Id, webHookWorkItem.EventId);
                 }
+
+                return result;
             }
             catch (WebHookSendException ex)
             {
@@ -95,13 +97,12 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             catch (Exception ex)
             {
                 result.Error = ex.Message;
+                return result;
             }
             finally
             {
                 await HandleResponseAsync(webHookWorkItem, result);
             }
-
-            return result;
         }
 
         private WebhookSendResponse CreateSendResponse(HttpResponseMessage response, string responseString)
