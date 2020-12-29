@@ -8,7 +8,7 @@ The webhooks module allows to register and send webhook notifications for any ev
 1. Sending Webhook notifications in the background via a POST request with JSON serialized event data to the specified URL;  
 1. Managing the list of webhooks  
 ![WebhookList](media/webhook-list.png)
-1. Viewing or updating Webhook details 
+1. Viewing or updating Webhook details;
 ![WebhookDetails](media/webhook-details.png)
 1. Using `DomainEvent` descendant to trigger webhook notification;  
 1. Sending retry policy with configurable exponential intervals  
@@ -30,24 +30,6 @@ To create a webhook, you need to "Add" button in the webhook list, and fill in t
 - The list of events you want this webhook be triggered for, or "Trigger all events" for any event;
 Turn on "Is active" to make the webhook active, and Save. 
 Now the webhook will trigger notification sending for the events you chose.
-
-## Documentation
-
-[Webhooks Document](/docs/index.md)
-
-[View on Github](https://github.com/VirtoCommerce/vc-module-webhooks/tree/dev)
-
-## References
-
-1. Deploy: https://virtocommerce.com/docs/latest/developer-guide/deploy-module-from-source-code/
-
-1. Installation: https://www.virtocommerce.com/docs/latest/user-guide/modules/
-
-1. Home: https://virtocommerce.com
-
-1. Community: https://www.virtocommerce.org
-
-1. [Download Latest Release](https://github.com/VirtoCommerce/vc-module-webhooks/releases/)
 
 ## Sample of Event JSON
 
