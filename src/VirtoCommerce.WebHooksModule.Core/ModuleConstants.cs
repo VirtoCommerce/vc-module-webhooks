@@ -11,12 +11,11 @@ namespace VirtoCommerce.WebHooksModule.Core
             {
                 public const string Access = "webhooks:access";
                 public const string Read = "webhooks:read";
-                public const string Execute = "webhooks:execute";
                 public const string Update = "webhooks:update";
                 public const string Delete = "webhooks:delete";
                 public const string ReadFeed = "webhooks:feed:read";
 
-                public static string[] AllPermissions { get; } = { Access, Read, Update, Delete, Execute, ReadFeed };
+                public static string[] AllPermissions { get; } = { Access, Read, Update, Delete, ReadFeed };
             }
         }
                 
