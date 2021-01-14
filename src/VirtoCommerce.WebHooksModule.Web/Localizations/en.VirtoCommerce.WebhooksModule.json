@@ -115,7 +115,9 @@
         "VirtoCommerce.NotificationsModule.Core.Events.NotificationMessageChangingEvent": "NotificationMessage Changing Event",
         "VirtoCommerce.StoreModule.Core.Events.StoreChangedEvent": "Store Changed Event",
         "VirtoCommerce.CustomerReviews.Core.Events.CustomerReviewChangedEvent": "CustomerReview Changed Event",
-        "VirtoCommerce.CustomerReviews.Core.Events.ReviewStatusChangedEvent": "ReviewStatus Changed Event"
+        "VirtoCommerce.CustomerReviews.Core.Events.ReviewStatusChangedEvent": "ReviewStatus Changed Event",
+        "VirtoCommerce.DynamicAssociationsModule.Core.Events.AssociationChangedEvent": "Association Changed Event",
+        "VirtoCommerce.DynamicAssociationsModule.Core.Events.AssociationChangingEvent": "Association Changing Event"
       }
     }
   },
