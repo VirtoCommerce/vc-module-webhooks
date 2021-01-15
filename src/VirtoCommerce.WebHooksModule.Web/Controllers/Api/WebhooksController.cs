@@ -135,7 +135,6 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
         /// <returns>Result of sent request.</returns>
         [HttpPost]
         [Route("send")]
-        [Authorize(ModuleConstants.Security.Permissions.Execute)]
         public async Task<ActionResult<WebhookSendResponse>> Run([FromBody] Webhook webHook)
         {
             var result = await _webHookManager.VerifyWebHookAsync(webHook);
