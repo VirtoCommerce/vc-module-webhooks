@@ -32,14 +32,6 @@ namespace VirtoCommerce.WebhooksModule.Data.Services
         public async Task<WebhookSearchResult> SearchAsync(WebhookSearchCriteria searchCriteria)
         {
             var cacheKey = CacheKey.With(GetType(), nameof(SearchAsync), searchCriteria.GetCacheKey());
-
-            // TechDebt: need to force cache when open Webhook's List in UI
-            //then remove the code after refactoring working with IBackgroundJob(VP-6287)
-            if (searchCriteria.ForceCacheReset)
-            {
-                _platformMemoryCache.Remove(cacheKey);
-            }
-
             return await _platformMemoryCache.GetOrCreateExclusiveAsync(cacheKey, async (cacheEntry) =>
             {
                 cacheEntry.AddExpirationToken(WebhookSearchCacheRegion.CreateChangeToken());
@@ -62,13 +54,6 @@ namespace VirtoCommerce.WebhooksModule.Data.Services
                                             .Skip(searchCriteria.Skip)
                                             .Take(searchCriteria.Take)
                                             .ToArray();
-
-                        //TechDebt: need to force cache when open Webhook's List in UI
-                        //then remove the code after refactoring working with IBackgroundJob(VP-6287)
-                        if (searchCriteria.ForceCacheReset)
-                        {
-                            _platformMemoryCache.Remove(CacheKey.With(typeof(WebHookService), nameof(WebHookService.GetByIdsAsync), string.Join("-", webHookIds)));
-                        }
 
                         result.Results = (await _webHookService.GetByIdsAsync(webHookIds, searchCriteria.ResponseGroup)).OrderBy(x => Array.IndexOf(webHookIds, x.Id)).ToArray();
                     }

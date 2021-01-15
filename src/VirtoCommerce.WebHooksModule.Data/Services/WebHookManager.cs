@@ -113,10 +113,9 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
             if (webHookSearchResult.TotalCount > 0)
             {
-                var eventObject = domainEvent
-                    .GetChangedEntriesWithInterface<IEntity>(nameof(GenericChangedEntry<IEntity>.NewEntry))
-                    .Select(x => new { objectId = x.Id, objectType = x.GetType().FullName })
-                    .ToArray();
+                var eventObject = domainEvent.GetEntityWithInterface<IEntity>()
+                                             .Select(x => new { objectId = x.Id, objectType = x.GetType().FullName })
+                                             .ToArray();
 
                 var request = new WebhookRequest
                 {

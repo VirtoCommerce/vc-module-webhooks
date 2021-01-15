@@ -10,31 +10,33 @@ namespace VirtoCommerce.WebhooksModule.Core.Extensions
 {
     public static class DomainEventExtensions
     {
-        public static TResult[] GetChangedEntriesWithInterface<TResult>(this IEvent obj, string kindEntry)
+        public static TResult[] GetEntityWithInterface<TResult>(this IEvent obj)
         {
             var result = new List<TResult>();
 
             var objectType = obj.GetType();
             var properties = objectType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
-            //Handle collection and arrays
-            var collections = properties.Where(p => p.Name.Equals(nameof(GenericChangedEntryEvent<TResult>.ChangedEntries)) && p.GetIndexParameters().Length == 0)
+            var objects = properties.Where(p => (p.Name.Equals(nameof(GenericChangedEntryEvent<TResult>.ChangedEntries)) && p.GetIndexParameters().Length == 0
+                                                || p.PropertyType.GetInterfaces().Contains(typeof(TResult))))
                                         .Select(x => x.GetValue(obj, null))
-                                        .Where(x => x is IEnumerable && !(x is string))
-                                        .Cast<IEnumerable>();
+                                        .Where(x => !(x is string));
 
-            foreach (var collection in collections)
+            foreach (var @object in objects)
             {
-                foreach (var collectionObject in collection)
+                if (@object is IEnumerable enumerable)
                 {
-                    foreach (var pi in collectionObject.GetType().GetProperties().Where(x => x.Name.EqualsInvariant(kindEntry)))
+                    foreach (var collectionObject in enumerable)
                     {
-                        if (pi.PropertyType.GetInterfaces().Contains(typeof(TResult)))
-                        {
-                            result.Add((TResult)pi.GetValue(collectionObject));
-                        }
+                        result.AddRange(collectionObject.GetType().GetProperties()
+                                                      .Where(x => x.Name.EqualsInvariant(nameof(GenericChangedEntry<TResult>.NewEntry)))
+                                                      .Select(p => p.GetValue(collectionObject))
+                                                      .OfType<TResult>());
                     }
-
+                }
+                else if (@object is TResult concreteObject)
+                {
+                    result.Add(concreteObject);
                 }
             }
 
