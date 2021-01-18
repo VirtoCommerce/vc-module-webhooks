@@ -52,7 +52,6 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
         /// <inheritdoc />
         [DisableConcurrentExecution(10)]
-        [AutomaticRetry(Attempts = 3, DelaysInSeconds = new[] { 10, 60, 120 }, OnAttemptsExceeded = AttemptsExceededAction.Fail)]
         public virtual async Task<int> NotifyAsync(WebhookRequest request, CancellationToken cancellationToken)
         {
 
@@ -128,7 +127,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             }
         }
 
-
+        
         protected virtual async Task<WebhookSendResponse> NotifyWebHook(string eventId, string eventObject, Webhook webHook, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();

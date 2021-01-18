@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Polly;
 using VirtoCommerce.Platform.Core.Settings;
 using VirtoCommerce.WebhooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core;
@@ -63,9 +64,11 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             }
         }
 
-        public override Task<WebhookSendResponse> SendWebHookAsync(WebhookWorkItem webHookWorkItem)
+        public override async Task<WebhookSendResponse> SendWebHookAsync(WebhookWorkItem webHookWorkItem)
         {
-            return PerformSend(webHookWorkItem);
+            // Retry in the following intervals (in minutes): 1, 2, 4, …, 2^(RetryCount-1)
+            var policy = Policy.Handle<WebHookSendException>().WaitAndRetryAsync(RetryCount, retryAttempt => TimeSpan.FromMinutes(Math.Pow(2, retryAttempt - 1)));
+            return await policy.ExecuteAsync(() => PerformSend(webHookWorkItem));
         }
 
         private async Task<WebhookSendResponse> PerformSend(WebhookWorkItem webHookWorkItem)

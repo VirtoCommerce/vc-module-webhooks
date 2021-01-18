@@ -12,7 +12,6 @@ using VirtoCommerce.WebhooksModule.Data.Models;
 using VirtoCommerce.WebhooksModule.Data.Repositories;
 using VirtoCommerce.WebHooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Services;
-using VirtoCommerce.WebHooksModule.Data.Services;
 
 namespace VirtoCommerce.WebhooksModule.Data.Services
 {
