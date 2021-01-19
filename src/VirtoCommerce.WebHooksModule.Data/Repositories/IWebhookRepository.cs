@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VirtoCommerce.Platform.Core.Common;
@@ -16,5 +17,6 @@ namespace VirtoCommerce.WebhooksModule.Data.Repositories
 
         Task<WebHookFeedEntryEntity[]> GetWebHookFeedEntriesByIdsAsync(string[] ids);
         Task DeleteWebHookFeedEntriesByIdsAsync(string[] ids);
+        Task UpdateAttemptCountsAsync(WebHookFeedEntryEntity[] webHookFeedEntries);
     }
 }

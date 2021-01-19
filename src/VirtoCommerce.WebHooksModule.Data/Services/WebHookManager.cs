@@ -51,10 +51,9 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         }
 
         /// <inheritdoc />
-        [DisableConcurrentExecution(10)]
+        [DisableConcurrentExecution(2)]
         public virtual async Task<int> NotifyAsync(WebhookRequest request, CancellationToken cancellationToken)
         {
-
             var webhooksCount = request.WebHooks.Count;
             var tasks = new List<Task<WebhookSendResponse>>();
 
@@ -77,12 +76,13 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             throw new NotImplementedException();
         }
 
+
         private void InvokeHandler(Type eventType, IHandlerRegistrar registrar)
         {
             var registerExecutorMethod = registrar
                 .GetType()
                 .GetMethods(BindingFlags.Instance | BindingFlags.Public)
-                .Where(mi => mi.Name == "RegisterHandler")
+                .Where(mi => mi.Name == nameof(IHandlerRegistrar.RegisterHandler))
                 .Where(mi => mi.IsGenericMethod)
                 .Where(mi => mi.GetGenericArguments().Length == 1)
                 .Single(mi => mi.GetParameters().Length == 1)
@@ -148,6 +148,6 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             response = await _webHookSender.SendWebHookAsync(webHookWorkItem);
 
             return response;
-        }
+        }        
     }
 }

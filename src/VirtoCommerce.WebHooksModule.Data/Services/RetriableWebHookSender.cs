@@ -26,6 +26,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         private readonly IWebHookFeedService _webHookFeedService;
         private readonly ISettingsManager _settingsManager;
         private int? _retryCount;
+        private int? _latestErrorCount;
 
         private bool _disposed;
 
@@ -39,6 +40,19 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                 }
 
                 return (int)_retryCount;
+            }
+        }
+
+        protected int LatestErrorCount
+        {
+            get
+            {
+                if (_latestErrorCount == null)
+                {
+                    _latestErrorCount = _settingsManager.GetValue(ModuleConstants.Settings.General.SendRetryCount.Name, 5);
+                }
+
+                return (int)_latestErrorCount;
             }
         }
 
@@ -138,7 +152,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         protected virtual async Task HandleSuccessAsync(WebhookWorkItem webHookWorkItem, WebhookSendResponse webHookSendResponse)
         {
             // Clear error records on this sending after success
-            if (webHookWorkItem.FeedEntry?.RecordType == (int)WebhookFeedEntryType.Error && !string.IsNullOrEmpty(webHookWorkItem.FeedEntry.Id))
+            if (webHookWorkItem.FeedEntry?.RecordType == (int)WebhookFeedEntryType.Error && !webHookWorkItem.FeedEntry.IsTransient())
             {
                 await _webHookFeedService.DeleteByIdsAsync(new[] { webHookWorkItem.FeedEntry.Id });
             }
@@ -159,6 +173,10 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
             await _logger.LogAsync(feedEntry);
             webHookWorkItem.FeedEntry = feedEntry;
+
+            //delete old FeedEntries except latest by 'LatestErrorCount'
+            var errorFeedEntryIds = await _webHookFeedService.GetAllErrorEntriesExceptLatestAsync(new[] { webHookWorkItem.WebHook.Id }, LatestErrorCount);
+            await _webHookFeedService.DeleteByIdsAsync(errorFeedEntryIds);
         }
 
         /// <summary>
