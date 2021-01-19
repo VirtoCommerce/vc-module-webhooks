@@ -27,19 +27,6 @@ namespace VirtoCommerce.WebHooksModule.Tests
             Assert.NotNull(result);
             Assert.All(result, item => Assert.IsAssignableFrom<IEntity>(item));
         }
-
-        [Fact]
-        public void GetEntityWithInterface_ReturnEntity()
-        {
-            //Arrange
-            var domainEvent = new WebHookObjectEventFake(new FakeEntity { Id = Guid.NewGuid().ToString() });
-
-            //Act
-            var result = domainEvent.GetEntityWithInterface<IEntity>();
-
-            //Assert
-            Assert.NotNull(result);
-        }
     }
 
     class WebHookTestData : IEnumerable<object[]>
