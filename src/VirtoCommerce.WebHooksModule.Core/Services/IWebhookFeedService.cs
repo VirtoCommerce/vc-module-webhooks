@@ -8,5 +8,7 @@ namespace VirtoCommerce.WebHooksModule.Core.Services
 		Task<WebhookFeedEntry[]> GetByIdsAsync(string[] ids);
 		Task DeleteByIdsAsync(string[] ids);
 		Task SaveChangesAsync(WebhookFeedEntry[] webhookLogEntries);
-	}
+        Task UpdateCountAttemps(WebhookFeedEntry[] webhookLogEntries);
+        Task<string[]> GetAllErrorEntriesExceptLatestAsync(string[] webHookIds, int exceptLatestCount);
+    }
 }

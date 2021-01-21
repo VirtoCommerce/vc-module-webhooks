@@ -41,6 +41,7 @@ namespace VirtoCommerce.WebHooksModule.Web
             serviceCollection.AddSingleton<IRegisteredEventStore,RegisteredEventStore>();
             serviceCollection.AddTransient<IWebHookSender, RetriableWebHookSender>();
             serviceCollection.AddTransient<IWebHookManager, WebHookManager>();
+            serviceCollection.AddHttpClient("webhooks");
         }
 
         public void PostInitialize(IApplicationBuilder appBuilder)

@@ -1,6 +1,10 @@
+using System.Collections.Generic;
+using Microsoft.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Data.Infrastructure;
 using VirtoCommerce.WebhooksModule.Data.Models;
 
@@ -8,6 +12,8 @@ namespace VirtoCommerce.WebhooksModule.Data.Repositories
 {
     public class WebHookRepository : DbContextRepositoryBase<WebhookDbContext>, IWebHookRepository
     {
+        private readonly int _batchSize = 50;
+
         public WebHookRepository(WebhookDbContext dbContext) : base(dbContext)
         {
         }
@@ -36,10 +42,45 @@ namespace VirtoCommerce.WebhooksModule.Data.Repositories
 
         public async Task DeleteWebHookFeedEntriesByIdsAsync(string[] ids)
         {
-            var webHookFeedEntries = await GetWebHookFeedEntriesByIdsAsync(ids);
-            foreach (var webHookFeedEntryEntity in webHookFeedEntries)
+            if (!ids.IsNullOrEmpty())
             {
-                Remove(webHookFeedEntryEntity);
+                var skip = 0;
+                do
+                {
+                    var batchEntries = ids.Skip(skip).Take(_batchSize);
+                    var commandText = $"DELETE FROM WebHookFeedEntry WHERE Id IN ('{string.Join("','", batchEntries)}')";
+                    await DbContext.Database.ExecuteSqlRawAsync(commandText);
+
+                    skip += _batchSize;
+                }
+                while (skip < ids.Length);
+            }
+        }
+
+        public async Task UpdateAttemptCountsAsync(WebHookFeedEntryEntity[] webHookFeedEntries)
+        {
+            if (!webHookFeedEntries.IsNullOrEmpty())
+            {
+                var skip = 0;
+                do
+                {
+                    var batchEntries = webHookFeedEntries.Skip(skip).Take(_batchSize);
+                    var sb = new StringBuilder();
+                    var sqlParameters = new List<SqlParameter>();
+                    var i = 0;
+                    foreach (var entry in batchEntries)
+                    {
+                        sb.AppendLine($"UPDATE WebHookFeedEntry SET AttemptCount = @count{i} WHERE Id = @id{i}; ");
+                        sqlParameters.Add(new SqlParameter($"@count{i}", entry.AttemptCount));
+                        sqlParameters.Add(new SqlParameter($"@id{i}", entry.Id));
+                        i++;
+                    }
+
+                    await DbContext.Database.ExecuteSqlRawAsync(sb.ToString(), sqlParameters.ToArray());
+
+                    skip += _batchSize;
+                }
+                while (skip < webHookFeedEntries.Length);
             }
         }
     }

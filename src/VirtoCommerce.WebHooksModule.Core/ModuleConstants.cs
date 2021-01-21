@@ -28,11 +28,18 @@ namespace VirtoCommerce.WebHooksModule.Core
                     Name = "Webhooks.General.SendRetryCount",
                     ValueType = SettingValueType.Integer,
                     GroupName = "Webhooks|General",
-                    IsDictionary = true,
                     DefaultValue = 3
                 };
 
-                public static IEnumerable<SettingDescriptor> AllSettings => new List<SettingDescriptor> { SendRetryCount };
+                public static SettingDescriptor LatestErrorCount { get; } = new SettingDescriptor
+                {
+                    Name = "Webhooks.General.LatestErrorCount",
+                    ValueType = SettingValueType.Integer,
+                    GroupName = "Webhooks|General",
+                    DefaultValue = 5
+                };
+
+                public static IEnumerable<SettingDescriptor> AllSettings => new List<SettingDescriptor> { SendRetryCount, LatestErrorCount };
             }
         }
     }

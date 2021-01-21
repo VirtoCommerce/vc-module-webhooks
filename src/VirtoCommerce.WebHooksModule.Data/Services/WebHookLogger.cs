@@ -83,7 +83,14 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         /// <returns>Saved feed entry.</returns>
         protected virtual async Task<WebhookFeedEntry> LogErrorAsync(WebhookFeedEntry feedEntry)
         {
-            await _webHookFeedService.SaveChangesAsync(new[] { feedEntry });
+            if (feedEntry.IsTransient())
+            {
+                await _webHookFeedService.SaveChangesAsync(new[] { feedEntry });
+            }
+            else
+            {
+                await _webHookFeedService.UpdateCountAttemps(new[] { feedEntry });
+            }
 
             return feedEntry;
         }

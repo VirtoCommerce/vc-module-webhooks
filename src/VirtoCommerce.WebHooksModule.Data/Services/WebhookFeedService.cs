@@ -27,7 +27,6 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             using (var repository = _webHookRepositoryFactory())
             {
                 await repository.DeleteWebHookFeedEntriesByIdsAsync(ids);
-                await repository.UnitOfWork.CommitAsync();
             }
         }
 
@@ -144,6 +143,34 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                         Count = g.Count()
                     })
                     .ToDictionaryAsync(k => k.WebHookId, v => v.Count);
+                return result;
+            }
+        }
+
+        public async Task UpdateCountAttemps(WebhookFeedEntry[] webhookLogEntries)
+        {
+            var pkMap = new PrimaryKeyResolvingMap();
+            using (var repository = _webHookRepositoryFactory())
+            {
+                await repository.UpdateAttemptCountsAsync(
+                    webhookLogEntries.Select(x => AbstractTypeFactory<WebHookFeedEntryEntity>.TryCreateInstance().FromModel(x, pkMap))
+                                     .ToArray());
+            }
+        }
+
+        public async Task<string[]> GetAllErrorEntriesExceptLatestAsync(string[] webHookIds, int exceptLatestCount)
+        {
+            using (var repository = _webHookRepositoryFactory())
+            {
+                var result = (await repository.WebHookFeedEntries
+                                            .Where(x => webHookIds.Contains(x.WebHookId) && x.RecordType == (int)WebhookFeedEntryType.Error)
+                                            .Select(x => new { x.Id, x.WebHookId, x.CreatedDate })
+                                            .ToListAsync())
+                                 .GroupBy(x => x.WebHookId)
+                                 .Where(x => x.Count() > exceptLatestCount)
+                                 .SelectMany(x => x.OrderByDescending(d => d.CreatedDate).Skip(exceptLatestCount).Select(y => y.Id))
+                                 .ToArray();
+
                 return result;
             }
         }

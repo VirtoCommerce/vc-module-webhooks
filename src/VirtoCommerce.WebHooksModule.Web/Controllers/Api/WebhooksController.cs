@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.WebhooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core;
 using VirtoCommerce.WebHooksModule.Core.Models;
@@ -19,13 +20,15 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
         private readonly IWebHookManager _webHookManager;
         private readonly IRegisteredEventStore _registeredEventStore;
         private readonly IWebHookFeedService _webHookFeedService;
+        private readonly IWebHookFeedReader _webHookFeedReader;
 
         public WebHooksController(IWebHookSearchService webHookSearchService,
             IWebHookFeedSearchService webHookFeedSearchService,
             IWebHookService webHookService,
             IWebHookManager webHookManager,
             IRegisteredEventStore registeredEventStore,
-            IWebHookFeedService webHookFeedService)
+            IWebHookFeedService webHookFeedService,
+            IWebHookFeedReader webHookFeedReader)
         {
             _webHookSearchService = webHookSearchService;
             _webHookFeedSearchService = webHookFeedSearchService;
@@ -33,6 +36,7 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
             _webHookManager = webHookManager;
             _registeredEventStore = registeredEventStore;
             _webHookFeedService = webHookFeedService;
+            _webHookFeedReader = webHookFeedReader;
         }
 
         // GET: api/webhooks/:id
@@ -61,9 +65,16 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
         [Authorize(ModuleConstants.Security.Permissions.Read)]
         public async Task<ActionResult<WebhookSearchResult>> Search([FromBody] WebhookSearchCriteria criteria)
         {
-            //TODO need to remove after refactoring working with IBackgroundJob(VP-6287)
-            criteria.ForceCacheReset = true;
             var result = await _webHookSearchService.SearchAsync(criteria);
+            var webHookIds = result.Results.Select(x => x.Id).ToArray();
+            var webHookSuccessCounts = await _webHookFeedReader.GetSuccessCountsAsync(webHookIds);
+            var webHookErrorCounts = await _webHookFeedReader.GetErrorCountsAsync(webHookIds);
+
+            foreach (var webHook in result.Results)
+            {
+                webHook.SuccessCount = webHookSuccessCounts.FirstOrDefault(w => w.Key.EqualsInvariant(webHook.Id)).Value;
+                webHook.ErrorCount = webHookErrorCounts.FirstOrDefault(w => w.Key.EqualsInvariant(webHook.Id)).Value;
+            }
 
             return Ok(result);
         }

@@ -16,5 +16,6 @@ namespace VirtoCommerce.WebhooksModule.Data.Repositories
 
         Task<WebHookFeedEntryEntity[]> GetWebHookFeedEntriesByIdsAsync(string[] ids);
         Task DeleteWebHookFeedEntriesByIdsAsync(string[] ids);
+        Task UpdateAttemptCountsAsync(WebHookFeedEntryEntity[] webHookFeedEntries);
     }
 }
