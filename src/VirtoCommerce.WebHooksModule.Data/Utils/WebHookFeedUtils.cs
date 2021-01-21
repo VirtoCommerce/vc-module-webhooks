@@ -1,3 +1,4 @@
+using System.Linq;
 using Newtonsoft.Json.Linq;
 using VirtoCommerce.WebhooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Models;
@@ -6,9 +7,9 @@ namespace VirtoCommerce.WebHooksModule.Data.Utils
 {
     public static class WebHookFeedUtils
     {
-        public static WebhookFeedEntry CreateErrorEntry(WebhookWorkItem webHookWorkItem, WebhookSendResponse response, string errorMessage)
+        public static WebhookFeedEntry CreateErrorEntry(WebhookWorkItem webHookWorkItem, WebhookSendResponse response)
         {
-            return CreateFeedEntry(WebhookFeedEntryType.Error, webHookWorkItem.EventId, response, webHookWorkItem.WebHook, errorMessage);
+            return CreateFeedEntry(WebhookFeedEntryType.Error, webHookWorkItem.EventId, response, webHookWorkItem.WebHook);
         }
 
         public static WebhookFeedEntry CreateSuccessEntry(WebhookWorkItem webHookWorkItem, WebhookSendResponse response)
@@ -16,7 +17,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Utils
             return CreateFeedEntry(WebhookFeedEntryType.Success, webHookWorkItem.EventId, response, webHookWorkItem.WebHook);
         }
 
-        public static WebhookFeedEntry CreateFeedEntry(WebhookFeedEntryType entryType, string eventId, WebhookSendResponse response, Webhook webHook, string error = null)
+        public static WebhookFeedEntry CreateFeedEntry(WebhookFeedEntryType entryType, string eventId, WebhookSendResponse response, Webhook webHook)
         {
             var result = new WebhookFeedEntry()
             {
@@ -24,12 +25,12 @@ namespace VirtoCommerce.WebHooksModule.Data.Utils
                 WebHookId = webHook.Id,
                 EventId = eventId,
                 AttemptCount = 0,
-                Error = error,
+                Error = new string(response.Error.Take(1024).ToArray()),
                 Status = response?.StatusCode ?? 0,
                 RequestHeaders = GetJsonString(webHook.RequestParams.Headers),
-                RequestBody = GetJsonString(webHook.RequestParams.Body),
+                RequestBody = webHook.RequestParams.Body,
                 ResponseHeaders = GetJsonString(response?.ResponseParams?.Headers),
-                ResponseBody = GetJsonString(response?.ResponseParams?.Body),
+                ResponseBody = response?.ResponseParams?.Body,
             };
 
             return result;

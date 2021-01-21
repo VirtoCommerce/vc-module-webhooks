@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 using Polly;
 using VirtoCommerce.Platform.Core.Settings;
 using VirtoCommerce.WebhooksModule.Core.Models;
@@ -22,11 +21,12 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
     {
         protected const string UnsuccessfulSendTemplate = "WebHook was sent unsuccessfully. Attempt number: {0}. Error: {1}.";
 
-        private readonly HttpClient _httpClient;
+        private readonly IHttpClientFactory _httpClientFactory;
         private readonly IWebHookLogger _logger;
         private readonly IWebHookFeedService _webHookFeedService;
         private readonly ISettingsManager _settingsManager;
         private int? _retryCount;
+        private int? _latestErrorCount;
 
         private bool _disposed;
 
@@ -43,9 +43,23 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             }
         }
 
-        public RetriableWebHookSender(IWebHookLogger logger, IWebHookFeedService webHookFeedService, ISettingsManager settingsManager) : base()
+        protected int LatestErrorCount
         {
-            _httpClient = new HttpClient();
+            get
+            {
+                if (_latestErrorCount == null)
+                {
+                    _latestErrorCount = _settingsManager.GetValue(ModuleConstants.Settings.General.SendRetryCount.Name, 5);
+                }
+
+                return (int)_latestErrorCount;
+            }
+        }
+
+        public RetriableWebHookSender(IWebHookLogger logger, IWebHookFeedService webHookFeedService, ISettingsManager settingsManager,
+            IHttpClientFactory httpClientFactory) : base()
+        {
+            _httpClientFactory = httpClientFactory;
             _logger = logger;
             _webHookFeedService = webHookFeedService;
             _settingsManager = settingsManager;
@@ -60,103 +74,85 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             if (!_disposed)
             {
                 _disposed = true;
-                if (disposing)
-                {
-                    try
-                    {
-                        // Cancel any outstanding HTTP requests
-                        if (_httpClient != null)
-                        {
-                            _httpClient.CancelPendingRequests();
-                            _httpClient.Dispose();
-                        }
-
-                    }
-                    catch
-                    {
-                        // No need in throwing
-                    }
-                }
                 base.Dispose(disposing);
             }
         }
 
         public override async Task<WebhookSendResponse> SendWebHookAsync(WebhookWorkItem webHookWorkItem)
         {
-            WebhookSendResponse result = null;
-
-            try
-            {
-                // Retry in the following intervals (in minutes): 1, 2, 4, …, 2^(RetryCount-1)
-                var policy = Policy
-                    .HandleResult<WebhookSendResponse>(x => !x.IsSuccessfull)
-                    .WaitAndRetryAsync(RetryCount, retryAttempt => TimeSpan.FromMinutes(Math.Pow(2, retryAttempt - 1)));
-
-                result = await policy.ExecuteAsync(async () => await PerformSend(webHookWorkItem));
-
-            }
-            catch (Exception ex)
-            {
-                var feedEntry = webHookWorkItem?.FeedEntry ?? WebHookFeedUtils.CreateErrorEntry(webHookWorkItem, result, ex.Message);
-
-                feedEntry.Error = ex.Message;
-                await _logger.LogAsync(feedEntry);
-            }
-
-
-            return result;
+            // Retry in the following intervals (in minutes): 1, 2, 4, …, 2^(RetryCount-1)
+            var policy = Policy.Handle<WebHookSendException>().WaitAndRetryAsync(RetryCount, retryAttempt => TimeSpan.FromMinutes(Math.Pow(2, retryAttempt - 1)));
+            return await policy.ExecuteAsync(() => PerformSend(webHookWorkItem));
         }
 
         private async Task<WebhookSendResponse> PerformSend(WebhookWorkItem webHookWorkItem)
         {
-            WebhookSendResponse result;
-            HttpResponseMessage response = null;
+            var result = new WebhookSendResponse();
 
             try
             {
                 var request = CreateWebHookRequest(webHookWorkItem);
-                response = await _httpClient.SendAsync(request);
+                var httpClient = _httpClientFactory.CreateClient("webhooks");
 
-                result = await CreateSendResponse(response);
+                var response = await httpClient.SendAsync(request);
+                var responseContent = await response.Content.ReadAsStringAsync();
 
-                if (response.IsSuccessStatusCode)
+                result = CreateSendResponse(response, responseContent);
+
+                if (!response.IsSuccessStatusCode)
                 {
-                    await HandleSuccessAsync(webHookWorkItem, result);
+                    throw new WebHookSendException(responseContent, webHookWorkItem.WebHook.Id, webHookWorkItem.EventId);
                 }
-                else
-                {
-                    var errorMessage = GetErrorText(webHookWorkItem.FeedEntry?.AttemptCount + 1 ?? 0, $"Response staus code does not indicate success: {(int)response.StatusCode}");
 
-                    result.Error = errorMessage;
-                    await HandleErrorAsync(webHookWorkItem, result, errorMessage);
-                }
+                return result;
+            }
+            catch (WebHookSendException ex)
+            {
+                result.Error = GetErrorText(webHookWorkItem.FeedEntry?.AttemptCount + 1 ?? 0, ex.Message);
+                throw;
             }
             catch (Exception ex)
             {
-
-                var errorMessage = GetErrorText(webHookWorkItem.FeedEntry?.AttemptCount + 1 ?? 0, ex.Message);
-
-                result = await CreateSendResponse(response);
-                result.Error = errorMessage;
-                await HandleErrorAsync(webHookWorkItem, result, errorMessage);
+                result.Error = ex.Message;
+                return result;
             }
-
-            return result;
+            finally
+            {
+                await HandleResponseAsync(webHookWorkItem, result);
+            }
         }
 
-        private async Task<WebhookSendResponse> CreateSendResponse(HttpResponseMessage response)
+        private WebhookSendResponse CreateSendResponse(HttpResponseMessage response, string responseString)
         {
             return new WebhookSendResponse()
             {
                 StatusCode = (int)(response?.StatusCode ?? 0),
-                ResponseParams = await CreateResponseParams(response),
+                ResponseParams = new WebhookHttpParams()
+                {
+                    Headers = response?.Headers.ToDictionary(x => x.Key, x => string.Join(";", x.Value)) ?? new Dictionary<string, string>(),
+                    Body = responseString
+                },
+                Error = response != null && response.IsSuccessStatusCode ? string.Empty: responseString,
+                IsSuccessfull = response?.IsSuccessStatusCode ?? false
             };
+        }
+
+        protected virtual Task HandleResponseAsync(WebhookWorkItem webHookWorkItem, WebhookSendResponse webHookSendResponse)
+        {
+            if (webHookSendResponse.IsSuccessfull)
+            {
+                return HandleSuccessAsync(webHookWorkItem, webHookSendResponse);
+            }
+            else
+            {
+                return HandleErrorAsync(webHookWorkItem, webHookSendResponse);
+            }
         }
 
         protected virtual async Task HandleSuccessAsync(WebhookWorkItem webHookWorkItem, WebhookSendResponse webHookSendResponse)
         {
             // Clear error records on this sending after success
-            if (webHookWorkItem.FeedEntry?.RecordType == (int)WebhookFeedEntryType.Error && !string.IsNullOrEmpty(webHookWorkItem.FeedEntry.Id))
+            if (webHookWorkItem.FeedEntry?.RecordType == (int)WebhookFeedEntryType.Error && !webHookWorkItem.FeedEntry.IsTransient())
             {
                 await _webHookFeedService.DeleteByIdsAsync(new[] { webHookWorkItem.FeedEntry.Id });
             }
@@ -168,16 +164,19 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             webHookWorkItem.FeedEntry = feedEntry;
         }
 
-        protected virtual async Task HandleErrorAsync(WebhookWorkItem webHookWorkItem, WebhookSendResponse webHookSendResponse, string errorMessage)
+        protected virtual async Task HandleErrorAsync(WebhookWorkItem webHookWorkItem, WebhookSendResponse webHookSendResponse)
         {
-            var feedEntry = GetOrCreateFeedEntry(webHookWorkItem, webHookSendResponse, errorMessage);
+            var feedEntry = GetOrCreateFeedEntry(webHookWorkItem, webHookSendResponse);
 
             feedEntry.RecordType = (int)WebhookFeedEntryType.Error;
-            feedEntry.Error = errorMessage;
             feedEntry.Status = webHookSendResponse?.StatusCode ?? webHookWorkItem.FeedEntry.Status;
 
             await _logger.LogAsync(feedEntry);
             webHookWorkItem.FeedEntry = feedEntry;
+
+            //delete old FeedEntries except latest by 'LatestErrorCount'
+            var errorFeedEntryIds = await _webHookFeedService.GetAllErrorEntriesExceptLatestAsync(new[] { webHookWorkItem.WebHook.Id }, LatestErrorCount);
+            await _webHookFeedService.DeleteByIdsAsync(errorFeedEntryIds);
         }
 
         /// <summary>
@@ -186,13 +185,13 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         /// <param name="webHookWorkItem"></param>
         /// <param name="webHookSendResponse"></param>
         /// <returns></returns>
-        protected virtual WebhookFeedEntry GetOrCreateFeedEntry(WebhookWorkItem webHookWorkItem, WebhookSendResponse webHookSendResponse, string errorMessage)
+        protected virtual WebhookFeedEntry GetOrCreateFeedEntry(WebhookWorkItem webHookWorkItem, WebhookSendResponse webHookSendResponse)
         {
             var feedEntry = webHookWorkItem.FeedEntry;
 
             if (feedEntry == null)
             {
-                feedEntry = WebHookFeedUtils.CreateErrorEntry(webHookWorkItem, webHookSendResponse, errorMessage);
+                feedEntry = WebHookFeedUtils.CreateErrorEntry(webHookWorkItem, webHookSendResponse);
             }
             else
             {
@@ -200,33 +199,6 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             }
 
             return feedEntry;
-        }
-
-        protected virtual async Task<WebhookHttpParams> CreateResponseParams(HttpResponseMessage response)
-        {
-            var responseString = response != null ? await response.Content.ReadAsStringAsync() : string.Empty;
-
-            return new WebhookHttpParams()
-            {
-                Headers = response?.Headers.ToDictionary(x => x.Key, x => string.Join(";", x.Value)) ?? new Dictionary<string, string>(),
-                Body = !string.IsNullOrEmpty(responseString) ? ParseResponseBody(responseString) : null,
-            };
-        }
-
-        protected virtual JObject ParseResponseBody(string responseString)
-        {
-            JObject result;
-
-            try
-            {
-                result = JObject.Parse(responseString);
-            }
-            catch (Exception)
-            {
-                result = new JObject(new JProperty("ParseError", "Content is not valid JSON object."));
-            }
-
-            return result;
         }
 
         protected virtual string GetErrorText(int attemptCount, string errorDetail)

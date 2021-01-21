@@ -7,6 +7,6 @@ namespace VirtoCommerce.WebHooksModule.Core.Models
         public int StatusCode { get; set; }
         public string Error { get; set; }
         public WebhookHttpParams ResponseParams { get; set; }
-        public bool IsSuccessfull => string.IsNullOrEmpty(Error);
+        public bool IsSuccessfull { get; set; }
     }
 }
