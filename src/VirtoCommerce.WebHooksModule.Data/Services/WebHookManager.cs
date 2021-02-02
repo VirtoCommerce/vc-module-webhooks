@@ -118,12 +118,12 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                 var valueObjects = domainEvent.GetObjectsWithDerived<ValueObject>()
                                              .Select(x => new { objectId = x.GetCacheKey(), objectType = x.GetType().FullName, eventId = eventId })
                                              .ToArray();
-                var eventDatas = entities.Union(valueObjects).ToArray();
+                var eventData = entities.Union(valueObjects).ToArray();
 
                 var request = new WebhookRequest
                 {
                     EventId = eventId,
-                    EventObject = JsonConvert.SerializeObject(eventDatas),
+                    EventObject = JsonConvert.SerializeObject(eventData),
                     WebHooks = webHookSearchResult.Results
                 };
 
