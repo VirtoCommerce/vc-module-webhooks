@@ -16,12 +16,12 @@ namespace VirtoCommerce.WebHooksModule.Tests
 
         [Theory]
         [ClassData(typeof(WebHookTestData))]
-        public void GetChangedEntriesWithInterface_ReturnEntities(DomainEvent domainEvent)
+        public void GetObjectsWithDerived_ReturnEntities(DomainEvent domainEvent)
         {
             //Arrange
             
             //Act
-            var result = domainEvent.GetEntityWithInterface<IEntity>();
+            var result = domainEvent.GetObjectsWithDerived<IEntity>();
 
             //Assert
             Assert.NotNull(result);
@@ -30,16 +30,19 @@ namespace VirtoCommerce.WebHooksModule.Tests
 
         [Theory]
         [ClassData(typeof(WebHookTestValueObjects))]
-        public void GetChangedEntriesWithInterface_ReturnValueObjects(DomainEvent domainEvent)
+        public void GetObjectsWithDerived_ReturnValueObjects(DomainEvent domainEvent)
         {
             //Arrange
 
             //Act
-            var result = domainEvent.GetEntityWithInterface<IValueObject>();
+            var result = domainEvent.GetObjectsWithDerived<ValueObject>();
+            var interfaces = domainEvent.GetObjectsWithDerived<IValueObject>();
 
             //Assert
             Assert.NotNull(result);
-            Assert.All(result, item => Assert.IsAssignableFrom<IValueObject>(item));
+            Assert.All(result, item => Assert.IsAssignableFrom<ValueObject>(item));
+            Assert.NotNull(interfaces);
+            Assert.All(interfaces, item => Assert.IsAssignableFrom<IValueObject>(item));
         }
     }
 

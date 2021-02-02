@@ -112,11 +112,11 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
             if (webHookSearchResult.TotalCount > 0)
             {
-                var entities = domainEvent.GetEntityWithInterface<IEntity>()
+                var entities = domainEvent.GetObjectsWithDerived<IEntity>()
                                              .Select(x => new { objectId = x.Id, objectType = x.GetType().FullName, eventId = eventId })
                                              .ToArray();
-                var valueObjects = domainEvent.GetEntityWithInterface<IValueObject>()
-                                             .Select(x => new { objectId = ((ValueObject)x).GetCacheKey(), objectType = x.GetType().FullName, eventId = eventId })
+                var valueObjects = domainEvent.GetObjectsWithDerived<ValueObject>()
+                                             .Select(x => new { objectId = x.GetCacheKey(), objectType = x.GetType().FullName, eventId = eventId })
                                              .ToArray();
                 var eventDatas = entities.Union(valueObjects).ToArray();
 
