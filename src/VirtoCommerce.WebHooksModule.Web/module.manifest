@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <id>VirtoCommerce.WebHooks</id>
   <version>3.5.0</version>
@@ -16,10 +16,10 @@
   </owners>
   <requireLicenseAcceptance>false</requireLicenseAcceptance>
   <releaseNotes />
-  <copyright>Copyright © 2020 . All rights reserved</copyright>
+  <copyright>Copyright © 2021. All rights reserved</copyright>
   <tags>webhooks module</tags>
-  <assemblyFile>VirtoCommerce.WebHooksModule.Web.dll</assemblyFile>
-  <moduleType>VirtoCommerce.WebHooksModule.Web.Module, VirtoCommerce.WebHooksModule.Web</moduleType>
+  <assemblyFile>VirtoCommerce.WebhooksModule.Web.dll</assemblyFile>
+  <moduleType>VirtoCommerce.WebHooksModule.Web.Module, VirtoCommerce.WebhooksModule.Web</moduleType>
   <dependencies>
     <dependency id="VirtoCommerce.Core" version="3.0.0" />
   </dependencies>
