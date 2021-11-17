@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using VirtoCommerce.Platform.Core.Common;
 
 namespace VirtoCommerce.WebhooksModule.Core.Models
@@ -13,5 +14,6 @@ namespace VirtoCommerce.WebhooksModule.Core.Models
         public long ErrorCount { get; set; }
         public WebhookEvent[] Events { get; set; }
         public WebhookHttpParams RequestParams { get; set; }
+        public IReadOnlyCollection<string> EventPayloadProperties { get; set; }
     }
 }
