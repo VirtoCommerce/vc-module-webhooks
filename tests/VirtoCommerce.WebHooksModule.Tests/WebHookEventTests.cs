@@ -27,6 +27,24 @@ namespace VirtoCommerce.WebHooksModule.Tests
             Assert.NotNull(result);
             Assert.All(result, item => Assert.IsAssignableFrom<IEntity>(item));
         }
+
+        [Fact]
+        public void GetEntityTypeViaEventType_ReturnEntityType()
+        {
+            // Arrange
+
+            // Act
+            var entityTypeFromGenericEvent = typeof(WebHookChangedEventFake).GetEntityTypeWithInterface<IEntity>();
+            var entityTypeFromEventInheritedViaDomainEvent = typeof(WebHookObjectEventFake).GetEntityTypeWithInterface<IEntity>();
+            var wrongType = typeof(WebHookObjectEventFake).GetEntityTypeWithInterface<IWrong>();
+            var correctTypeEvenWithIncorrectInterface = typeof(WebHookChangedEventFake).GetEntityTypeWithInterface<IWrong>();
+
+            // Assert
+            Assert.Equal(nameof(FakeEntity), entityTypeFromEventInheritedViaDomainEvent.Name);
+            Assert.Equal(nameof(FakeEntity), entityTypeFromGenericEvent.Name);
+            Assert.Null(wrongType);
+            Assert.Equal(nameof(FakeEntity), correctTypeEvenWithIncorrectInterface.Name);
+        }
     }
 
     class WebHookTestData : IEnumerable<object[]>
@@ -70,5 +88,10 @@ namespace VirtoCommerce.WebHooksModule.Tests
     public class FakeEntity : IEntity
     {
         public string Id { get; set; }
+    }
+
+    public interface IWrong
+    {
+
     }
 }
