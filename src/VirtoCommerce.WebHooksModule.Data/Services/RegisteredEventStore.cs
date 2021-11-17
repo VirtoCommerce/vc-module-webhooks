@@ -1,7 +1,9 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Events;
+using VirtoCommerce.WebhooksModule.Core.Extensions;
 using VirtoCommerce.WebHooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Services;
 
@@ -9,6 +11,8 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 {
     public class RegisteredEventStore : IRegisteredEventStore
     {
+        private static readonly string[] _ignoredProperties = new[] { "Id" };
+
         private RegisteredEvent[] _registeredEvents;
         private readonly object _lock = new object();
 
@@ -26,6 +30,18 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
             }
             return _registeredEvents;
+        }
+
+        public string[] GetEventObjectProperties(string eventType)
+        {
+            // TODO: add fetching event type via AbstractTypeFactory for supporting extensibility
+            var domainEventType = GetAllEvents().FirstOrDefault(x => x.Id.EqualsInvariant(eventType))?.EventType ?? throw new InvalidOperationException("Domain event does not found");
+
+            var eventObjectType = domainEventType.GetEntityTypeWithInterface<IEntity>();
+
+            var result = eventObjectType.GetProperties().Where(x => !_ignoredProperties.Contains(x.Name, StringComparer.InvariantCultureIgnoreCase)).Select(x => x.Name);
+
+            return result.ToArray();
         }
 
         private static RegisteredEvent[] DiscoverAllDomainEvents()
