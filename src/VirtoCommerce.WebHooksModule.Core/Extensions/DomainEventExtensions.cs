@@ -59,7 +59,7 @@ namespace VirtoCommerce.WebhooksModule.Core.Extensions
                 result = changedEntryPropertyInfo.PropertyType.GenericTypeArguments.FirstOrDefault()?.GenericTypeArguments?.FirstOrDefault();
             }
 
-            // If previos attempt was fail, try to get from event directly
+            // If previos attempt was failed, try to get from event directly
             if (result is null)
             {
                 result = properties.FirstOrDefault(x => x.PropertyType.GetInterfaces().Contains(typeof(TResult)))?.PropertyType;
