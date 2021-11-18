@@ -39,9 +39,9 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
             var eventObjectType = domainEventType.GetEntityTypeWithInterface<IEntity>();
 
-            var result = eventObjectType.GetProperties().Where(x => !_ignoredProperties.Contains(x.Name, StringComparer.InvariantCultureIgnoreCase)).Select(x => x.Name);
+            var result = eventObjectType?.GetProperties().Where(x => !_ignoredProperties.Contains(x.Name, StringComparer.InvariantCultureIgnoreCase)).Select(x => x.Name);
 
-            return result.ToArray();
+            return result?.ToArray() ?? Array.Empty<string>();
         }
 
         private static RegisteredEvent[] DiscoverAllDomainEvents()
