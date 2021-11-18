@@ -65,7 +65,7 @@ angular.module('virtoCommerce.webhooksModule')
                 callback: function (remove) {
                     if (remove) {
                         blade.isLoading = true;
-						webhookApi.remove({ ids: [blade.currentEntityId] }, function () {
+                        webhookApi.remove({ ids: [blade.currentEntityId] }, function () {
                             bladeNavigationService.closeBlade(blade, function () {
                                 blade.parentBlade.refresh(true);
                             });
