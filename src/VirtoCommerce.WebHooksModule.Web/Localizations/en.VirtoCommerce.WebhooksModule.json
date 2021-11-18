@@ -20,18 +20,18 @@
           "name": "Name",
           "is-active": "Is active",
           "url": "URL",
-          "content-type": "Content type",
-          "triggering-events": "Triggering events",
-          "trigger-all-events": "Trigger for all events"
+          "event": "Event",
+          "additional-fields": "Additional fields (Max 10)" 
         },
         "discription": {
           "name": "The display webhook name",
           "url": "The URL of the subscriber to be called on each event trigger",
-          "specify-events": "Specify for what kind of events this webhook should be triggered",
-          "content-type": "Select one of the allowed MIME types to be used as the value of the Content-type header"
+          "event": "Select one of the allowed events for subscribing",
+          "specify-payload": "Specify what kind of event data this webhook would pass as payload" 
         },
         "placeholders": {
-          "name": "Enter WebHook name"
+          "name": "Enter WebHook name",
+          "event": "Select event" 
         }
       },
       "webhook-error-list": {
