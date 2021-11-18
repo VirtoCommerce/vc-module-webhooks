@@ -3,6 +3,7 @@ angular.module('virtoCommerce.webhooksModule')
         var blade = $scope.blade;
         blade.availableContentTypes = [{ value: 'application/json', title: 'application/json' }];
         blade.availableEvents = [];
+        blade.availablePayloadProperties = [];
 
         blade.metaFields = metaFormsService.getMetaFields("webhookDetail");
 
@@ -28,6 +29,7 @@ angular.module('virtoCommerce.webhooksModule')
             blade.item = angular.copy(data);
 
             blade.currentEntity = blade.item;
+            blade.subscribedEvent = angular.copy(blade.currentEntity.events[0]);
             blade.origEntity = data;
 
             webhookApi.getEvents(function (response) {
@@ -90,6 +92,13 @@ angular.module('virtoCommerce.webhooksModule')
             return isDirty() && detailForm && detailForm.$valid;
         }
 
+        function loadProperties(eventType) {
+            blade.isLoading = true;
+            webhookApi.getProperties({ objectType: eventType }, (data) => {
+                blade.availablePayloadProperties = data.Properties;
+                blade.isLoading = false;
+            });
+        }
 
         blade.onClose = function (closeCallback) {
             bladeNavigationService.showConfirmationIfNeeded(isDirty(), canSave(), blade, $scope.saveChanges, closeCallback, "webhooks.dialogs.setting-save.title", "webhooks.dialogs.setting-save.message");
@@ -122,6 +131,12 @@ angular.module('virtoCommerce.webhooksModule')
                 }
             }
         ];
+
+        $scope.$watch('blade.subscribedEvent', function(newValue, oldValue) {
+            if (newValue !== oldValue) {
+                loadProperties(newValue.eventId);
+            }
+        });
 
         blade.refresh();
 
