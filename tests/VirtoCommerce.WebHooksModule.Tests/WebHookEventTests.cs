@@ -29,6 +29,19 @@ namespace VirtoCommerce.WebHooksModule.Tests
         }
 
         [Fact]
+        public void GetVoidWithObjectTypePassedIntoTheConstructor_ReturnEmptyCollection()
+        {
+            // Arrange
+            var eventWithObjectInjectedIntoConstructor = new WebHookCtorObjectEventFake(new FakeEntity());
+
+            // Act
+            var result = eventWithObjectInjectedIntoConstructor.GetEntityWithInterface<IEntity>();
+
+            // Assert
+            Assert.Empty(result);
+        }
+
+        [Fact]
         public void GetEntityTypeViaEventType_ReturnEntityType()
         {
             // Arrange
@@ -83,6 +96,14 @@ namespace VirtoCommerce.WebHooksModule.Tests
         }
 
         public FakeEntity Value { get; set; }
+    }
+
+    public class WebHookCtorObjectEventFake : DomainEvent
+    {
+        public WebHookCtorObjectEventFake(FakeEntity value)
+        {
+
+        }
     }
 
     public class FakeEntity : IEntity
