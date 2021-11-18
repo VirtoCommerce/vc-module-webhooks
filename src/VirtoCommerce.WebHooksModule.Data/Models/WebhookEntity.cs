@@ -28,18 +28,18 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             if (webHook == null)
                 throw new ArgumentNullException(nameof(webHook));
 
-            webHook.Id = this.Id;
-            webHook.CreatedBy = this.CreatedBy;
-            webHook.CreatedDate = this.CreatedDate;
-            webHook.ModifiedBy = this.ModifiedBy;
-            webHook.ModifiedDate = this.ModifiedDate;
-            webHook.Name = this.Name;
-            webHook.Url = this.Url;
-            webHook.ContentType = this.ContentType;
-            webHook.IsActive = this.IsActive;
-            webHook.IsAllEvents = this.IsAllEvents;
+            webHook.Id = Id;
+            webHook.CreatedBy = CreatedBy;
+            webHook.CreatedDate = CreatedDate;
+            webHook.ModifiedBy = ModifiedBy;
+            webHook.ModifiedDate = ModifiedDate;
+            webHook.Name = Name;
+            webHook.Url = Url;
+            webHook.ContentType = ContentType;
+            webHook.IsActive = IsActive;
+            webHook.IsAllEvents = IsAllEvents;
 
-            webHook.Events = this.Events.Select(x => x.ToModel(AbstractTypeFactory<WebhookEvent>.TryCreateInstance())).ToArray();
+            webHook.Events = Events.Select(x => x.ToModel(AbstractTypeFactory<WebhookEvent>.TryCreateInstance())).ToArray();
 
             return webHook;
         }
@@ -49,16 +49,16 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             if (webHook == null)
                 throw new ArgumentNullException(nameof(webHook));
 
-            this.Id = webHook.Id;
-            this.CreatedBy = webHook.CreatedBy;
-            this.CreatedDate = webHook.CreatedDate;
-            this.ModifiedBy = webHook.ModifiedBy;
-            this.ModifiedDate = webHook.ModifiedDate;
-            this.Name = webHook.Name;
-            this.Url = webHook.Url;
-            this.ContentType = webHook.ContentType;
-            this.IsActive = webHook.IsActive;
-            this.IsAllEvents = webHook.IsAllEvents;
+            Id = webHook.Id;
+            CreatedBy = webHook.CreatedBy;
+            CreatedDate = webHook.CreatedDate;
+            ModifiedBy = webHook.ModifiedBy;
+            ModifiedDate = webHook.ModifiedDate;
+            Name = webHook.Name;
+            Url = webHook.Url;
+            ContentType = webHook.ContentType;
+            IsActive = webHook.IsActive;
+            IsAllEvents = webHook.IsAllEvents;
 
             if (webHook.Events != null)
             {
@@ -71,11 +71,11 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
 
         public virtual void Patch(WebHookEntity target)
         {
-            target.Name = this.Name;
-            target.Url = this.Url;
-            target.ContentType = this.ContentType;
-            target.IsActive = this.IsActive;
-            target.IsAllEvents = this.IsAllEvents;
+            target.Name = Name;
+            target.Url = Url;
+            target.ContentType = ContentType;
+            target.IsActive = IsActive;
+            target.IsAllEvents = IsAllEvents;
 
             if (!Events.IsNullCollection())
             {
