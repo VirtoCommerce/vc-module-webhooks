@@ -95,7 +95,7 @@ angular.module('virtoCommerce.webhooksModule')
         function loadProperties(eventType) {
             blade.isLoading = true;
             webhookApi.getProperties({ objectType: eventType }, (data) => {
-                blade.availablePayloadProperties = data.Properties;
+                blade.availablePayloadProperties = data.properties;
                 blade.isLoading = false;
             });
         }
@@ -134,7 +134,10 @@ angular.module('virtoCommerce.webhooksModule')
 
         $scope.$watch('blade.subscribedEvent', function(newValue, oldValue) {
             if (newValue !== oldValue) {
+
                 loadProperties(newValue.eventId);
+
+                blade.currentEntity.events = [newValue];
             }
         });
 
