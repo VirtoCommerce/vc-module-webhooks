@@ -26,6 +26,7 @@ namespace VirtoCommerce.WebhooksModule.Data.Repositories
         public Task<WebHookEntity[]> GetWebHooksByIdsAsync(string[] ids) => WebHooks
                 .Where(x => ids.Contains(x.Id))
                 .Include(x => x.Events)
+                .Include(x => x.Payloads)
                 .ToArrayAsync();
 
         public async Task DeleteWebHooksByIdsAsync(string[] ids)
