@@ -95,10 +95,19 @@ angular.module('virtoCommerce.webhooksModule')
         function loadProperties(eventType) {
             blade.isLoading = true;
             webhookApi.getProperties({ objectType: eventType }, (data) => {
+                
                 blade.availablePayloadProperties = _.map(data.properties, function (property) { return { eventPropertyName: property }; });
+                $scope.isNoChoices = !data.discovered;
+
                 blade.isLoading = false;
             });
         }
+
+        $scope.reducePayload = () => {
+            if (blade.currentEntity && blade.currentEntity.payloads.length > 10) {
+                blade.currentEntity.payloads.pop();
+            }
+        };
 
         blade.onClose = function (closeCallback) {
             bladeNavigationService.showConfirmationIfNeeded(isDirty(), canSave(), blade, $scope.saveChanges, closeCallback, "webhooks.dialogs.setting-save.title", "webhooks.dialogs.setting-save.message");
@@ -133,12 +142,19 @@ angular.module('virtoCommerce.webhooksModule')
         ];
 
         $scope.$watch('blade.subscribedEvent', function(newValue, oldValue) {
+
+            // User changed event, so we need to clean previous payloads 
+            if (oldValue && blade.currentEntity.events && blade.currentEntity.events[0].eventId !== newValue.eventId) {
+                blade.currentEntity.payloads = undefined;
+            }
+
             if (newValue !== oldValue) {
 
                 loadProperties(newValue.eventId);
 
                 blade.currentEntity.events = [newValue];
             }
+            
         });
 
         blade.refresh();
