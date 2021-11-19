@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using VirtoCommerce.Platform.Core.Common;
 
@@ -9,6 +10,7 @@ namespace VirtoCommerce.WebhooksModule.Core.Models
         public string Url { get; set; }
         public string ContentType { get; set; }
         public bool IsActive { get; set; }
+        [Obsolete]
         public bool IsAllEvents { get; set; }
         public long SuccessCount { get; set; }
         public long ErrorCount { get; set; }
