@@ -148,7 +148,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
                 currentResult.Add("ObjectType", JToken.FromObject(entity.GetType().FullName));
 
-                foreach (var webHookEventPayloadProperty in webHook.EventPayloadProperties.Union(new[] { "Id" }))
+                foreach (var webHookEventPayloadProperty in webHook.Payloads.Select(x => x.EventPropertyName).Union(new[] { "Id" }))
                 {
                     currentResult.Add(webHookEventPayloadProperty, jObject.SelectToken($"$.{webHookEventPayloadProperty}"));
                 }

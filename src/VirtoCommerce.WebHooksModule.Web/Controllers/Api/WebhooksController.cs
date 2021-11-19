@@ -171,11 +171,11 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
         [HttpGet]
         [Route("properties")]
         // TODO: auth
-        public ActionResult<WebHookPayload> GetEventObjectProperties([FromQuery] string objectType)
+        public ActionResult<EventObjectProperties> GetEventObjectProperties([FromQuery] string objectType)
         {
             var result = _registeredEventStore.GetEventObjectProperties(objectType);
 
-            return Ok(new WebHookPayload { Properties = result, Discovered = result.Length != 0 });
+            return Ok(result);
         }
     }
 }

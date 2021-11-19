@@ -44,7 +44,10 @@ namespace VirtoCommerce.WebhooksModule.Tests
                 {
                     new Webhook
                     {
-                        EventPayloadProperties = new []{"Number"},
+                        Payloads = new [] { new WebHookPayload
+                        {
+                            EventPropertyName = "Number",
+                        }},
                     }
                 },
                 DomainEventObject = new FakeEvent(new[]{ new GenericChangedEntry<FakeEntity>(new FakeEntity

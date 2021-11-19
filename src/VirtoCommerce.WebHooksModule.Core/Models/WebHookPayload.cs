@@ -1,9 +1,10 @@
+using VirtoCommerce.Platform.Core.Common;
+
 namespace VirtoCommerce.WebhooksModule.Core.Models
 {
-    public class WebHookPayload
+    public class WebHookPayload : AuditableEntity
     {
-        public bool Discovered { get; set; }
-
-        public string[] Properties { get; set; }
+        public string EventPropertyName { get; set; }
+        public string WebHookId { get; set; }
     }
 }

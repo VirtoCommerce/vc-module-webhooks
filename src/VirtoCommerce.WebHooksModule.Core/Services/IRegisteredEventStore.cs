@@ -1,4 +1,5 @@
 using VirtoCommerce.Platform.Core.Events;
+using VirtoCommerce.WebhooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Models;
 
 namespace VirtoCommerce.WebHooksModule.Core.Services
@@ -15,6 +16,6 @@ namespace VirtoCommerce.WebHooksModule.Core.Services
         RegisteredEvent[] GetAllEvents();
 
         //TODO: Add description
-        string[] GetEventObjectProperties(string eventType);
+        EventObjectProperties GetEventObjectProperties(string eventType);
     }
 }

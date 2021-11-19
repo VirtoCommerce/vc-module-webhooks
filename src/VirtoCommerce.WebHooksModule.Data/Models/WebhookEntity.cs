@@ -23,6 +23,8 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
         public bool IsActive { get; set; }
         public bool IsAllEvents { get; set; }
         public virtual ObservableCollection<WebHookEventEntity> Events { get; set; }
+        public virtual ObservableCollection<WebHookPayloadEntity> Payloads { get; set; }
+
         public virtual Webhook ToModel(Webhook webHook)
         {
             if (webHook == null)
@@ -40,6 +42,8 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             webHook.IsAllEvents = IsAllEvents;
 
             webHook.Events = Events.Select(x => x.ToModel(AbstractTypeFactory<WebhookEvent>.TryCreateInstance())).ToArray();
+
+            webHook.Payloads = Payloads.Select(x => x.ToModel(AbstractTypeFactory<WebHookPayload>.TryCreateInstance())).ToArray();
 
             return webHook;
         }
@@ -64,6 +68,12 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             {
                 Events = new ObservableCollection<WebHookEventEntity>(webHook.Events.Select(x => AbstractTypeFactory<WebHookEventEntity>.TryCreateInstance().FromModel(x, pkMap)));
             }
+
+            if (webHook.Payloads != null)
+            {
+                Payloads = new ObservableCollection<WebHookPayloadEntity>(webHook.Payloads.Select(x => AbstractTypeFactory<WebHookPayloadEntity>.TryCreateInstance().FromModel(x, pkMap)));
+            }
+
             pkMap.AddPair(webHook, this);
 
             return this;
@@ -81,6 +91,12 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             {
                 var eventComparer = AnonymousComparer.Create((WebHookEventEntity x) => $"{x.EventId}");
                 Events.Patch(target.Events, eventComparer, (sourceEvent, targetEvent) => sourceEvent.Patch(targetEvent));
+            }
+
+            if (!Payloads.IsNullCollection())
+            {
+                var payloadComparer = AnonymousComparer.Create((WebHookPayloadEntity x) => $"{x.EventPropertyName}");
+                Payloads.Patch(target.Payloads, payloadComparer, (sourcePayload, targetPayload) => sourcePayload.Patch(targetPayload));
             }
         }
     }
