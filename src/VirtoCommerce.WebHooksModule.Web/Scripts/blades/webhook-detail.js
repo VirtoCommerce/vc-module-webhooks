@@ -143,7 +143,7 @@ angular.module('virtoCommerce.webhooksModule')
 
         $scope.$watch('blade.subscribedEvent', function(newValue, oldValue) {
 
-            // User changed event, so we need to clean previous payloads 
+            // User has changed event, so we need to clean previous payloads 
             if (oldValue && blade.currentEntity.events && blade.currentEntity.events[0].eventId !== newValue.eventId) {
                 blade.currentEntity.payloads = undefined;
             }
