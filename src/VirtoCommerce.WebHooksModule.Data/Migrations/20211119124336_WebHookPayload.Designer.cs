@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VirtoCommerce.WebhooksModule.Data.Repositories;
 
 namespace VirtoCommerce.WebhooksModule.Data.Migrations
 {
     [DbContext(typeof(WebhookDbContext))]
-    partial class WebhookDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211119124336_WebHookPayload")]
+    partial class WebHookPayload
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
