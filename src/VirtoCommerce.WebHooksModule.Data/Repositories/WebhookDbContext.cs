@@ -34,7 +34,7 @@ namespace VirtoCommerce.WebhooksModule.Data.Repositories
             modelBuilder.Entity<WebHookFeedEntryEntity>().Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
             modelBuilder.Entity<WebHookFeedEntryEntity>().HasIndex(x => x.WebHookId);
             modelBuilder.Entity<WebHookFeedEntryEntity>().HasIndex(x => x.EventId);
-            modelBuilder.Entity<WebHookFeedEntryEntity>().HasIndex(x => new { x.WebHookId, x.RecordType }).HasName("IX_WebHookIdAndRecordType");
+            modelBuilder.Entity<WebHookFeedEntryEntity>().HasIndex(x => new { x.WebHookId, x.RecordType }).HasDatabaseName("IX_WebHookIdAndRecordType");
 
             base.OnModelCreating(modelBuilder);
         }
