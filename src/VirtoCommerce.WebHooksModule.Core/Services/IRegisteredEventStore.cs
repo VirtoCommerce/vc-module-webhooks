@@ -15,7 +15,11 @@ namespace VirtoCommerce.WebHooksModule.Core.Services
         /// <returns>All registered <see cref="RegisteredEvent"/> events.</returns>
         RegisteredEvent[] GetAllEvents();
 
-        //TODO: Add description
+        /// <summary>
+        /// Gets available payload properties for specified eventType
+        /// </summary>
+        /// <param name="eventType"></param>
+        /// <returns>All available properties <see cref="EventObjectProperties"/> .</returns>
         EventObjectProperties GetEventObjectProperties(string eventType);
     }
 }
