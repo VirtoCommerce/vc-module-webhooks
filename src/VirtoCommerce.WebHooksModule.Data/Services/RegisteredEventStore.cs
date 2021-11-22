@@ -35,12 +35,19 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
         public EventObjectProperties GetEventObjectProperties(string eventType)
         {
-            // TODO: add fetching event type via AbstractTypeFactory for supporting extensibility
             var domainEventType = GetAllEvents().FirstOrDefault(x => x.Id.EqualsInvariant(eventType))?.EventType ?? throw new InvalidOperationException("Domain event does not found");
 
             var eventObjectType = domainEventType.GetEntityTypeWithInterface<IEntity>();
 
-            //var actualType = typeof(AbstractTypeFactory<>).MakeGenericType(eventObjectType).GetMethod("FindTypeInfoByName").Invoke(null, new[] { eventObjectType.Name });
+            if (eventObjectType != null && !eventObjectType.IsAbstract)
+            {
+                var actualType = typeof(AbstractTypeFactory<>).MakeGenericType(eventObjectType).GetMethod("FindTypeInfoByName").Invoke(null, new[] { eventObjectType.Name }) as TypeInfo<IEntity>;
+
+                if (actualType != null)
+                {
+                    eventObjectType = actualType.Type;
+                }
+            }
 
             var result = eventObjectType?.GetProperties().Where(x => !_ignoredProperties.Contains(x.Name, StringComparer.InvariantCultureIgnoreCase)).Select(x => x.Name)?.ToArray() ?? Array.Empty<string>();
 
