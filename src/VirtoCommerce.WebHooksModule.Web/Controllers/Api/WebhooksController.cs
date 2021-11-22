@@ -1,3 +1,4 @@
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -180,9 +181,16 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
 
         [HttpPost]
         [Route("test")]
-        public ActionResult<object> TestAction([FromBody] object request)
+        [AllowAnonymous]
+        public async Task<ActionResult<string>> TestAction()
         {
-            return Ok(request);
+            var body = string.Empty;
+
+            using (var stream = new StreamReader(HttpContext.Request.Body))
+            {
+                body = await stream.ReadToEndAsync();
+            }
+            return Ok(body);
         }
     }
 }
