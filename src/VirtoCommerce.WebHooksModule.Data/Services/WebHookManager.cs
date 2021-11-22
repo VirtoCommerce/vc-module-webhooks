@@ -151,7 +151,6 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             }
         }
 
-        // Introduced breaking change
         protected virtual async Task<WebhookSendResponse> NotifyWebHook(string eventId, string webHookPayload, Webhook webHook, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
