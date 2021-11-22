@@ -1,7 +1,7 @@
 <div class="blade-content __medium-wide">
     <div class="blade-inner">
         <div class="inner-block">
-            <div class="webhook-detail warning-block">
+            <div class="webhook-detail warning-block" ng-if="blade.isBadData">
                 <i class="fas fa-exclamation-triangle triangle-warning-icon mr-10"></i> <span class="warning-text">{{ 'webhooks.blades.webhook-detail.labels.warning' | translate}}</span>
             </div>
 
@@ -11,7 +11,7 @@
                     <div class="form-group __info list">
                         <label class="form-label">{{ 'webhooks.blades.webhook-detail.labels.name' | translate }}</label>
                         <div class="form-input">
-                            <input focus-on="" required class="form-control" ng-model="blade.currentEntity.name" placeholder="{{'webhooks.blades.webhook-detail.placeholders.name' | translate}}" />
+                            <input focus-on="" required class="form-control" ng-model="blade.currentEntity.name" ng-disabled="blade.isBadData" placeholder="{{'webhooks.blades.webhook-detail.placeholders.name' | translate}}" />
                         </div>
                         <div class="list-descr">{{ 'webhooks.blades.webhook-detail.discription.name' | translate }}</div>
                     </div>
@@ -21,7 +21,7 @@
                             <div class="form-group __info list">
                                 <label class="form-label">{{ 'webhooks.blades.webhook-detail.labels.event' | translate }}</label>
                                 <div class="form-input">
-                                    <ui-select ng-model="blade.subscribedEvent">
+                                    <ui-select ng-model="blade.subscribedEvent" ng-disabled="blade.isBadData">
                                         <ui-select-match placeholder="{{ 'webhooks.blades.webhook-detail.placeholders.event' | translate }}">{{ $select.selected.eventId ? (('webhooks.events.types.' + $select.selected.eventId) | translate) : undefined}}</ui-select-match>
                                         <ui-select-choices repeat="x in blade.availableEvents | filter: $select.search">
                                             <span ng-bind-html="('webhooks.events.types.'+ x.eventId) | translate | highlight: $select.search"></span>
@@ -37,9 +37,9 @@
                             <div class="form-group __info list">
                                 <label class="form-label">{{ 'webhooks.blades.webhook-detail.labels.additional-fields' | translate: {fields_count: blade.currentEntity.payloads.length} }}</label>
                                 <div class="form-input">
-                                    <ui-select multiple ng-model="blade.currentEntity.payloads" on-select="reducePayload()" ng-disabled="isNoChoices">
+                                    <ui-select multiple ng-model="blade.currentEntity.payloads" on-select="reducePayload()" ng-disabled="isNoChoices || blade.isBadData">
                                         <ui-select-match>{{$item.eventPropertyName}}</ui-select-match>
-                                        <ui-select-choices repeat="x in blade.availablePayloadProperties | filter: $select.search">
+                                        <ui-select-choices repeat="x in blade.availablePayloadProperties | filter: $select.search" ng-disabled="blade.isBadData">
                                             <span ng-bind-html="x.eventPropertyName | highlight: $select.search"></span>
                                         </ui-select-choices>
                                     </ui-select>
@@ -55,8 +55,8 @@
                             <label class="form-label">{{ 'webhooks.blades.webhook-detail.labels.is-active' | translate }}</label>
                             <div class="form-input">
                                 <label class="form-label __switch">
-                                    <input type="checkbox" ng-model="blade.currentEntity.isActive" />
-                                    <span class="switch"></span>
+                                    <input type="checkbox" ng-model="blade.currentEntity.isActive" ng-disabled="blade.isBadData"/>
+                                    <span class="switch" ng-disabled="blade.isBadData"></span>
                                 </label>
                             </div>
                         </div>
@@ -66,7 +66,7 @@
                             <div class="form-group __info list">
                                 <label class="form-label">{{ 'webhooks.blades.webhook-detail.labels.url' | translate }}</label>
                                 <div class="form-input">
-                                    <input ng-class="{'error': detailForm.url.$invalid && !detailForm.url.$pristine}" required class="form-control" ng-model="blade.currentEntity.url" name="url" />
+                                    <input ng-class="{'error': detailForm.url.$invalid && !detailForm.url.$pristine}" required class="form-control" ng-model="blade.currentEntity.url" name="url" ng-disabled="blade.isBadData" />
                                 </div>
                                 <div class="list-descr">{{ 'webhooks.blades.webhook-detail.discription.url' | translate }}</div>
                             </div>

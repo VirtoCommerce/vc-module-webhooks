@@ -31,6 +31,7 @@ angular.module('virtoCommerce.webhooksModule')
             blade.currentEntity = blade.item || {};
             blade.currentEntity.payloads = blade.currentEntity.payloads || [];
             blade.subscribedEvent = angular.copy(blade.currentEntity.events[0]);
+            blade.isBadData = (blade.currentEntity.events && blade.currentEntity.events.length > 1) || blade.currentEntity.isAllEvents;
             blade.origEntity = data;
 
             webhookApi.getEvents(function (response) {
@@ -90,7 +91,7 @@ angular.module('virtoCommerce.webhooksModule')
         }
 
         function canSave() {
-            return isDirty() && detailForm && detailForm.$valid;
+            return isDirty() && detailForm && detailForm.$valid && !blade.isBadData;
         }
 
         function loadProperties(eventType) {

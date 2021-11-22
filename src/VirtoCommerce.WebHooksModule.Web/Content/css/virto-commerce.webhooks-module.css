@@ -22,6 +22,10 @@
     font-size: 30px;
 }
 
+.triangle-warning-icon {
+    color: #ffad0d;
+}
+
 .webhook-detail .preview-warning-text {
     font-size: 13px;
     color: #9c825b;
