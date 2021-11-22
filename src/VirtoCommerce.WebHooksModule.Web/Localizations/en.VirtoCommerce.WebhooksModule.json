@@ -21,7 +21,7 @@
           "is-active": "Is active",
           "url": "URL",
           "event": "Event",
-          "additional-fields": "Additional fields (Max 10)" 
+          "additional-fields": "Additional fields {{fields_count}}/10" 
         },
         "discription": {
           "name": "The display webhook name",

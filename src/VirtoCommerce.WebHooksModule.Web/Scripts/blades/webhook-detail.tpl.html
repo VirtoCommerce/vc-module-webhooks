@@ -31,7 +31,7 @@
                     <div class="form-group ">
                         <div class="column">
                             <div class="form-group __info list">
-                                <label class="form-label">{{ 'webhooks.blades.webhook-detail.labels.additional-fields' | translate }}</label>
+                                <label class="form-label">{{ 'webhooks.blades.webhook-detail.labels.additional-fields' | translate: {fields_count: blade.currentEntity.payloads.length} }}</label>
                                 <div class="form-input">
                                     <ui-select multiple ng-model="blade.currentEntity.payloads" on-select="reducePayload()" ng-disabled="isNoChoices">
                                         <ui-select-match>{{$item.eventPropertyName}}</ui-select-match>
