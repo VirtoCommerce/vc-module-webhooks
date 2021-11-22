@@ -28,7 +28,8 @@ angular.module('virtoCommerce.webhooksModule')
 
             blade.item = angular.copy(data);
 
-            blade.currentEntity = blade.item;
+            blade.currentEntity = blade.item || {};
+            blade.currentEntity.payloads = blade.currentEntity.payloads || [];
             blade.subscribedEvent = angular.copy(blade.currentEntity.events[0]);
             blade.origEntity = data;
 
