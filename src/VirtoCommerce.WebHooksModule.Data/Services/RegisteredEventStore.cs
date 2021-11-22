@@ -40,6 +40,8 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
             var eventObjectType = domainEventType.GetEntityTypeWithInterface<IEntity>();
 
+            //var actualType = typeof(AbstractTypeFactory<>).MakeGenericType(eventObjectType).GetMethod("FindTypeInfoByName").Invoke(null, new[] { eventObjectType.Name });
+
             var result = eventObjectType?.GetProperties().Where(x => !_ignoredProperties.Contains(x.Name, StringComparer.InvariantCultureIgnoreCase)).Select(x => x.Name)?.ToArray() ?? Array.Empty<string>();
 
             return new EventObjectProperties { Discovered = result.Length != 0, Properties = result };
