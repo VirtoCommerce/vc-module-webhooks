@@ -1,6 +1,10 @@
 <div class="blade-content __medium-wide">
     <div class="blade-inner">
         <div class="inner-block">
+            <div class="webhook-detail warning-block">
+                <i class="fas fa-exclamation-triangle triangle-warning-icon mr-10"></i> <span class="webhook-detail warning-text">{{ 'webhooks.blades.webhook-detail.labels.warning' | translate}}</span>
+            </div>
+
             <form name="detailForm" class="form">
                 <fieldset ng-init="setForm(detailForm)">
 
@@ -11,7 +15,7 @@
                         </div>
                         <div class="list-descr">{{ 'webhooks.blades.webhook-detail.discription.name' | translate }}</div>
                     </div>
-                    
+
                     <div class="form-group ">
                         <div class="column">
                             <div class="form-group __info list">
@@ -45,7 +49,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <div class="column">
                             <label class="form-label">{{ 'webhooks.blades.webhook-detail.labels.is-active' | translate }}</label>

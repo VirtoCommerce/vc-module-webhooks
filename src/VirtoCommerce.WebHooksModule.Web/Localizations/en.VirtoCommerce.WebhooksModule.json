@@ -21,7 +21,8 @@
           "is-active": "Is active",
           "url": "URL",
           "event": "Event",
-          "additional-fields": "Additional fields ({{fields_count}}/10)" 
+          "additional-fields": "Additional fields ({{fields_count}}/10)",
+          "warning": "We found problems in your webhooks, such as webhooks with multiple events subscriptions. Because of now, according to the new UX we provide to select only one event for subscribing."
         },
         "discription": {
           "name": "The display webhook name",
