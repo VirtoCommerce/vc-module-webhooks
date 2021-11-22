@@ -9,7 +9,7 @@ namespace VirtoCommerce.WebhooksModule.Core.Models
         public string Url { get; set; }
         public string ContentType { get; set; }
         public bool IsActive { get; set; }
-        [Obsolete]
+        [Obsolete("Use only one event for subscribing. This property would be removed in the future releases.")]
         public bool IsAllEvents { get; set; }
         public long SuccessCount { get; set; }
         public long ErrorCount { get; set; }
