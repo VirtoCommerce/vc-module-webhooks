@@ -130,6 +130,7 @@ angular.module('virtoCommerce.webhooksModule')
                 name: "platform.commands.reset", icon: 'fa fa-undo',
                 executeMethod: function () {
                     angular.copy(blade.origEntity, blade.currentEntity);
+                    blade.subscribedEvent = angular.copy(blade.currentEntity.events[0]);
                 },
                 canExecuteMethod: isDirty
             },
@@ -147,7 +148,7 @@ angular.module('virtoCommerce.webhooksModule')
 
             // User has changed event, so we need to clean previous payloads 
             if (oldValue && blade.currentEntity.events && blade.currentEntity.events[0].eventId !== newValue.eventId) {
-                blade.currentEntity.payloads = undefined;
+                blade.currentEntity.payloads = [];
             }
 
             if (newValue !== oldValue) {
