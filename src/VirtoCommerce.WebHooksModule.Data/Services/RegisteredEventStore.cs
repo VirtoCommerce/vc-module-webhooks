@@ -39,6 +39,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
             var eventObjectType = domainEventType.GetEntityTypeWithInterface<IEntity>();
 
+            // For abstract event type entity only common properties would be able
             if (eventObjectType != null && !eventObjectType.IsAbstract)
             {
                 var actualType = typeof(AbstractTypeFactory<>).MakeGenericType(eventObjectType).GetMethod("FindTypeInfoByName").Invoke(null, new[] { eventObjectType.Name }) as TypeInfo<IEntity>;
