@@ -62,7 +62,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             {
                 // TechDebt: Here we could create a lot of tasks. Need to add throttling. Also need to decrease pool threads usage.
                 tasks.AddRange(request.WebHooks.Skip(i).Take(_webhooksPerButch)
-                        .Select(x => Task.Run(() => NotifyWebHook(request.EventId, request.DomainEventObject, x, cancellationToken)))
+                        .Select(x => Task.Run(() => NotifyWebHook(request.EventId, request.WebhooksPayload?.FirstOrDefault(r => r.Key.EqualsInvariant(x.Id)).Value ?? string.Empty, x, cancellationToken)))
                         .ToArray());
             }
 
@@ -113,10 +113,37 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
             if (webHookSearchResult.TotalCount > 0)
             {
+
+                var webhooksPayload = new Dictionary<string, string>();
+
+                var entities = domainEvent.GetEntityWithInterface<IEntity>();
+
+                foreach (var webHook in webHookSearchResult.Results)
+                {
+                    var entityPayload = new List<Dictionary<string, JToken>>();
+
+                    foreach (var entity in entities)
+                    {
+                        var jObject = JObject.FromObject(entity);
+                        var currentResult = new Dictionary<string, JToken>();
+
+                        currentResult.Add("ObjectType", JToken.FromObject(entity.GetType().FullName));
+
+                        foreach (var webHookEventPayloadProperty in webHook.Payloads.Select(x => x.EventPropertyName).Union(new[] { "Id" }))
+                        {
+                            currentResult.Add(webHookEventPayloadProperty, jObject.SelectToken($"$.{webHookEventPayloadProperty}"));
+                        }
+
+                        entityPayload.Add(currentResult);
+                    }
+
+                    webhooksPayload.Add(webHook.Id, JsonConvert.SerializeObject(entityPayload));
+                }
+
                 var request = new WebhookRequest
                 {
                     EventId = eventId,
-                    DomainEventObject = domainEvent,
+                    WebhooksPayload = webhooksPayload,
                     WebHooks = webHookSearchResult.Results
                 };
 
@@ -125,11 +152,9 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         }
 
         // Introduced breaking change
-        protected virtual async Task<WebhookSendResponse> NotifyWebHook(string eventId, DomainEvent domainEvent, Webhook webHook, CancellationToken cancellationToken)
+        protected virtual async Task<WebhookSendResponse> NotifyWebHook(string eventId, string webHookPayload, Webhook webHook, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-
-            WebhookSendResponse response = null;
 
             var webHookWorkItem = new WebhookWorkItem()
             {
@@ -137,31 +162,12 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                 WebHook = webHook,
             };
 
-            var webhookPayload = new List<Dictionary<string, JToken>>();
-
-            var entities = domainEvent.GetEntityWithInterface<IEntity>();
-
-            foreach (var entity in entities)
+            webHook.RequestParams = new WebhookHttpParams
             {
-                var jObject = JObject.FromObject(entity);
-                var currentResult = new Dictionary<string, JToken>();
-
-                currentResult.Add("ObjectType", JToken.FromObject(entity.GetType().FullName));
-
-                foreach (var webHookEventPayloadProperty in webHook.Payloads.Select(x => x.EventPropertyName).Union(new[] { "Id" }))
-                {
-                    currentResult.Add(webHookEventPayloadProperty, jObject.SelectToken($"$.{webHookEventPayloadProperty}"));
-                }
-
-                webhookPayload.Add(currentResult);
-            }
-
-            webHook.RequestParams = new WebhookHttpParams()
-            {
-                Body = JsonConvert.SerializeObject(webhookPayload),
+                Body = webHookPayload,
             };
 
-            response = await _webHookSender.SendWebHookAsync(webHookWorkItem);
+            var response = await _webHookSender.SendWebHookAsync(webHookWorkItem);
 
             return response;
         }

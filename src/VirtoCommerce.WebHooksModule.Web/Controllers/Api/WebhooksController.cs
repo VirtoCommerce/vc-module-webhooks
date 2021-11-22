@@ -177,5 +177,12 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
 
             return Ok(result);
         }
+
+        [HttpPost]
+        [Route("test")]
+        public ActionResult<object> TestAction([FromBody] object request)
+        {
+            return Ok(request);
+        }
     }
 }
