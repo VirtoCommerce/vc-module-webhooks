@@ -171,7 +171,7 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
 
         [HttpGet]
         [Route("properties")]
-        // TODO: auth
+        [Authorize(ModuleConstants.Security.Permissions.Read)]
         public ActionResult<EventObjectProperties> GetEventObjectProperties([FromQuery] string objectType)
         {
             var result = _registeredEventStore.GetEventObjectProperties(objectType);
