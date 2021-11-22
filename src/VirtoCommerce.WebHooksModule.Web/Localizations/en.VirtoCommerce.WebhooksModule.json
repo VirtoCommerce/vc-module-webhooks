@@ -21,13 +21,15 @@
           "is-active": "Is active",
           "url": "URL",
           "event": "Event",
-          "additional-fields": "Additional fields {{fields_count}}/10" 
+          "additional-fields": "Additional fields ({{fields_count}}/10)" 
         },
         "discription": {
           "name": "The display webhook name",
           "url": "The URL of the subscriber to be called on each event trigger",
           "event": "Select one of the allowed events for subscribing",
-          "specify-payload": "Specify what kind of event data this webhook would pass as payload" 
+          "specify-payload": "Specify what kind of event data this webhook would pass as payload.",
+          "specify-payload-note": "Note",
+          "specify-payload-note-content": "Properties \"Id\" and \"ObjectType\" would be always passed in the payload."
         },
         "placeholders": {
           "name": "Enter WebHook name",
