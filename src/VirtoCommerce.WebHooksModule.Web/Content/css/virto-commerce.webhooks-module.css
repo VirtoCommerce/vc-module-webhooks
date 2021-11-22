@@ -17,6 +17,11 @@
     margin-left: 10px;
 }
 
+.webhook-detail.description-text {
+    font-size: 13px;
+    margin-top: 10px;
+}
+
 .webhook-detail .triangle-warning-icon {
     color: #ffad0d;
     font-size: 30px;
