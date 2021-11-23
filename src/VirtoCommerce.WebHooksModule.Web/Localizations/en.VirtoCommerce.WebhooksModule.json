@@ -3,7 +3,7 @@
     "main-menu-title": "Webhooks",
     "blades": {
       "webhooks-list": {
-        "title": "Webhook list",
+        "title": "Webhook List",
         "subtitle": "List of user-defined webhooks",
         "labels": {
           "name": "Name",
@@ -14,7 +14,7 @@
         }
       },
       "webhook-detail": {
-        "title": "Webhook list",
+        "title": "Webhook List",
         "subtitle": "Manage webhook settings and details",
         "labels": {
           "name": "Name",
@@ -34,8 +34,8 @@
           "specify-payload-note-content": "The ID and ObjectType properties are included into the report by default and will always be there."
         },
         "placeholders": {
-          "name": "Specify Webhook name",
-          "event": "Select event"
+          "name": "Specify webhook name",
+          "event": "Please select"
         }
       },
       "webhook-error-list": {
