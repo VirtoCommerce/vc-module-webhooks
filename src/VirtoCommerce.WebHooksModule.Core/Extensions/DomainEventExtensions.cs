@@ -56,6 +56,7 @@ namespace VirtoCommerce.WebhooksModule.Core.Extensions
 
             if (changedEntryPropertyInfo != null)
             {
+                // If type is finded, use it properties for result
                 result = changedEntryPropertyInfo.PropertyType.GenericTypeArguments.FirstOrDefault()?.GenericTypeArguments?.FirstOrDefault();
             }
 

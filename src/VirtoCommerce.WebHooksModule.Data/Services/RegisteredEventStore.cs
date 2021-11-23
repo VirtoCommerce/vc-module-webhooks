@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using VirtoCommerce.Platform.Core.Common;
@@ -35,14 +36,14 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
         public EventObjectProperties GetEventObjectProperties(string eventType)
         {
-            var domainEventType = GetAllEvents().FirstOrDefault(x => x.Id.EqualsInvariant(eventType))?.EventType ?? throw new InvalidOperationException("Domain event does not found");
+            var domainEventType = GetAllEvents().FirstOrDefault(x => x.Id.EqualsInvariant(eventType))?.EventType ?? throw new InvalidOperationException($"The domain event \"{eventType}\" is not registered");
 
             var eventObjectType = domainEventType.GetEntityTypeWithInterface<IEntity>();
 
             // For abstract event type entity only common properties would be able
             if (eventObjectType != null && !eventObjectType.IsAbstract)
             {
-                var actualType = typeof(AbstractTypeFactory<>).MakeGenericType(eventObjectType).GetMethod("FindTypeInfoByName").Invoke(null, new[] { eventObjectType.Name }) as TypeInfo<IEntity>;
+                var actualType = typeof(AbstractTypeFactory<>).MakeGenericType(eventObjectType).GetMethod("FindTypeInfoByName")?.Invoke(null, new[] { eventObjectType.Name }) as TypeInfo<IEntity>;
 
                 if (actualType != null)
                 {
@@ -50,9 +51,13 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                 }
             }
 
-            var result = eventObjectType?.GetProperties().Where(x => !_ignoredProperties.Contains(x.Name, StringComparer.InvariantCultureIgnoreCase)).Select(x => x.Name)?.ToArray() ?? Array.Empty<string>();
+            var result = eventObjectType?.GetProperties()
+                .Where(x => !_ignoredProperties.Contains(x.Name, StringComparer.InvariantCultureIgnoreCase))
+                .Select(x => x.Name)
+                ?.ToList() ?? new List<string>();
 
-            return new EventObjectProperties { Discovered = result.Length != 0, Properties = result };
+            // If result is empty, it means that for some reason the entity type doesn't contains any properties which could be used as webhook payload
+            return new EventObjectProperties { Discovered = result.Count != 0, Properties = result };
         }
 
         private static RegisteredEvent[] DiscoverAllDomainEvents()

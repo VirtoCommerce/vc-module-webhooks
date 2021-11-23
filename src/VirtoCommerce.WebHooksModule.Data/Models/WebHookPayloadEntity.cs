@@ -5,6 +5,9 @@ using VirtoCommerce.WebhooksModule.Core.Models;
 
 namespace VirtoCommerce.WebhooksModule.Data.Models
 {
+    /// <summary>
+    /// This entity using for storing webhook payload properties collection.
+    /// </summary>
     public class WebHookPayloadEntity : AuditableEntity
     {
         [StringLength(128)]

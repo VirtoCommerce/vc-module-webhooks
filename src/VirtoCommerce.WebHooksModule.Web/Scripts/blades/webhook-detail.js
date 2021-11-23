@@ -31,6 +31,8 @@ angular.module('virtoCommerce.webhooksModule')
             blade.currentEntity = blade.item || {};
             blade.currentEntity.payloads = blade.currentEntity.payloads || [];
             blade.subscribedEvent = angular.copy(blade.currentEntity.events[0]);
+
+            // If the webhook is subscribed to multiple events we considering is as a bad practice and recommend to remove these type webhooks
             blade.isBadData = (blade.currentEntity.events && blade.currentEntity.events.length > 1) || blade.currentEntity.isAllEvents;
             blade.origEntity = data;
 

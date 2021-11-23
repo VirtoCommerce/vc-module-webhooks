@@ -21,6 +21,7 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
         [StringLength(128)]
         public string ContentType { get; set; }
         public bool IsActive { get; set; }
+        [Obsolete("Use only one event for subscribing. This property would be removed in the future releases.")]
         public bool IsAllEvents { get; set; }
         public virtual ObservableCollection<WebHookEventEntity> Events { get; set; }
         public virtual ObservableCollection<WebHookPayloadEntity> Payloads { get; set; }
