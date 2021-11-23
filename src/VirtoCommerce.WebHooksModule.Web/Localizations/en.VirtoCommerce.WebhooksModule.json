@@ -22,10 +22,10 @@
           "url": "URL",
           "event": "Event",
           "additional-fields": "Additional fields ({{fields_count}}/10)",
-          "warning": "We found problems in your webhooks, such as webhooks with multiple events subscriptions. Because of now, according to the new UX we provide to select only one event for subscribing."
+          "warning": "We found problems in your webhooks, such as webhooks with multiple events subscription. Because of now, according to the new UX we provide to select only one event for subscribing."
         },
         "discription": {
-          "webhook": "Webhooks offer a way to quickly find out about changes to your Subscriprions that happen within Virto Commerce. You can subscribe to events of interest, and we will post data to the URL you specify when one of those events occurs.",
+          "webhook": "Webhooks offer a way to quickly find out about changes to your subscriptions that happen within Virto Commerce. You can subscribe to events of interest, and we will post data to the URL you specify when one of those events occurs.",
           "name": "The display webhook name",
           "url": "The URL of the subscriber to be called on each event trigger",
           "event": "Select one of the allowed events for subscribing",
