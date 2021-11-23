@@ -15,7 +15,7 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
 
         [StringLength(128)]
         public string WebHookId { get; set; }
-        public WebHookEntity WebHook { get; set; }
+        public virtual WebHookEntity WebHook { get; set; }
 
         public virtual WebHookPayload ToModel(WebHookPayload payload)
         {
