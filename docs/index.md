@@ -47,7 +47,7 @@ This is it. You can now click the *Save* button in the upper part of the tab to 
 
 Once you do so, you will be able to see your new webhook in the list:
 
-![Webhook appearing in the list](./media/07-webhook-appearing-in-the-list)
+![Webhook appearing in the list](./media/07-webhook-appearing-in-the-list.png)
 
 Alternatively, you can click the *Reset* button to reconfigure your webhook from scratch. 
 
