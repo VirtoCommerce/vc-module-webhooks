@@ -11,9 +11,9 @@ Using the Webhooks module basically enables you to do the following:
 1. Sending Webhook notifications in the background via a POST request with JSON serialized event data to the specified URL
 1. Managing webhooks
 1. Viewing or updating Webhook details
-1. Using `DomainEvent` descendant to trigger webhook notifications 
-1. Sending the retry policy with configurable exponential intervals  
-1. Viewing the error(s) when a webhook notification fails  
+1. Using `DomainEvent` descendant to trigger webhook notifications
+1. Sending the retry policy with configurable exponential intervals
+1. Viewing the error(s) when a webhook notification fails
 
 ## Configuring Webhooks
 
@@ -49,19 +49,33 @@ Once you do so, you will be able to see your new webhook in the list:
 
 ![Webhook appearing in the list](./media/07-webhook-appearing-in-the-list.png)
 
-Alternatively, you can click the *Reset* button to reconfigure your webhook from scratch. 
+Alternatively, you can click the *Reset* button to reconfigure your webhook from scratch.
+
+## Previously created webhooks now could be incorrect
+If you use the webhooks with multi events subscription, after update you might see something like that:
+![Incorrect webhook warning](./media/incorrect-webhook-warnings.png)
+
+But don't be scared, it's okay. And you could continue using its that's way (**but you can't edit them at all**). But we recommend to remove them and create new. Because we decided to restrict event subscriptions by the only one. And in the future releases we perhaps remove code with is responsible for multi events subscribing.
 
 ## Example of Output JSON File
 
-<details><summary>Please expand this paragraph to see an example of JSON output for a weebhook based on the Order Changed event.</summary>
+<details><summary>Please expand this paragraph to see an example of JSON output for a weebhook based on the User Changed event.</summary>
 
 ```
 {
-  "EventId": "VirtoCommerce.OrdersModule.Core.Events.OrderChangedEvent",
+  "EventId": "VirtoCommerce.Platform.Core.Security.Events.UserChangedEvent",
   "Attempt": 1,
-  "EventBody": "[{\"objectId\":\"1780d797-0990-419b-9937-f1d5a7d7b383\",\"objectType\":\"VirtoCommerce.OrdersModule.Core.Model.CustomerOrder\"}]"
+  "EventBody": "[
+  {
+  "ObjectType":"VirtoCommerce.Platform.Core.Security.ApplicationUser",
+  "MemberId":"cb0a5340-f9fb-4f49-bd62-9d03518868ff",
+  "StoreId":"B2B-store",
+  "IsAdministrator":false,
+  "Id":"78b0208a-bb52-4a33-9250-583d63aa1f77"
+  }
+]"
 }
-    
-NOTE: Then you can call the Order API and get the order by its ID using this request: REST /api/order/customerOrders/{id}
+
+NOTE: Then you can call the User API and get the user by its ID using this request: GET /api/users/id/{id}
 ```
 </details>
