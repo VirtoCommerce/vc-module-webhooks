@@ -51,7 +51,7 @@ Once you do so, you will be able to see your new webhook in the list:
 
 Alternatively, you can click the *Reset* button to reconfigure your webhook from scratch.
 
-## Previously created webhooks now could be incorrect
+## Warning Message for Webhooks Created with Previous Versions
 If you used webhooks with multiple event subscription in the previous version, you might get the following warning message once you update the Virto platform:
 
 ![Incorrect webhook warning](./media/incorrect-webhook-warnings.png)
