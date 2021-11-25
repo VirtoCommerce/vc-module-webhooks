@@ -3,6 +3,7 @@ angular.module('virtoCommerce.webhooksModule')
         var blade = $scope.blade;
         blade.availableContentTypes = [{ value: 'application/json', title: 'application/json' }];
         blade.availableEvents = [];
+        blade.availablePayloadProperties = [];
 
         blade.metaFields = metaFormsService.getMetaFields("webhookDetail");
 
@@ -27,7 +28,12 @@ angular.module('virtoCommerce.webhooksModule')
 
             blade.item = angular.copy(data);
 
-            blade.currentEntity = blade.item;
+            blade.currentEntity = blade.item || {};
+            blade.currentEntity.payloads = blade.currentEntity.payloads || [];
+            blade.subscribedEvent = angular.copy(blade.currentEntity.events[0]);
+
+            // If the webhook is subscribed to multiple events we considering is as a bad practice and recommend to remove these type webhooks
+            blade.isBadData = (blade.currentEntity.events && blade.currentEntity.events.length > 1) || blade.currentEntity.isAllEvents;
             blade.origEntity = data;
 
             webhookApi.getEvents(function (response) {
@@ -65,7 +71,7 @@ angular.module('virtoCommerce.webhooksModule')
                 callback: function (remove) {
                     if (remove) {
                         blade.isLoading = true;
-						webhookApi.remove({ ids: [blade.currentEntityId] }, function () {
+                        webhookApi.remove({ ids: [blade.currentEntityId] }, function () {
                             bladeNavigationService.closeBlade(blade, function () {
                                 blade.parentBlade.refresh(true);
                             });
@@ -87,9 +93,25 @@ angular.module('virtoCommerce.webhooksModule')
         }
 
         function canSave() {
-            return isDirty() && detailForm && detailForm.$valid;
+            return isDirty() && detailForm && detailForm.$valid && !blade.isBadData;
         }
 
+        function loadProperties(eventType) {
+            blade.isLoading = true;
+            webhookApi.getProperties({ objectType: eventType }, (data) => {
+                
+                blade.availablePayloadProperties = _.map(data.properties, function (property) { return { eventPropertyName: property }; });
+                $scope.isNoChoices = !data.discovered;
+
+                blade.isLoading = false;
+            });
+        }
+
+        $scope.reducePayload = () => {
+            if (blade.currentEntity && blade.currentEntity.payloads.length > 10) {
+                blade.currentEntity.payloads.pop();
+            }
+        };
 
         blade.onClose = function (closeCallback) {
             bladeNavigationService.showConfirmationIfNeeded(isDirty(), canSave(), blade, $scope.saveChanges, closeCallback, "webhooks.dialogs.setting-save.title", "webhooks.dialogs.setting-save.message");
@@ -110,6 +132,7 @@ angular.module('virtoCommerce.webhooksModule')
                 name: "platform.commands.reset", icon: 'fa fa-undo',
                 executeMethod: function () {
                     angular.copy(blade.origEntity, blade.currentEntity);
+                    blade.subscribedEvent = angular.copy(blade.currentEntity.events[0]);
                 },
                 canExecuteMethod: isDirty
             },
@@ -122,6 +145,22 @@ angular.module('virtoCommerce.webhooksModule')
                 }
             }
         ];
+
+        $scope.$watch('blade.subscribedEvent', function(newValue, oldValue) {
+
+            // User has changed event, so we need to clean previous payloads 
+            if (oldValue && blade.currentEntity.events && blade.currentEntity.events[0].eventId !== newValue.eventId) {
+                blade.currentEntity.payloads = [];
+            }
+
+            if (newValue !== oldValue) {
+
+                loadProperties(newValue.eventId);
+
+                blade.currentEntity.events = [newValue];
+            }
+            
+        });
 
         blade.refresh();
 

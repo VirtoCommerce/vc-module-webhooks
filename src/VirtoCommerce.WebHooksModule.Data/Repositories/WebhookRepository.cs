@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Data.Infrastructure;
@@ -20,11 +20,13 @@ namespace VirtoCommerce.WebhooksModule.Data.Repositories
 
         public IQueryable<WebHookEntity> WebHooks => DbContext.Set<WebHookEntity>();
         public IQueryable<WebHookEventEntity> WebHookEvents => DbContext.Set<WebHookEventEntity>();
+        public IQueryable<WebHookPayloadEntity> WebHookPayloads => DbContext.Set<WebHookPayloadEntity>();
         public IQueryable<WebHookFeedEntryEntity> WebHookFeedEntries => DbContext.Set<WebHookFeedEntryEntity>();
 
         public Task<WebHookEntity[]> GetWebHooksByIdsAsync(string[] ids) => WebHooks
                 .Where(x => ids.Contains(x.Id))
                 .Include(x => x.Events)
+                .Include(x => x.Payloads)
                 .ToArrayAsync();
 
         public async Task DeleteWebHooksByIdsAsync(string[] ids)

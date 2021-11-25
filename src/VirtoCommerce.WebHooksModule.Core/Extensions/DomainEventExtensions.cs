@@ -42,5 +42,31 @@ namespace VirtoCommerce.WebhooksModule.Core.Extensions
 
             return result.ToArray();
         }
-    }    
+
+        public static Type GetEntityTypeWithInterface<TResult>(this Type eventType)
+        {
+            var result = default(Type);
+            var properties = eventType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+            // Try to find generic type
+            var changedEntryPropertyInfo = properties
+                .FirstOrDefault(x =>
+                        x.Name.EqualsInvariant(nameof(GenericChangedEntryEvent<TResult>.ChangedEntries)) &&
+                        x.GetIndexParameters().Length == 0);
+
+            if (changedEntryPropertyInfo != null)
+            {
+                // If type is finded, get its type
+                result = changedEntryPropertyInfo.PropertyType.GenericTypeArguments.FirstOrDefault()?.GenericTypeArguments?.FirstOrDefault();
+            }
+
+            // If previous attempt was failed, try to get from event directly
+            if (result is null)
+            {
+                result = properties.FirstOrDefault(x => x.PropertyType.GetInterfaces().Contains(typeof(TResult)))?.PropertyType;
+            }
+
+            return result;
+        }
+    }
 }

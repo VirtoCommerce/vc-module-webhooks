@@ -58,6 +58,7 @@
 <script type="text/ng-template" id="list-name.cell.html">
     <div class="ui-grid-cell-contents">
         <div class="inner-contents">
+            <i class="fas fa-exclamation-triangle triangle-warning-icon" ng-if="(row.entity.events && row.entity.events.length > 1) || row.entity.isAllEvents"></i>
             <i class="table-ico fa fa-rocket"></i>
             <div class="ui-grid-cell-contents">{{row.entity.name}}</div>
         </div>

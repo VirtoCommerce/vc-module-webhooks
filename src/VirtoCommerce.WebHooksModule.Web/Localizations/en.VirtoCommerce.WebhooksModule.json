@@ -3,7 +3,7 @@
     "main-menu-title": "Webhooks",
     "blades": {
       "webhooks-list": {
-        "title": "Webhook list",
+        "title": "Webhook List",
         "subtitle": "List of user-defined webhooks",
         "labels": {
           "name": "Name",
@@ -14,24 +14,28 @@
         }
       },
       "webhook-detail": {
-        "title": "Webhook list",
+        "title": "Webhook List",
         "subtitle": "Manage webhook settings and details",
         "labels": {
           "name": "Name",
           "is-active": "Activate",
           "url": "URL",
-          "content-type": "Content type",
-          "triggering-events": "Triggering events",
-          "trigger-all-events": "Trigger for all events"
+          "event": "Event",
+          "additional-fields": "Additional fields ({{fields_count}}/10)",
+          "warning": "We found issues with your webhooks, e.g., multiple event subscription. Currently, the new UX limitations allow you to select only one event to subscribe to, per webhook."
         },
         "discription": {
+          "webhook": "Webhooks offer you a way to quickly find out what has been changed within your Virto Commerce ecosystem. Select the events you want to follow, and we will send you a detailed notification to the URL you specified once any such event occurs.",
           "name": "This webhook's display name",
-          "url": "The URL being called each time the event has been triggered",
-          "specify-events": "Specify which kind of events this webhook will be triggered for",
-          "content-type": "Select one of the allowed MIME types to use as a value for the Content Type header"
+          "url": "The URL being called on each event trigger",
+          "event": "Select the event you want to get notified on.",
+          "specify-payload": "This allows you to specify additional data this webhook will include in the report.",
+          "specify-payload-note": "Note",
+          "specify-payload-note-content": "The ID and ObjectType properties are included into the report by default and will always be there."
         },
         "placeholders": {
-          "name": "Specify Webhook name"
+          "name": "Specify webhook name",
+          "event": "Please select"
         }
       },
       "webhook-error-list": {
@@ -132,7 +136,7 @@
     "Webhooks": {
       "General": {
         "SendRetryCount": {
-          "description": "In case the HTTP request sending the webhook notification fails by any reason, the operation will be repeated X number or times or until it succeeds. The intervals between the attempts are the following: 1, 2, 4, …, 2^N (minutes)",
+          "description": "In case the HTTP request sending the webhook notification fails by any reason, the operation will be repeated X number or times or until it succeeds. The intervals between the attempts are the following (in minutes): 1, 2, 4, …, 2^N (minutes)",
           "title": "Number of retry attempts to send the webhook notification in case the first attempt fails"
         }
       }
