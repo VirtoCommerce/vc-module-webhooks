@@ -9,6 +9,8 @@ namespace VirtoCommerce.WebhooksModule.Data.Repositories
     {
         IQueryable<WebHookEntity> WebHooks { get; }
         IQueryable<WebHookEventEntity> WebHookEvents { get; }
+        IQueryable<WebHookPayloadEntity> WebHookPayloads { get; }
+
         IQueryable<WebHookFeedEntryEntity> WebHookFeedEntries { get; }
 
         Task<WebHookEntity[]> GetWebHooksByIdsAsync(string[] ids);

@@ -1,3 +1,37 @@
-﻿body
-{
+.webhook-detail.warning-block {
+    background: #fff7e9;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    height: 50px;
+    margin: 10px 0;
+    border-color: #efe8dd;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 5px;
+}
+
+.webhook-detail .warning-text {
+    font-size: 13px;
+    color: #9c825b;
+    margin-left: 10px;
+}
+
+.webhook-detail.description-text {
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+.webhook-detail .triangle-warning-icon {
+    color: #ffad0d;
+    font-size: 30px;
+}
+
+.triangle-warning-icon {
+    color: #ffad0d;
+}
+
+.webhook-detail .preview-warning-text {
+    font-size: 13px;
+    color: #9c825b;
 }

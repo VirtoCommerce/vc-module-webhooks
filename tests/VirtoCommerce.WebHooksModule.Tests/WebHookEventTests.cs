@@ -27,6 +27,37 @@ namespace VirtoCommerce.WebHooksModule.Tests
             Assert.NotNull(result);
             Assert.All(result, item => Assert.IsAssignableFrom<IEntity>(item));
         }
+
+        [Fact]
+        public void GetVoidWithObjectTypePassedIntoTheConstructor_ReturnEmptyCollection()
+        {
+            // Arrange
+            var eventWithObjectInjectedIntoConstructor = new WebHookCtorObjectEventFake(new FakeEntity());
+
+            // Act
+            var result = eventWithObjectInjectedIntoConstructor.GetEntityWithInterface<IEntity>();
+
+            // Assert
+            Assert.Empty(result);
+        }
+
+        [Fact]
+        public void GetEntityTypeViaEventType_ReturnEntityType()
+        {
+            // Arrange
+
+            // Act
+            var entityTypeFromGenericEvent = typeof(WebHookChangedEventFake).GetEntityTypeWithInterface<IEntity>();
+            var entityTypeFromEventInheritedViaDomainEvent = typeof(WebHookObjectEventFake).GetEntityTypeWithInterface<IEntity>();
+            var wrongType = typeof(WebHookObjectEventFake).GetEntityTypeWithInterface<IWrong>();
+            var correctTypeEvenWithIncorrectInterface = typeof(WebHookChangedEventFake).GetEntityTypeWithInterface<IWrong>();
+
+            // Assert
+            Assert.Equal(nameof(FakeEntity), entityTypeFromEventInheritedViaDomainEvent.Name);
+            Assert.Equal(nameof(FakeEntity), entityTypeFromGenericEvent.Name);
+            Assert.Null(wrongType);
+            Assert.Equal(nameof(FakeEntity), correctTypeEvenWithIncorrectInterface.Name);
+        }
     }
 
     class WebHookTestData : IEnumerable<object[]>
@@ -67,8 +98,21 @@ namespace VirtoCommerce.WebHooksModule.Tests
         public FakeEntity Value { get; set; }
     }
 
+    public class WebHookCtorObjectEventFake : DomainEvent
+    {
+        public WebHookCtorObjectEventFake(FakeEntity value)
+        {
+
+        }
+    }
+
     public class FakeEntity : IEntity
     {
         public string Id { get; set; }
+    }
+
+    public interface IWrong
+    {
+
     }
 }
