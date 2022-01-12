@@ -167,5 +167,15 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
 
             return Ok(result);
         }
+
+        [HttpGet]
+        [Route("properties")]
+        [Authorize(ModuleConstants.Security.Permissions.Read)]
+        public ActionResult<EventObjectProperties> GetEventObjectProperties([FromQuery] string objectType)
+        {
+            var result = _registeredEventStore.GetEventObjectProperties(objectType);
+
+            return Ok(result);
+        }
     }
 }
