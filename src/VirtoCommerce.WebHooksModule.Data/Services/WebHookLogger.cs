@@ -29,7 +29,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
             WebhookFeedEntry result = null;
 
-            using (await AsyncLock.GetLockByKey(CacheKey.With(typeof(WebhookFeedEntry), feedEntry.WebHookId)).LockAsync())
+            using (await AsyncLock.GetLockByKey(CacheKey.With(typeof(WebhookFeedEntry), feedEntry.WebHookId)).GetReleaserAsync())
             {
                 switch (feedEntry.RecordType)
                 {

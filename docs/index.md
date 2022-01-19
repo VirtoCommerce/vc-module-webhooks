@@ -51,11 +51,12 @@ Once you do so, you will be able to see your new webhook in the list:
 
 Alternatively, you can click the *Reset* button to reconfigure your webhook from scratch.
 
-## Previously created webhooks now could be incorrect
-If you use the webhooks with multi events subscription, after update you might see something like that:
+## Warning Message for Webhooks Created with Previous Versions
+If you used webhooks with multiple event subscription in the previous version, you might get the following warning message once you update the Virto platform:
+
 ![Incorrect webhook warning](./media/incorrect-webhook-warnings.png)
 
-But don't be scared, it's okay. And you could continue using its that's way (**but you can't edit them at all**). But we recommend to remove them and create new. Because we decided to restrict event subscriptions by the only one. And in the future releases we perhaps remove code with is responsible for multi events subscribing.
+This is actually fine: you can continue using such a webhook as you did before, although **you will not be able edit it**. However, we recommend you removing such webhooks and replacing them with new ones instead. Currently, the *single event per webhook* limitation works for the newly created webhooks only, but, moving forward, we might totally remove the code that supports multiple event subscription.
 
 ## Example of Output JSON File
 
@@ -76,6 +77,6 @@ But don't be scared, it's okay. And you could continue using its that's way (**b
 ]"
 }
 
-NOTE: Then you can call the User API and get the user by its ID using this request: GET /api/users/id/{id}
+NOTE: You can then call the User API and get the user by its ID using this request: GET /api/users/id/{id}
 ```
 </details>
