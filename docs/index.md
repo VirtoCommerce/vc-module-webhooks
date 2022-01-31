@@ -8,6 +8,7 @@ Simply put, the Webhooks module enables viewing all major changes within your Vi
 ## Key Features
 
 Using the Webhooks module basically enables you to do the following:
+
 1. Sending Webhook notifications in the background via a POST request with JSON serialized event data to the specified URL
 1. Managing webhooks
 1. Viewing or updating Webhook details
@@ -80,3 +81,6 @@ This is actually fine: you can continue using such a webhook as you did before, 
 NOTE: You can then call the User API and get the user by its ID using this request: GET /api/users/id/{id}
 ```
 </details>
+
+## References
+* We recommend using [webhook.site](https://webhook.site/) to inspect and test web hooks.
