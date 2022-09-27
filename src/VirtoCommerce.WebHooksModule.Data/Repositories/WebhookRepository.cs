@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Data.Infrastructure;
@@ -20,11 +20,13 @@ namespace VirtoCommerce.WebhooksModule.Data.Repositories
 
         public IQueryable<WebHookEntity> WebHooks => DbContext.Set<WebHookEntity>();
         public IQueryable<WebHookEventEntity> WebHookEvents => DbContext.Set<WebHookEventEntity>();
+        public IQueryable<WebHookPayloadEntity> WebHookPayloads => DbContext.Set<WebHookPayloadEntity>();
         public IQueryable<WebHookFeedEntryEntity> WebHookFeedEntries => DbContext.Set<WebHookFeedEntryEntity>();
 
         public Task<WebHookEntity[]> GetWebHooksByIdsAsync(string[] ids) => WebHooks
                 .Where(x => ids.Contains(x.Id))
                 .Include(x => x.Events)
+                .Include(x => x.Payloads)
                 .ToArrayAsync();
 
         public async Task DeleteWebHooksByIdsAsync(string[] ids)
@@ -48,13 +50,42 @@ namespace VirtoCommerce.WebhooksModule.Data.Repositories
                 do
                 {
                     var batchEntries = ids.Skip(skip).Take(_batchSize);
-                    var commandText = $"DELETE FROM WebHookFeedEntry WHERE Id IN ('{string.Join("','", batchEntries)}')";
-                    await DbContext.Database.ExecuteSqlRawAsync(commandText);
+
+                    await ExecuteSqlCommandAsync("DELETE FROM WebHookFeedEntry WHERE Id IN ({0})", batchEntries);
 
                     skip += _batchSize;
                 }
                 while (skip < ids.Length);
             }
+        }
+
+        protected virtual Task ExecuteSqlCommandAsync(string commandTemplate, IEnumerable<string> parameterValues)
+        {
+            if (parameterValues?.Count() > 0)
+            {
+                var command = CreateCommand(commandTemplate, parameterValues);
+                return DbContext.Database.ExecuteSqlRawAsync(command.Text, command.Parameters);
+            }
+            return Task.CompletedTask;
+        }
+
+
+        protected virtual Command CreateCommand(string commandTemplate, IEnumerable<string> parameterValues)
+        {
+            var parameters = parameterValues.Select((v, i) => new SqlParameter($"@p{i}", v));
+            var parameterNames = string.Join(",", parameters.Select(p => p.ParameterName));
+
+            return new Command
+            {
+                Text = string.Format(commandTemplate, parameterNames),
+                Parameters = parameters.OfType<object>(),
+            };
+        }
+
+        protected class Command
+        {
+            public string Text { get; set; }
+            public IEnumerable<object> Parameters { get; set; }
         }
 
         public async Task UpdateAttemptCountsAsync(WebHookFeedEntryEntity[] webHookFeedEntries)

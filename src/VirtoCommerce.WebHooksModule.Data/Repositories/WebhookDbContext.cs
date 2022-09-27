@@ -29,12 +29,20 @@ namespace VirtoCommerce.WebhooksModule.Data.Repositories
                 .HasForeignKey(m => m.WebHookId).HasConstraintName("FK_dbo.WebHookEvent_dbo.WebHook_WebHookId").OnDelete(DeleteBehavior.Cascade).IsRequired();
             modelBuilder.Entity<WebHookEventEntity>().HasIndex(i => i.WebHookId);
 
+            modelBuilder.Entity<WebHookPayloadEntity>().HasKey(x => x.Id);
+            modelBuilder.Entity<WebHookPayloadEntity>().ToTable("WebHookPayload");
+            modelBuilder.Entity<WebHookPayloadEntity>().Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
+            modelBuilder.Entity<WebHookPayloadEntity>().HasOne(x => x.WebHook).WithMany(x => x.Payloads)
+                .HasForeignKey(x => x.WebHookId).HasConstraintName("FK_dbo.WebHookPayload_dbo.WebHook_WebHookId")
+                .OnDelete(DeleteBehavior.Cascade).IsRequired();
+            modelBuilder.Entity<WebHookPayloadEntity>().HasIndex(x => x.WebHookId);
+
             modelBuilder.Entity<WebHookFeedEntryEntity>().HasKey(x => x.Id);
             modelBuilder.Entity<WebHookFeedEntryEntity>().ToTable("WebHookFeedEntry");
             modelBuilder.Entity<WebHookFeedEntryEntity>().Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
             modelBuilder.Entity<WebHookFeedEntryEntity>().HasIndex(x => x.WebHookId);
             modelBuilder.Entity<WebHookFeedEntryEntity>().HasIndex(x => x.EventId);
-            modelBuilder.Entity<WebHookFeedEntryEntity>().HasIndex(x => new { x.WebHookId, x.RecordType }).HasName("IX_WebHookIdAndRecordType");
+            modelBuilder.Entity<WebHookFeedEntryEntity>().HasIndex(x => new { x.WebHookId, x.RecordType }).HasDatabaseName("IX_WebHookIdAndRecordType");
 
             base.OnModelCreating(modelBuilder);
         }

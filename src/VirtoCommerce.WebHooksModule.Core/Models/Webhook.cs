@@ -1,3 +1,4 @@
+using System;
 using VirtoCommerce.Platform.Core.Common;
 
 namespace VirtoCommerce.WebhooksModule.Core.Models
@@ -8,10 +9,12 @@ namespace VirtoCommerce.WebhooksModule.Core.Models
         public string Url { get; set; }
         public string ContentType { get; set; }
         public bool IsActive { get; set; }
+        [Obsolete("Use only one event for subscribing. This property would be removed in the future releases.")]
         public bool IsAllEvents { get; set; }
         public long SuccessCount { get; set; }
         public long ErrorCount { get; set; }
         public WebhookEvent[] Events { get; set; }
         public WebhookHttpParams RequestParams { get; set; }
+        public WebHookPayload[] Payloads { get; set; }
     }
 }

@@ -21,25 +21,30 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
         [StringLength(128)]
         public string ContentType { get; set; }
         public bool IsActive { get; set; }
+        [Obsolete("Use only one event for subscribing. This property would be removed in the future releases.")]
         public bool IsAllEvents { get; set; }
         public virtual ObservableCollection<WebHookEventEntity> Events { get; set; }
+        public virtual ObservableCollection<WebHookPayloadEntity> Payloads { get; set; }
+
         public virtual Webhook ToModel(Webhook webHook)
         {
             if (webHook == null)
                 throw new ArgumentNullException(nameof(webHook));
 
-            webHook.Id = this.Id;
-            webHook.CreatedBy = this.CreatedBy;
-            webHook.CreatedDate = this.CreatedDate;
-            webHook.ModifiedBy = this.ModifiedBy;
-            webHook.ModifiedDate = this.ModifiedDate;
-            webHook.Name = this.Name;
-            webHook.Url = this.Url;
-            webHook.ContentType = this.ContentType;
-            webHook.IsActive = this.IsActive;
-            webHook.IsAllEvents = this.IsAllEvents;
+            webHook.Id = Id;
+            webHook.CreatedBy = CreatedBy;
+            webHook.CreatedDate = CreatedDate;
+            webHook.ModifiedBy = ModifiedBy;
+            webHook.ModifiedDate = ModifiedDate;
+            webHook.Name = Name;
+            webHook.Url = Url;
+            webHook.ContentType = ContentType;
+            webHook.IsActive = IsActive;
+            webHook.IsAllEvents = IsAllEvents;
 
-            webHook.Events = this.Events.Select(x => x.ToModel(AbstractTypeFactory<WebhookEvent>.TryCreateInstance())).ToArray();
+            webHook.Events = Events.Select(x => x.ToModel(AbstractTypeFactory<WebhookEvent>.TryCreateInstance())).ToArray();
+
+            webHook.Payloads = Payloads.Select(x => x.ToModel(AbstractTypeFactory<WebHookPayload>.TryCreateInstance())).ToArray();
 
             return webHook;
         }
@@ -49,21 +54,27 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             if (webHook == null)
                 throw new ArgumentNullException(nameof(webHook));
 
-            this.Id = webHook.Id;
-            this.CreatedBy = webHook.CreatedBy;
-            this.CreatedDate = webHook.CreatedDate;
-            this.ModifiedBy = webHook.ModifiedBy;
-            this.ModifiedDate = webHook.ModifiedDate;
-            this.Name = webHook.Name;
-            this.Url = webHook.Url;
-            this.ContentType = webHook.ContentType;
-            this.IsActive = webHook.IsActive;
-            this.IsAllEvents = webHook.IsAllEvents;
+            Id = webHook.Id;
+            CreatedBy = webHook.CreatedBy;
+            CreatedDate = webHook.CreatedDate;
+            ModifiedBy = webHook.ModifiedBy;
+            ModifiedDate = webHook.ModifiedDate;
+            Name = webHook.Name;
+            Url = webHook.Url;
+            ContentType = webHook.ContentType;
+            IsActive = webHook.IsActive;
+            IsAllEvents = webHook.IsAllEvents;
 
             if (webHook.Events != null)
             {
                 Events = new ObservableCollection<WebHookEventEntity>(webHook.Events.Select(x => AbstractTypeFactory<WebHookEventEntity>.TryCreateInstance().FromModel(x, pkMap)));
             }
+
+            if (webHook.Payloads != null)
+            {
+                Payloads = new ObservableCollection<WebHookPayloadEntity>(webHook.Payloads.Select(x => AbstractTypeFactory<WebHookPayloadEntity>.TryCreateInstance().FromModel(x, pkMap)));
+            }
+
             pkMap.AddPair(webHook, this);
 
             return this;
@@ -71,16 +82,22 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
 
         public virtual void Patch(WebHookEntity target)
         {
-            target.Name = this.Name;
-            target.Url = this.Url;
-            target.ContentType = this.ContentType;
-            target.IsActive = this.IsActive;
-            target.IsAllEvents = this.IsAllEvents;
+            target.Name = Name;
+            target.Url = Url;
+            target.ContentType = ContentType;
+            target.IsActive = IsActive;
+            target.IsAllEvents = IsAllEvents;
 
             if (!Events.IsNullCollection())
             {
                 var eventComparer = AnonymousComparer.Create((WebHookEventEntity x) => $"{x.EventId}");
                 Events.Patch(target.Events, eventComparer, (sourceEvent, targetEvent) => sourceEvent.Patch(targetEvent));
+            }
+
+            if (!Payloads.IsNullCollection())
+            {
+                var payloadComparer = AnonymousComparer.Create((WebHookPayloadEntity x) => $"{x.EventPropertyName}");
+                Payloads.Patch(target.Payloads, payloadComparer, (sourcePayload, targetPayload) => sourcePayload.Patch(targetPayload));
             }
         }
     }
