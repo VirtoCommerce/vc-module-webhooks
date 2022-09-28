@@ -8,7 +8,7 @@ namespace VirtoCommerce.WebHooksModule.Core.Models
     public class WebhookWorkItem
     {
         /// <summary>
-        /// Gets or sets the <see cref=WebhooksModule.Core.Models.Webhook"/> to fire.
+        /// Gets or sets the <see cref="WebhooksModule.Core.Models.Webhook"/> to fire.
         /// </summary>
         public Webhook WebHook { get; set; }
         /// <summary>
