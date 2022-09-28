@@ -151,7 +151,7 @@ namespace VirtoCommerce.WebhooksModule.Tests
             // Assert
             Assert.Equal(typeof(FakeEntity).FullName, result["ObjectType"].ToString());
             Assert.Equal("15", result[nameof(FakeEntity.Number)].ToString());
-            Assert.Equal("14", result["__Previous"][nameof(FakeEntity.Number)].ToString());
+            Assert.Equal("14", result.SelectToken("__Previous.Number").ToString());
             Assert.NotNull(result[nameof(FakeEntity.Id)]);
             Assert.Null(result[nameof(FakeEntity.Values)]);
         }
