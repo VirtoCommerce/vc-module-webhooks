@@ -124,14 +124,30 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
                     foreach (var entity in entities)
                     {
-                        var jObject = JObject.FromObject(entity);
+                        var jObject = JObject.FromObject(entity.NewEntry);
                         var currentResult = new Dictionary<string, JToken>();
 
-                        currentResult.Add("ObjectType", JToken.FromObject(entity.GetType().FullName));
+                        // Add Generic Properties ObjectType and Id
+                        currentResult.Add("ObjectType", JToken.FromObject(entity.NewEntry.GetType().FullName));
+                        currentResult.Add("Id", JToken.FromObject(jObject.SelectToken("$.Id")));
 
-                        foreach (var webHookEventPayloadProperty in webHook.Payloads.Select(x => x.EventPropertyName).Union(new[] { "Id" }))
+                        // Add Rroperties  properties from new entity
+                        foreach (var webHookEventPayloadProperty in webHook.Payloads.Select(x => x.EventPropertyName))
                         {
                             currentResult.Add(webHookEventPayloadProperty, jObject.SelectToken($"$.{webHookEventPayloadProperty}"));
+
+                        }
+
+                        // Add Rroperties from new old entity
+                        if(entity.OldEntry!=null)
+                        { 
+                            var oldEntryObject = new JObject();
+                            var jOldObject = JObject.FromObject(entity.OldEntry);
+                            foreach (var webHookEventPayloadProperty in webHook.Payloads.Select(x => x.EventPropertyName))
+                            {
+                                oldEntryObject[webHookEventPayloadProperty] = jOldObject.SelectToken($"$.{webHookEventPayloadProperty}");
+                            }
+                            currentResult.Add("__Previous", oldEntryObject);
                         }
 
                         entityPayload.Add(currentResult);

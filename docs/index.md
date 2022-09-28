@@ -1,22 +1,23 @@
 
-# Webhooks Module
+# Overview
 
-## What Is Webhooks Module?
+The Webhooks module enables viewing all major changes within your Virto Commerce ecosystem.
 
-Simply put, the Webhooks module enables viewing all major changes within your Virto Commerce ecosystem. For instance, you can get notified on user login and/or password changes, catalog or product changes, and so on, which will assist you in better monitoring your system. Whenever a change you are watching (i.e. you 'subscribed to') is triggered, you will get the relevant notification uploaded to the URL address you previously specified. Apart from the event you are following, you can also configure which fields or parameters you will see in the report you get.
+For instance, you can get notified on user login and/or password changes, catalog or product changes, and so on, which will assist you in better monitoring your system. Whenever a change you are watching (i.e. you 'subscribed to') is triggered, you will get the relevant notification uploaded to the URL address you previously specified.
+
+Apart from the event you are following, you can also configure which fields or parameters you will see in the report you get.
 
 ## Key Features
 
-Using the Webhooks module basically enables you to do the following:
-
+1. Employees can manage webhooks but only under their own Permission level
+1. Admin users can manage webhooks
+1. Resolving Virto Commerce Domain Event for installed modules
 1. Sending Webhook notifications in the background via a POST request with JSON serialized event data to the specified URL
-1. Managing webhooks
-1. Viewing or updating Webhook details
-1. Using `DomainEvent` descendant to trigger webhook notifications
+1. Access to previous values of selected fields
 1. Sending the retry policy with configurable exponential intervals
 1. Viewing the error(s) when a webhook notification fails
 
-## Configuring Webhooks
+## Configuraton
 
 To configure a new webhook, open the *Webhooks* module and click the *Add* button:
 
@@ -52,33 +53,40 @@ Once you do so, you will be able to see your new webhook in the list:
 
 Alternatively, you can click the *Reset* button to reconfigure your webhook from scratch.
 
-## Warning Message for Webhooks Created with Previous Versions
-If you used webhooks with multiple event subscription in the previous version, you might get the following warning message once you update the Virto platform:
+## Warning Message
+If you use webhooks with multiple event subscriptions in the previous version, you might get the following warning message once you update the Virto platform:
 
 ![Incorrect webhook warning](./media/incorrect-webhook-warnings.png)
 
-This is actually fine: you can continue using such a webhook as you did before, although **you will not be able edit it**. However, we recommend you removing such webhooks and replacing them with new ones instead. Currently, the *single event per webhook* limitation works for the newly created webhooks only, but, moving forward, we might totally remove the code that supports multiple event subscription.
+This is actually fine: you can continue using such a webhook as you did before, although **you will not be able to edit it**. However, we recommend you remove such webhooks and replace them with new ones instead. Currently, the *single event per webhook* limitation works for the newly created webhooks only, but, moving forward, we might totally remove the code that supports multiple event subscriptions.
 
-## Example of Output JSON File
+## Webhook Json Format
 
-<details><summary>Please expand this paragraph to see an example of JSON output for a weebhook based on the User Changed event.</summary>
+<details><summary>Please expand this paragraph to see an example of JSON output for a webhook based on the Order Changed event.</summary>
 
 ```
 {
-  "EventId": "VirtoCommerce.Platform.Core.Security.Events.UserChangedEvent",
+  "EventId": "VirtoCommerce.OrdersModule.Core.Events.OrderChangedEvent",
   "Attempt": 1,
-  "EventBody": "[
-  {
-  "ObjectType":"VirtoCommerce.Platform.Core.Security.ApplicationUser",
-  "MemberId":"cb0a5340-f9fb-4f49-bd62-9d03518868ff",
-  "StoreId":"B2B-store",
-  "IsAdministrator":false,
-  "Id":"78b0208a-bb52-4a33-9250-583d63aa1f77"
-  }
-]"
+  "EventBody": [
+    {
+      "ObjectType": "VirtoCommerce.OrdersModule.Core.Model.CustomerOrder",
+      "Id": "1d58ff39-0631-44aa-afc6-a0d4adbc9787",
+      "Status": "New",
+      "Number": "CO220224-00003",
+      "__Previous": {
+        "Status": "Pending",
+        "Number": "CO220224-00003"
+      }
+    }
+  ]
 }
 
-NOTE: You can then call the User API and get the user by its ID using this request: GET /api/users/id/{id}
+
+NOTE: You can then call the Order API and get the extended order information.
+
+NOTE: `__Previous` field contains the same list of the fields with previous values.
+
 ```
 </details>
 

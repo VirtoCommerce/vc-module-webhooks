@@ -23,9 +23,9 @@
                                 <label class="form-label">{{ 'webhooks.blades.webhook-detail.labels.event' | translate }}</label>
                                 <div class="form-input">
                                     <ui-select ng-model="blade.subscribedEvent" ng-disabled="blade.isBadData">
-                                        <ui-select-match placeholder="{{ 'webhooks.blades.webhook-detail.placeholders.event' | translate }}">{{ $select.selected.eventId ? (('webhooks.events.types.' + $select.selected.eventId) | translate) : undefined}}</ui-select-match>
-                                        <ui-select-choices repeat="x in blade.availableEvents | filter: $select.search">
-                                            <span ng-bind-html="('webhooks.events.types.'+ x.eventId) | translate | highlight: $select.search"></span>
+                                        <ui-select-match placeholder="{{ 'webhooks.blades.webhook-detail.placeholders.event' | translate }}">{{ $select.selected.eventId ? (('webhooks.events.types.' + $select.selected.eventId) | fallbackTranslate:$select.selected.displayName) : undefined}}</ui-select-match>
+                                        <ui-select-choices repeat="x in blade.availableEvents | filter: $select.search | orderBy:'eventId'">
+                                            <span ng-bind-html="('webhooks.events.types.'+ x.eventId) | fallbackTranslate:x.displayName | highlight: $select.search"></span>
                                         </ui-select-choices>
                                     </ui-select>
                                 </div>

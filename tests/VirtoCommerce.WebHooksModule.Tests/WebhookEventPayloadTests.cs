@@ -83,6 +83,79 @@ namespace VirtoCommerce.WebhooksModule.Tests
             Assert.Null(result[nameof(FakeEntity.Values)]);
         }
 
+        [Fact]
+        public async Task PayloadExtracting_OldEntry_SuccessfulExtractedPayload()
+        {
+            // Arrange
+            var mockedRegisteredEventStore = new Mock<IRegisteredEventStore>();
+
+            mockedRegisteredEventStore.Setup(x => x.GetAllEvents()).Returns(new[] { new RegisteredEvent { EventType = typeof(FakeEvent), Id = new Guid().ToString() } });
+
+            var fakeHandlerRegistrar = new FakeHandlerRegistrar();
+
+            var mockedWebHookSearchService = new Mock<IWebHookSearchService>();
+
+            mockedWebHookSearchService.Setup(x => x.SearchAsync(It.IsAny<WebhookSearchCriteria>())).ReturnsAsync(
+                new WebhookSearchResult
+                {
+                    Results = new List<Webhook>
+                    {
+                        new Webhook
+                        {
+                            Id = "webhook1",
+                            Payloads = new[] { new WebHookPayload { EventPropertyName = "Number", } },
+                        }
+                    },
+                    TotalCount = 1,
+                });
+
+            var mockedBackgroundJobClient = new Mock<IBackgroundJobClient>();
+
+            var webHookRequest = default(WebhookRequest);
+
+            mockedBackgroundJobClient.Setup(x => x.Create(It.IsAny<Job>(), It.IsAny<IState>()))
+                .Callback<Job, IState>((x, s) =>
+                {
+                    webHookRequest = (WebhookRequest)x.Args.First();
+                });
+
+            var requestBody = string.Empty;
+            var mockedWebHookSender = new Mock<IWebHookSender>();
+
+            var webhookManager = new WebHookManager(mockedRegisteredEventStore.Object, fakeHandlerRegistrar,
+                mockedWebHookSearchService.Object, mockedWebHookSender.Object, mockedBackgroundJobClient.Object);
+
+            // Act
+            webhookManager.SubscribeToAllEvents();
+
+            var eventHandler = fakeHandlerRegistrar.Handlers.First();
+
+            var entityId = Guid.NewGuid().ToString();
+
+            await ((Func<FakeEvent, CancellationToken, Task>)eventHandler).Invoke(new FakeEvent(new[]{ new GenericChangedEntry<FakeEntity>(new FakeEntity
+            {
+                Id = entityId,
+                Number = 15M,
+                Values = new []{ "Value1", "Value2" },
+            },
+            new FakeEntity
+            {
+                Id = Guid.NewGuid().ToString(),
+                Number = 14M,
+                Values = new []{ "Value1", "Value2" },
+            }
+            , EntryState.Modified)}), CancellationToken.None);
+
+            var result = JArray.Parse(webHookRequest.WebhooksPayload.First().Value).First;
+
+            // Assert
+            Assert.Equal(typeof(FakeEntity).FullName, result["ObjectType"].ToString());
+            Assert.Equal("15", result[nameof(FakeEntity.Number)].ToString());
+            Assert.Equal("14", result["old_Number"].ToString());
+            Assert.NotNull(result[nameof(FakeEntity.Id)]);
+            Assert.Null(result[nameof(FakeEntity.Values)]);
+        }
+
         public class FakeEntity : IEntity
         {
             public string Id { get; set; }

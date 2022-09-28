@@ -8,11 +8,17 @@ using VirtoCommerce.Platform.Core.Events;
 
 namespace VirtoCommerce.WebhooksModule.Core.Extensions
 {
+    public class DomainEventObject<TResult>
+    {
+        public TResult NewEntry { get; set; }
+        public TResult OldEntry { get; set; }
+    }
+
     public static class DomainEventExtensions
     {
-        public static TResult[] GetEntityWithInterface<TResult>(this IEvent obj)
+        public static DomainEventObject<TResult>[] GetEntityWithInterface<TResult>(this IEvent obj)
         {
-            var result = new List<TResult>();
+            var result = new List<DomainEventObject<TResult>>();
 
             var objectType = obj.GetType();
             var properties = objectType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
@@ -28,15 +34,31 @@ namespace VirtoCommerce.WebhooksModule.Core.Extensions
                 {
                     foreach (var collectionObject in enumerable)
                     {
-                        result.AddRange(collectionObject.GetType().GetProperties()
-                                                      .Where(x => x.Name.EqualsInvariant(nameof(GenericChangedEntry<TResult>.NewEntry)))
-                                                      .Select(p => p.GetValue(collectionObject))
-                                                      .OfType<TResult>());
+                        var objProperties = collectionObject.GetType().GetProperties();
+
+                        var newEntryProperty = objProperties.FirstOrDefault(x => x.Name.EqualsInvariant(nameof(GenericChangedEntry<TResult>.NewEntry)));
+                        var oldEntryProperty = objProperties.FirstOrDefault(x => x.Name.EqualsInvariant(nameof(GenericChangedEntry<TResult>.OldEntry)));
+
+                        if(newEntryProperty!=null && oldEntryProperty!=null)
+                        {
+                            result.Add(new DomainEventObject<TResult>
+                            {
+                                NewEntry = (TResult)newEntryProperty.GetValue(collectionObject),
+                                OldEntry = (TResult)oldEntryProperty.GetValue(collectionObject)
+                            });
+                        }
+                        else if (newEntryProperty != null)
+                        {
+                            result.Add(new DomainEventObject<TResult>
+                            {
+                                NewEntry = (TResult)newEntryProperty.GetValue(collectionObject)
+                            });
+                        }
                     }
                 }
                 else if (@object is TResult concreteObject)
                 {
-                    result.Add(concreteObject);
+                    result.Add(new DomainEventObject<TResult> { NewEntry = concreteObject });
                 }
             }
 

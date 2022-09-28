@@ -25,7 +25,7 @@ namespace VirtoCommerce.WebHooksModule.Tests
 
             //Assert
             Assert.NotNull(result);
-            Assert.All(result, item => Assert.IsAssignableFrom<IEntity>(item));
+            Assert.All(result, item => Assert.IsAssignableFrom<IEntity>(item.NewEntry));
         }
 
         [Fact]
