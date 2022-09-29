@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Events;
 using VirtoCommerce.WebhooksModule.Core.Extensions;
@@ -73,10 +74,23 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                 {
                     Id = x.FullName,
                     EventType = x,
+                    DisplayName = ResolveDisplayName(x.FullName)
                 })
                 .Distinct()
                 .ToArray();
             return result;
+        }
+
+        public static string ResolveDisplayName(string fullName)
+        {
+            // VirtoCommerce.Platform.Core.Settings.Events.ObjectSettingChangedEvent > Object Setting Changed
+            var displayName = fullName.Split('.').LastOrDefault();
+            if(displayName == null)
+            {
+                displayName = fullName;
+            }
+
+            return Regex.Replace(displayName, "[A-Z][a-z0-9_]+", "$0 ").Trim();
         }
 
         private static Type[] GetTypesSafe(Assembly assembly)

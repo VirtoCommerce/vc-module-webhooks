@@ -105,8 +105,9 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                 // Set properties from work item
                 [EventIdKey] = workItem.EventId,
                 [AttemptKey] = (workItem.FeedEntry?.AttemptCount ?? 0) + 1,
-                [EventBodyKey] = workItem.WebHook.RequestParams.Body,
+                [EventBodyKey] = JArray.Parse(workItem.WebHook.RequestParams.Body),
             };
+
 
             var bodyJObject = JObject.FromObject(body).ToString();
 
