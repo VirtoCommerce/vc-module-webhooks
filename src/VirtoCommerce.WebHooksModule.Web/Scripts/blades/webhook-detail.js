@@ -37,7 +37,7 @@ angular.module('virtoCommerce.webhooksModule')
             blade.origEntity = data;
 
             webhookApi.getEvents(function (response) {
-                blade.availableEvents = _.map(response, function (value) { return { eventId: value.id }; });
+                blade.availableEvents = _.map(response, function (value) { return { eventId: value.id, displayName: value.displayName }; });
                 blade.isLoading = false;
             });
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using VirtoCommerce.Platform.Core.Common;
 
 namespace VirtoCommerce.WebHooksModule.Core.Models
@@ -6,5 +6,7 @@ namespace VirtoCommerce.WebHooksModule.Core.Models
 	public class RegisteredEvent : Entity
 	{
 		public Type EventType { get; set; }
-	}
+
+        public string DisplayName { get; set; }
+    }
 }
