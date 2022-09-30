@@ -54,7 +54,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
             var result = eventObjectType?.GetProperties()
                 .Where(x => !_ignoredProperties.Contains(x.Name, StringComparer.InvariantCultureIgnoreCase))
-                .Select(x => x.Name)
+                .Select(x => x.Name).OrderBy(x => x)
                 ?.ToList() ?? new List<string>();
 
             // If result is empty, it means that for some reason the entity type doesn't contains any properties which could be used as webhook payload
