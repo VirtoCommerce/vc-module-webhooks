@@ -29,7 +29,9 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
         public virtual WebhookFeedEntry ToModel(WebhookFeedEntry webHookFeedEntry)
         {
             if (webHookFeedEntry == null)
+            {
                 throw new ArgumentNullException(nameof(webHookFeedEntry));
+            }
 
             webHookFeedEntry.Id = Id;
             webHookFeedEntry.CreatedBy = CreatedBy;
@@ -53,7 +55,9 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
         public virtual WebHookFeedEntryEntity FromModel(WebhookFeedEntry webHookFeedEntry, PrimaryKeyResolvingMap pkMap)
         {
             if (webHookFeedEntry == null)
+            {
                 throw new ArgumentNullException(nameof(webHookFeedEntry));
+            }
 
             Id = webHookFeedEntry.Id;
             CreatedBy = webHookFeedEntry.CreatedBy;

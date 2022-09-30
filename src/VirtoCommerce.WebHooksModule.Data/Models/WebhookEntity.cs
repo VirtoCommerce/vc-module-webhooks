@@ -29,7 +29,9 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
         public virtual Webhook ToModel(Webhook webHook)
         {
             if (webHook == null)
+            {
                 throw new ArgumentNullException(nameof(webHook));
+            }
 
             webHook.Id = Id;
             webHook.CreatedBy = CreatedBy;
@@ -52,7 +54,9 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
         public virtual WebHookEntity FromModel(Webhook webHook, PrimaryKeyResolvingMap pkMap)
         {
             if (webHook == null)
+            {
                 throw new ArgumentNullException(nameof(webHook));
+            }
 
             Id = webHook.Id;
             CreatedBy = webHook.CreatedBy;

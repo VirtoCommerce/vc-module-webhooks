@@ -20,13 +20,18 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             _webHookFeedSearchService = webHookFeedSearchService;
         }
 
-        public virtual async Task<WebhookFeedEntry> LogAsync(WebhookFeedEntry feedEntry)
+        public virtual Task<WebhookFeedEntry> LogAsync(WebhookFeedEntry feedEntry)
         {
             if (feedEntry == null)
             {
                 throw new ArgumentNullException(nameof(feedEntry));
             }
 
+           return IntrenalLogAsync(feedEntry);
+        }
+
+        protected virtual async Task<WebhookFeedEntry> IntrenalLogAsync(WebhookFeedEntry feedEntry)
+        {
             WebhookFeedEntry result = null;
 
             using (await AsyncLock.GetLockByKey(CacheKey.With(typeof(WebhookFeedEntry), feedEntry.WebHookId)).GetReleaserAsync())
