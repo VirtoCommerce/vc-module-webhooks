@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Events;
 
@@ -94,6 +95,18 @@ namespace VirtoCommerce.WebhooksModule.Core.Extensions
             }
 
             return result;
+        }
+
+        public static string ResolveDisplayName(string fullName)
+        {
+            // VirtoCommerce.Platform.Core.Settings.Events.ObjectSettingChangedEvent > Object Setting Changed
+            var displayName = fullName.Split('.').LastOrDefault();
+            if (displayName == null)
+            {
+                displayName = fullName;
+            }
+
+            return Regex.Replace(displayName, "[A-Z][a-z0-9_]+", "$0 ").Trim();
         }
     }
 }
