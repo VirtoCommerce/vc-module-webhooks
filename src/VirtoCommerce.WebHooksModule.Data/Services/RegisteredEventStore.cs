@@ -74,25 +74,14 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                 {
                     Id = x.FullName,
                     EventType = x,
-                    DisplayName = ResolveDisplayName(x.FullName)
+                    DisplayName = DomainEventExtensions.ResolveDisplayName(x.FullName)
                 })
                 .Distinct()
                 .ToArray();
             return result;
         }
 
-        public static string ResolveDisplayName(string fullName)
-        {
-            // VirtoCommerce.Platform.Core.Settings.Events.ObjectSettingChangedEvent > Object Setting Changed
-            var displayName = fullName.Split('.').LastOrDefault();
-            if(displayName == null)
-            {
-                displayName = fullName;
-            }
-
-            return Regex.Replace(displayName, "[A-Z][a-z0-9_]+", "$0 ").Trim();
-        }
-
+        
         private static Type[] GetTypesSafe(Assembly assembly)
         {
             var result = Array.Empty<Type>();

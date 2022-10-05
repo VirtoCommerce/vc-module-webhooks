@@ -6,5 +6,6 @@ namespace VirtoCommerce.WebhooksModule.Core.Models
     {
         public string WebHookId { get; set; }
         public string EventId { get; set; }
+        public string DisplayName { get; set; }
     }
 }

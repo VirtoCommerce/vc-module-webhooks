@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using VirtoCommerce.Platform.Core.Common;
+using VirtoCommerce.WebhooksModule.Core.Extensions;
 using VirtoCommerce.WebhooksModule.Core.Models;
 
 namespace VirtoCommerce.WebhooksModule.Data.Models
@@ -30,6 +31,7 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             webHookEvent.ModifiedDate = ModifiedDate;
             webHookEvent.EventId = EventId;
             webHookEvent.WebHookId = WebHookId;
+            webHookEvent.DisplayName = DomainEventExtensions.ResolveDisplayName(EventId);
 
             return webHookEvent;
         }
