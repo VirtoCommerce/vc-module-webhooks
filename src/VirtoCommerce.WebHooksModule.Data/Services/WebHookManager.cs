@@ -51,8 +51,6 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             }
         }
 
-        /// <inheritdoc />
-        [DisableConcurrentExecution(2)]
         public virtual async Task<int> NotifyAsync(WebhookRequest request, CancellationToken cancellationToken)
         {
             var webhooksCount = request.WebHooks.Count;
