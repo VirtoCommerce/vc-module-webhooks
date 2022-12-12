@@ -22,9 +22,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VirtoCommerce.WebHooksModule.Core\VirtoCommerce.WebhooksModule.Core.csproj" />
-    <ProjectReference Include="..\VirtoCommerce.WebhooksModule.Data.MySql\VirtoCommerce.WebhooksModule.Data.MySql.csproj" />
-    <ProjectReference Include="..\VirtoCommerce.WebhooksModule.Data.PostgreSql\VirtoCommerce.WebhooksModule.Data.PostgreSql.csproj" />
-    <ProjectReference Include="..\VirtoCommerce.WebhooksModule.Data.SqlServer\VirtoCommerce.WebhooksModule.Data.SqlServer.csproj" />
     <ProjectReference Include="..\VirtoCommerce.WebHooksModule.Data\VirtoCommerce.WebhooksModule.Data.csproj" />
   </ItemGroup>
 </Project>

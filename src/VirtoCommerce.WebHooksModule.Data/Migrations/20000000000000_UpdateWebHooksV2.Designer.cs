@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VirtoCommerce.WebhooksModule.Data.Repositories;
 
-namespace VirtoCommerce.WebhooksModule.Data.SqlServer.Migrations
+namespace VirtoCommerce.WebhooksModule.Data.Migrations
 {
     [DbContext(typeof(WebhookDbContext))]
-    [Migration("20201201101415_InitialWebHook")]
-    partial class InitialWebHook
+    [Migration("20000000000000_UpdateWebHooksV2")]
+    partial class UpdateWebHooksV2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

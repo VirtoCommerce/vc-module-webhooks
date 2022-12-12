@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace VirtoCommerce.WebhooksModule.Data.SqlServer.Migrations
+namespace VirtoCommerce.WebhooksModule.Data.Migrations
 {
     public partial class WebHookPayload : Migration
     {
