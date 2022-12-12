@@ -15,6 +15,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtoCommerce.WebhooksModul
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtoCommerce.WebhooksModule.Tests", "tests\VirtoCommerce.WebHooksModule.Tests\VirtoCommerce.WebhooksModule.Tests.csproj", "{3E36EF7C-272F-46D0-9480-D179E95F43CC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtoCommerce.WebhooksModule.Data.SqlServer", "src\VirtoCommerce.WebhooksModule.Data.SqlServer\VirtoCommerce.WebhooksModule.Data.SqlServer.csproj", "{5EFB42BE-8650-49E1-BBDF-E04ED30DF379}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtoCommerce.WebhooksModule.Data.MySql", "src\VirtoCommerce.WebhooksModule.Data.MySql\VirtoCommerce.WebhooksModule.Data.MySql.csproj", "{5C7452A3-5C64-4981-817C-C0C8BE230BBF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtoCommerce.WebhooksModule.Data.PostgreSql", "src\VirtoCommerce.WebhooksModule.Data.PostgreSql\VirtoCommerce.WebhooksModule.Data.PostgreSql.csproj", "{EE92F629-CD6C-4CCA-BC7C-C06F69BAB7D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +43,18 @@ Global
 		{3E36EF7C-272F-46D0-9480-D179E95F43CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E36EF7C-272F-46D0-9480-D179E95F43CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E36EF7C-272F-46D0-9480-D179E95F43CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EFB42BE-8650-49E1-BBDF-E04ED30DF379}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EFB42BE-8650-49E1-BBDF-E04ED30DF379}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EFB42BE-8650-49E1-BBDF-E04ED30DF379}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EFB42BE-8650-49E1-BBDF-E04ED30DF379}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C7452A3-5C64-4981-817C-C0C8BE230BBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C7452A3-5C64-4981-817C-C0C8BE230BBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C7452A3-5C64-4981-817C-C0C8BE230BBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C7452A3-5C64-4981-817C-C0C8BE230BBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE92F629-CD6C-4CCA-BC7C-C06F69BAB7D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE92F629-CD6C-4CCA-BC7C-C06F69BAB7D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE92F629-CD6C-4CCA-BC7C-C06F69BAB7D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE92F629-CD6C-4CCA-BC7C-C06F69BAB7D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +64,9 @@ Global
 		{36A4AB75-873E-44C2-B49B-F792DF228294} = {60ADC1B3-8809-429A-A274-6E53BF6D4AB0}
 		{3E4B18DB-F043-4001-A425-B130180977FF} = {60ADC1B3-8809-429A-A274-6E53BF6D4AB0}
 		{3E36EF7C-272F-46D0-9480-D179E95F43CC} = {A14F288A-E9E8-4D2C-A123-287B6853E880}
+		{5EFB42BE-8650-49E1-BBDF-E04ED30DF379} = {60ADC1B3-8809-429A-A274-6E53BF6D4AB0}
+		{5C7452A3-5C64-4981-817C-C0C8BE230BBF} = {60ADC1B3-8809-429A-A274-6E53BF6D4AB0}
+		{EE92F629-CD6C-4CCA-BC7C-C06F69BAB7D1} = {60ADC1B3-8809-429A-A274-6E53BF6D4AB0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {929FD73A-C34A-43FB-BAF4-019ECCB82CBF}

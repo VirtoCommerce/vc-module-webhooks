@@ -2,159 +2,157 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VirtoCommerce.WebhooksModule.Data.Repositories;
 
-namespace VirtoCommerce.WebhooksModule.Data.Migrations
+#nullable disable
+
+namespace VirtoCommerce.WebhooksModule.Data.MySql.Migrations
 {
     [DbContext(typeof(WebhookDbContext))]
-    [Migration("20211119124336_WebHookPayload")]
-    partial class WebHookPayload
+    partial class WebhookDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.8")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "6.0.0")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("VirtoCommerce.WebhooksModule.Data.Models.WebHookEntity", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
 
                     b.Property<string>("ContentType")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsAllEvents")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
 
                     b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(1024)")
-                        .HasMaxLength(1024);
+                        .HasMaxLength(1024)
+                        .HasColumnType("varchar(1024)");
 
                     b.Property<string>("Url")
-                        .HasColumnType("nvarchar(2083)")
-                        .HasMaxLength(2083);
+                        .HasMaxLength(2083)
+                        .HasColumnType("varchar(2083)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("WebHook");
+                    b.ToTable("WebHook", (string)null);
                 });
 
             modelBuilder.Entity("VirtoCommerce.WebhooksModule.Data.Models.WebHookEventEntity", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("EventId")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
 
                     b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("WebHookId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("WebHookId");
 
-                    b.ToTable("WebHookEvent");
+                    b.ToTable("WebHookEvent", (string)null);
                 });
 
             modelBuilder.Entity("VirtoCommerce.WebhooksModule.Data.Models.WebHookFeedEntryEntity", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
 
                     b.Property<int>("AttemptCount")
                         .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Error")
-                        .HasColumnType("nvarchar(1024)")
-                        .HasMaxLength(1024);
+                        .HasMaxLength(1024)
+                        .HasColumnType("varchar(1024)");
 
                     b.Property<string>("EventId")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
 
                     b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("RecordType")
                         .HasColumnType("int");
 
                     b.Property<string>("RequestBody")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("RequestHeaders")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ResponseBody")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ResponseHeaders")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<string>("WebHookId")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
 
                     b.HasKey("Id");
 
@@ -163,46 +161,46 @@ namespace VirtoCommerce.WebhooksModule.Data.Migrations
                     b.HasIndex("WebHookId");
 
                     b.HasIndex("WebHookId", "RecordType")
-                        .HasName("IX_WebHookIdAndRecordType");
+                        .HasDatabaseName("IX_WebHookIdAndRecordType");
 
-                    b.ToTable("WebHookFeedEntry");
+                    b.ToTable("WebHookFeedEntry", (string)null);
                 });
 
             modelBuilder.Entity("VirtoCommerce.WebhooksModule.Data.Models.WebHookPayloadEntity", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("EventPropertyName")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
 
                     b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("WebHookId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("WebHookId");
 
-                    b.ToTable("WebHookPayload");
+                    b.ToTable("WebHookPayload", (string)null);
                 });
 
             modelBuilder.Entity("VirtoCommerce.WebhooksModule.Data.Models.WebHookEventEntity", b =>
@@ -210,9 +208,11 @@ namespace VirtoCommerce.WebhooksModule.Data.Migrations
                     b.HasOne("VirtoCommerce.WebhooksModule.Data.Models.WebHookEntity", "WebHook")
                         .WithMany("Events")
                         .HasForeignKey("WebHookId")
-                        .HasConstraintName("FK_dbo.WebHookEvent_dbo.WebHook_WebHookId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.WebHookEvent_dbo.WebHook_WebHookId");
+
+                    b.Navigation("WebHook");
                 });
 
             modelBuilder.Entity("VirtoCommerce.WebhooksModule.Data.Models.WebHookPayloadEntity", b =>
@@ -220,9 +220,18 @@ namespace VirtoCommerce.WebhooksModule.Data.Migrations
                     b.HasOne("VirtoCommerce.WebhooksModule.Data.Models.WebHookEntity", "WebHook")
                         .WithMany("Payloads")
                         .HasForeignKey("WebHookId")
-                        .HasConstraintName("FK_dbo.WebHookPayload_dbo.WebHook_WebHookId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.WebHookPayload_dbo.WebHook_WebHookId");
+
+                    b.Navigation("WebHook");
+                });
+
+            modelBuilder.Entity("VirtoCommerce.WebhooksModule.Data.Models.WebHookEntity", b =>
+                {
+                    b.Navigation("Events");
+
+                    b.Navigation("Payloads");
                 });
 #pragma warning restore 612, 618
         }
