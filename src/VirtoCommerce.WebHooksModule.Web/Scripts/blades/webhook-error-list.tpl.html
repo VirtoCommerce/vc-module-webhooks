@@ -47,7 +47,7 @@
 <script type="text/ng-template" id="errorList-name.cell.html">
     <div class="ui-grid-cell-contents">
         <div class="inner-contents">
-            <div class="ui-grid-cell-contents">{{ ('webhooks.events.types.' + row.entity.eventId) | | fallbackTranslate:row.entity.displayName}}</div>
+            <div class="ui-grid-cell-contents">{{ ('webhooks.events.types.' + row.entity.eventId) | fallbackTranslate:row.entity.displayName}}</div>
         </div>
     </div>
 </script>
