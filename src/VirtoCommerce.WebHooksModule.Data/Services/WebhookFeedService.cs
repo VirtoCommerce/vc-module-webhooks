@@ -27,6 +27,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             using (var repository = _webHookRepositoryFactory())
             {
                 await repository.DeleteWebHookFeedEntriesByIdsAsync(ids);
+                repository.UnitOfWork.Commit();
             }
         }
 
@@ -108,7 +109,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                 return result;
             }
         }
-                
+
         #region IWebHookFeedReader
 
         public async Task<IDictionary<string, int>> GetSuccessCountsAsync(string[] webHookIds)
@@ -155,6 +156,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                 await repository.UpdateAttemptCountsAsync(
                     webhookLogEntries.Select(x => AbstractTypeFactory<WebHookFeedEntryEntity>.TryCreateInstance().FromModel(x, pkMap))
                                      .ToArray());
+                repository.UnitOfWork.Commit();
             }
         }
 

@@ -1,7 +1,7 @@
 using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace VirtoCommerce.WebhooksModule.Data.Migrations
+namespace VirtoCommerce.WebhooksModule.Data.SqlServer.Migrations
 {
     public partial class InitialWebHook : Migration
     {
