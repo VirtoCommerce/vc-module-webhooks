@@ -93,7 +93,6 @@ namespace VirtoCommerce.WebHooksModule.Web
                     dbContext.Database.MigrateIfNotApplied(MigrationName.GetUpdateV2MigrationName(ModuleInfo.Id));
                 }
 
-                dbContext.Database.EnsureCreated();
                 dbContext.Database.Migrate();
             }
         }
