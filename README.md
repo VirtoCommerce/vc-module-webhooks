@@ -1,35 +1,30 @@
-
 # Virto Commerce Webhook Module
 
-[![CI status](https://github.com/VirtoCommerce/vc-module-webhooks/workflows/Module%20CI/badge.svg?branch=dev)](https://github.com/VirtoCommerce/vc-module-webhooks/actions?query=workflow%3A"Module+CI") [![Quality gate](https://sonarcloud.io/api/project_badges/measure?project=VirtoCommerce_vc-module-webhooks&metric=alert_status&branch=dev)](https://sonarcloud.io/dashboard?id=VirtoCommerce_vc-module-webhooks) [![Reliability rating](https://sonarcloud.io/api/project_badges/measure?project=VirtoCommerce_vc-module-webhooks&metric=reliability_rating&branch=dev)](https://sonarcloud.io/dashboard?id=VirtoCommerce_vc-module-webhooks) [![Security rating](https://sonarcloud.io/api/project_badges/measure?project=VirtoCommerce_vc-module-webhooks&metric=security_rating&branch=dev)](https://sonarcloud.io/dashboard?id=VirtoCommerce_vc-module-webhooks) [![Sqale rating](https://sonarcloud.io/api/project_badges/measure?project=VirtoCommerce_vc-module-webhooks&metric=sqale_rating&branch=dev)](https://sonarcloud.io/dashboard?id=VirtoCommerce_vc-module-webhooks)
-
-The webhooks module allows to register and send webhook notifications for any event available in the system.
+The Webhooks module allows you to monitor important changes within your Virto Commerce ecosystem,
+such as order changes, catalog and product updates, and more.
+When a change you're subscribed to is triggered, you'll receive a notification at the URL you specified.
+You can also configure which fields or parameters to include in the report you receive.
 
 ## Key Features
 
-1. Sending Webhook notifications in the background via a POST request with JSON serialized event data to the specified URL;
-1. Auth Support: Basic & Bearer.
-1. Managing the list of webhooks;
-![WebhookList](docs/media/webhook-list.png)
-1. Viewing or updating Webhook details;
-![WebhookDetails](docs/media/webhook-detail-blade.png)
-1. Using `DomainEvent` descendant to trigger webhook notification;
-1. Access to previous values of selected fields;
-1. Sending retry policy with configurable exponential intervals;
-![WebhookSettings](docs/media/webhook-settings.png)
-1. Viewing the list of errors for the webhook failed notifications;
-![WebhookErrorList](docs/media/webhook-error-list.png)
+1. Employees can manage webhooks under their own permission level
+1. Admin users can manage webhooks
+1. Resolves Virto Commerce Domain Events for installed modules
+1. Sends webhook notifications in the background via a POST request with JSON serialized event data to the specified URL
+1. Supports Basic & Bearer Token authentication
+1. Access to previous values of selected fields
+1. Configurable retry policy with exponential intervals
+1. View error messages when a webhook notification fails
 
 ## Documentation
 
-* [Module Documentation](https://virtocommerce.com/docs/latest/modules/webhooks/)
+* [Module Documentation](https://docs.virtocommerce.org/modules/webhooks/)
 * [View on GitHub](docs/index.md)
-
 
 ## References
 
-* Deployment: https://virtocommerce.com/docs/latest/developer-guide/deploy-module-from-source-code/
-* Installation: https://www.virtocommerce.com/docs/latest/user-guide/modules/
+* Deployment: https://docs.virtocommerce.org/developer-guide/deploy-module-from-source-code/
+* Installation: https://docs.virtocommerce.org/user-guide/modules/
 * Home: https://virtocommerce.com
 * Community: https://www.virtocommerce.org
 * [Download Latest Release](https://github.com/VirtoCommerce/vc-module-webhooks/releases/latest)

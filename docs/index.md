@@ -1,26 +1,29 @@
 
 # Overview
 
-The Webhooks module enables viewing all major changes within your Virto Commerce ecosystem.
-
-For instance, you can get notified on user login and/or password changes, catalog or product changes, and so on, which will assist you in better monitoring your system. Whenever a change you are watching (i.e. you 'subscribed to') is triggered, you will get the relevant notification uploaded to the URL address you previously specified.
-
-Apart from the event you are following, you can also configure which fields or parameters you will see in the report you get.
+The Webhooks module allows you to monitor important changes within your Virto Commerce ecosystem,
+such as order changes, catalog and product updates, and more.
+When a change you're subscribed to is triggered, you'll receive a notification at the URL you specified.
+You can also configure which fields or parameters to include in the report you receive.
 
 ## Key Features
 
-1. Employees can manage webhooks but only under their own Permission level
+1. Employees can manage webhooks under their own permission level
 1. Admin users can manage webhooks
-1. Resolving Virto Commerce Domain Event for installed modules
-1. Sending Webhook notifications in the background via a POST request with JSON serialized event data to the specified URL
-1. Auth Support: Basic & Bearer.
+1. Resolves Virto Commerce Domain Events for installed modules
+1. Sends webhook notifications in the background via a POST request with JSON serialized event data to the specified URL
+1. Supports Basic & Bearer Token authentication
 1. Access to previous values of selected fields
-1. Sending the retry policy with configurable exponential intervals
-1. Viewing the error(s) when a webhook notification fails
+1. Configurable retry policy with exponential intervals
+1. View error messages when a webhook notification fails
 
 ## Configuraton
 
-To configure a new webhook, open the *Webhooks* module and click the *Add* button:
+To create a new webhook, go to the Webhooks module and click Add.
+Give your webhook a name and select the event you want to monitor.
+You can select up to ten additional parameters to include in the notification you receive.
+Toggle the Activate button and enter the URL to receive the report.
+Save your webhook, and you'll be able to see it in the list.
 
 ![Adding a new webhook](./media/01-adding-a-new-webhook.png)
 
@@ -68,6 +71,7 @@ If you use webhooks with multiple event subscriptions in the previous version, y
 This is actually fine: you can continue using such a webhook as you did before, although **you will not be able to edit it**. However, we recommend you remove such webhooks and replace them with new ones instead. Currently, the *single event per webhook* limitation works for the newly created webhooks only, but, moving forward, we might totally remove the code that supports multiple event subscriptions.
 
 ## Webhook Json Format
+A JSON output for a webhook based on the Order Changed event might look like this:
 
 <details><summary>Please expand this paragraph to see an example of JSON output for a webhook based on the Order Changed event.</summary>
 
