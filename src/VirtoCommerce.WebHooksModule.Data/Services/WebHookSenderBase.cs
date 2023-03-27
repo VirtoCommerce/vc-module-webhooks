@@ -93,7 +93,10 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                     // Add Bearer Token Authentication header to the request
                     request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", webHook.BearerToken);
                     break;
-
+                case AuthenticationType.CustomHeader:
+                    // Add Bearer Token Authentication header to the request
+                    request.Headers.TryAddWithoutValidation(webHook.CustomHttpHeaderName, webHook.CustomHttpHeaderValue);
+                    break;
             }
 
             // Fills in request body and headers

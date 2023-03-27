@@ -7,7 +7,8 @@ namespace VirtoCommerce.WebhooksModule.Core.Models
     {
         None,
         Basic,
-        BearerToken
+        BearerToken,
+        CustomHeader
     }
 
     public class Webhook : AuditableEntity
@@ -36,6 +37,15 @@ namespace VirtoCommerce.WebhooksModule.Core.Models
         /// </summary>
         public string BearerToken { get; set; }
 
+        /// <summary>
+        /// Name of Custom Http Header.
+        /// </summary>
+        public string CustomHttpHeaderName { get; set; }
+
+        /// <summary>
+        /// Value of Custom Http Header.
+        /// </summary>
+        public string CustomHttpHeaderValue { get; set; }
 
         public bool IsActive { get; set; }
 

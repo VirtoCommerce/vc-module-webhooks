@@ -42,6 +42,16 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
         /// </summary>
         public string BearerToken { get; set; }
 
+        /// <summary>
+        /// Name of Custom Http Header.
+        /// </summary>
+        public string CustomHttpHeaderName { get; set; }
+
+        /// <summary>
+        /// Value of Custom Http Header.
+        /// </summary>
+        public string CustomHttpHeaderValue { get; set; }
+
         [Obsolete("Use only one event for subscribing. This property would be removed in the future releases.")]
         public bool IsAllEvents { get; set; }
         public virtual ObservableCollection<WebHookEventEntity> Events { get; set; }
@@ -69,6 +79,8 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             webHook.BasicUsername = BasicUsername;
             webHook.BasicPassword = BasicPassword;
             webHook.BearerToken = BearerToken;
+            webHook.CustomHttpHeaderName = CustomHttpHeaderName;
+            webHook.CustomHttpHeaderValue = CustomHttpHeaderValue;
 
             webHook.Events = Events.Select(x => x.ToModel(AbstractTypeFactory<WebhookEvent>.TryCreateInstance())).ToArray();
 
@@ -99,6 +111,9 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             BasicUsername = webHook.BasicUsername;
             BasicPassword = webHook.BasicPassword;
             BearerToken = webHook.BearerToken;
+            CustomHttpHeaderName = webHook.CustomHttpHeaderName;
+            CustomHttpHeaderValue = webHook.CustomHttpHeaderValue;
+
 
             if (webHook.Events != null)
             {
@@ -127,7 +142,8 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             target.BasicUsername = BasicUsername;
             target.BasicPassword = BasicPassword;
             target.BearerToken = BearerToken;
-
+            target.CustomHttpHeaderName = CustomHttpHeaderName;
+            target.CustomHttpHeaderValue = CustomHttpHeaderValue;
 
             if (!Events.IsNullCollection())
             {

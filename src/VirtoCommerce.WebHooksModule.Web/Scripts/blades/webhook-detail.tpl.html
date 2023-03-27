@@ -114,6 +114,26 @@
                         </div>
                     </div>
 
+                    <div ng-show="blade.currentEntity.authType === 'CustomHeader'">
+
+                        <div class="form-group __info list">
+                            <label class="form-label">{{ 'webhooks.blades.webhook-detail.labels.customHttpHeaderName' | translate }}</label>
+                            <div class="form-input">
+                                <input class="form-control" ng-model="blade.currentEntity.customHttpHeaderName" ng-disabled="blade.isBadData" />
+                            </div>
+                            <div class="list-descr">{{ 'webhooks.blades.webhook-detail.discription.customHttpHeaderName' | translate }}</div>
+                        </div>
+
+                        <div class="form-group __info list">
+                            <label class="form-label">{{ 'webhooks.blades.webhook-detail.labels.customHttpHeaderValue' | translate }}</label>
+                            <div class="form-input">
+                                <input class="form-control" ng-model="blade.currentEntity.customHttpHeaderValue" ng-disabled="blade.isBadData" />
+                            </div>
+                            <div class="list-descr">{{ 'webhooks.blades.webhook-detail.discription.customHttpHeaderValue' | translate }}</div>
+                        </div>
+
+                    </div>
+
                 </fieldset>
             </form>
             <va-widget-container group="webhookDetail" blade="blade" data="blade.currentEntity" gridster-opts="{columns: 4}"></va-widget-container>

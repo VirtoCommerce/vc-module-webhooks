@@ -49,6 +49,12 @@ namespace VirtoCommerce.WebhooksModule.Data.MySql.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("CustomHttpHeaderName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("CustomHttpHeaderValue")
+                        .HasColumnType("longtext");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("tinyint(1)");
 

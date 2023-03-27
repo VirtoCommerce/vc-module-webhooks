@@ -52,6 +52,12 @@ namespace VirtoCommerce.WebhooksModule.Data.PostgreSql.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("CustomHttpHeaderName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CustomHttpHeaderValue")
+                        .HasColumnType("text");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 

@@ -26,7 +26,9 @@
           "auth-type": "Authentification",
           "basicUsername": "User Name",
           "basicPassword": "Password",
-          "bearerToken": "Bearer Token"
+          "bearerToken": "Bearer Token",
+          "customHttpHeaderName": "Custom HTTP Header Name",
+          "customHttpHeaderValue": "Custom HTTP Header Value"
         },
         "discription": {
           "webhook": "Webhooks offer you a way to quickly find out what has been changed within your Virto Commerce ecosystem. Select the events you want to follow, and we will send you a detailed notification to the URL you specified once any such event occurs.",
@@ -39,7 +41,9 @@
           "auth-type": "",
           "basicUsername": "Username for basic authentication",
           "basicPassword": "Password for basic authentication",
-          "bearerToken": "Bearer token for bearer token authentication"
+          "bearerToken": "Bearer token for bearer token authentication",
+          "customHttpHeaderName": "Set a custom name for an HTTP header four your Webhook API requests",
+          "customHttpHeaderValue": "Set a custom value for an HTTP header four your Webhook API requests"
         },
         "placeholders": {
           "name": "Specify webhook name",
@@ -49,7 +53,8 @@
         "auth-types": {
           "none": "None",
           "basic": "Basic",
-          "bearertoken": "Bearer Token"
+          "bearertoken": "Bearer Token",
+          "customheader": "Custom Header"
         }
       },
       "webhook-error-list": {
