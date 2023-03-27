@@ -5,7 +5,7 @@ angular.module('virtoCommerce.webhooksModule')
         blade.availableContentTypes = [{ value: 'application/json', title: 'application/json' }];
         blade.availableEvents = [];
         blade.availablePayloadProperties = [];
-        blade.availableAuthTypes = ['None', 'Basic', 'BearerToken'];
+        blade.availableAuthTypes = ['None', 'Basic', 'BearerToken', 'CustomHeader'];
 
         blade.metaFields = metaFormsService.getMetaFields("webhookDetail");
 
