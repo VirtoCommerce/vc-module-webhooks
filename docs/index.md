@@ -13,6 +13,7 @@ Apart from the event you are following, you can also configure which fields or p
 1. Admin users can manage webhooks
 1. Resolving Virto Commerce Domain Event for installed modules
 1. Sending Webhook notifications in the background via a POST request with JSON serialized event data to the specified URL
+1. Auth Support: Basic & Bearer.
 1. Access to previous values of selected fields
 1. Sending the retry policy with configurable exponential intervals
 1. Viewing the error(s) when a webhook notification fails
@@ -52,6 +53,12 @@ Once you do so, you will be able to see your new webhook in the list:
 ![Webhook appearing in the list](./media/07-webhook-appearing-in-the-list.png)
 
 Alternatively, you can click the *Reset* button to reconfigure your webhook from scratch.
+
+## Auth Support: Basic & Bearer
+ It allows to specify authentication credentials for webhooks using either Basic or Bearer Token authentication.
+ The feature adds the necessary authentication headers to the webhook requests to authenticate the user and allow access to the webhook endpoint.
+ This enhances the security and flexibility of the webhook integration by supporting multiple authentication mechanisms,
+ which can be selected based on the specific requirements of the webhook endpoint.
 
 ## Warning Message
 If you use webhooks with multiple event subscriptions in the previous version, you might get the following warning message once you update the Virto platform:
