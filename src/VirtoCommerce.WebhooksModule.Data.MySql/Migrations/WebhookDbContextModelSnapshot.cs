@@ -26,6 +26,18 @@ namespace VirtoCommerce.WebhooksModule.Data.MySql.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
 
+                    b.Property<int>("AuthType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("BasicPassword")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("BasicUsername")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("BearerToken")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("ContentType")
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");

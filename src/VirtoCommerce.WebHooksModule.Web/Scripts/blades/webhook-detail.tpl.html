@@ -56,13 +56,13 @@
                             <label class="form-label">{{ 'webhooks.blades.webhook-detail.labels.is-active' | translate }}</label>
                             <div class="form-input">
                                 <label class="form-label __switch">
-                                    <input type="checkbox" ng-model="blade.currentEntity.isActive" ng-disabled="blade.isBadData"/>
+                                    <input type="checkbox" ng-model="blade.currentEntity.isActive" ng-disabled="blade.isBadData" />
                                     <span class="switch" ng-disabled="blade.isBadData"></span>
                                 </label>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group ">
+                    <div class="form-group">
                         <div class="column">
                             <div class="form-group __info list">
                                 <label class="form-label">{{ 'webhooks.blades.webhook-detail.labels.url' | translate }}</label>
@@ -73,6 +73,47 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label class="form-label">{{ 'webhooks.blades.webhook-detail.labels.auth-type' | translate }}</label>
+                        <div class="form-input">
+                            <ui-select ng-model="blade.currentEntity.authType">
+                                <ui-select-match placeholder="{{ 'webhooks.blades.webhook-detail.placeholders.auth-type' | translate }}">{{ 'webhooks.blades.webhook-detail.auth-types.' + $select.selected.toLowerCase() | translate }}</ui-select-match>
+                                <ui-select-choices repeat="authType in blade.availableAuthTypes">
+                                    <span ng-bind-html="('webhooks.blades.webhook-detail.auth-types.' + authType.toLowerCase()) | translate | highlight: $select.search"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+
+                    <div ng-show="blade.currentEntity.authType === 'Basic'">
+                        <div class="form-group __info list">
+                            <label class="form-label">{{ 'webhooks.blades.webhook-detail.labels.basicUsername' | translate }}</label>
+                            <div class="form-input">
+                                <input class="form-control" ng-model="blade.currentEntity.basicUsername" ng-disabled="blade.isBadData" />
+                            </div>
+                            <div class="list-descr">{{ 'webhooks.blades.webhook-detail.discription.basicUsername' | translate }}</div>
+                        </div>
+
+                        <div class="form-group __info list">
+                            <label class="form-label">{{ 'webhooks.blades.webhook-detail.labels.basicPassword' | translate }}</label>
+                            <div class="form-input">
+                                <input class="form-control" ng-model="blade.currentEntity.basicPassword" ng-disabled="blade.isBadData" type="password" />
+                            </div>
+                            <div class="list-descr">{{ 'webhooks.blades.webhook-detail.discription.basicPassword' | translate }}</div>
+                        </div>
+                    </div>
+
+                    <div ng-show="blade.currentEntity.authType === 'BearerToken'">
+                        <div class="form-group __info list">
+                            <label class="form-label">{{ 'webhooks.blades.webhook-detail.labels.bearerToken' | translate }}</label>
+                            <div class="form-input">
+                                <input class="form-control" ng-model="blade.currentEntity.bearerToken" ng-disabled="blade.isBadData" />
+                            </div>
+                            <div class="list-descr">{{ 'webhooks.blades.webhook-detail.discription.bearerToken' | translate }}</div>
+                        </div>
+                    </div>
+
                 </fieldset>
             </form>
             <va-widget-container group="webhookDetail" blade="blade" data="blade.currentEntity" gridster-opts="{columns: 4}"></va-widget-container>

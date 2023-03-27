@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
@@ -80,6 +81,20 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
             // Create WebHook request
             var request = new HttpRequestMessage(HttpMethod.Post, webHook.Url);
+
+            switch (webHook.AuthType)
+            {
+                case AuthenticationType.Basic:
+                    // Add Basic Authentication header to the request
+                    var credentials = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{webHook.BasicUsername}:{webHook.BasicPassword}"));
+                    request.Headers.Authorization = new AuthenticationHeaderValue("Basic", credentials);
+                    break;
+                case AuthenticationType.BearerToken:
+                    // Add Bearer Token Authentication header to the request
+                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", webHook.BearerToken);
+                    break;
+
+            }
 
             // Fills in request body and headers
 

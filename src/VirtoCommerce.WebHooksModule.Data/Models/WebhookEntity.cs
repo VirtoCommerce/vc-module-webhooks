@@ -21,6 +21,27 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
         [StringLength(128)]
         public string ContentType { get; set; }
         public bool IsActive { get; set; }
+
+        /// <summary>
+        /// Authentication type
+        /// </summary>
+        public AuthenticationType AuthType { get; set; }
+
+        /// <summary>
+        /// Basic authentication username
+        /// </summary>
+        public string BasicUsername { get; set; }
+
+        /// <summary>
+        /// Basic authentication password
+        /// </summary>
+        public string BasicPassword { get; set; }
+
+        /// <summary>
+        /// Bearer token for BearerToken 
+        /// </summary>
+        public string BearerToken { get; set; }
+
         [Obsolete("Use only one event for subscribing. This property would be removed in the future releases.")]
         public bool IsAllEvents { get; set; }
         public virtual ObservableCollection<WebHookEventEntity> Events { get; set; }
@@ -43,6 +64,11 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             webHook.ContentType = ContentType;
             webHook.IsActive = IsActive;
             webHook.IsAllEvents = IsAllEvents;
+
+            webHook.AuthType = AuthType;
+            webHook.BasicUsername = BasicUsername;
+            webHook.BasicPassword = BasicPassword;
+            webHook.BearerToken = BearerToken;
 
             webHook.Events = Events.Select(x => x.ToModel(AbstractTypeFactory<WebhookEvent>.TryCreateInstance())).ToArray();
 
@@ -69,6 +95,11 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             IsActive = webHook.IsActive;
             IsAllEvents = webHook.IsAllEvents;
 
+            AuthType = webHook.AuthType;
+            BasicUsername = webHook.BasicUsername;
+            BasicPassword = webHook.BasicPassword;
+            BearerToken = webHook.BearerToken;
+
             if (webHook.Events != null)
             {
                 Events = new ObservableCollection<WebHookEventEntity>(webHook.Events.Select(x => AbstractTypeFactory<WebHookEventEntity>.TryCreateInstance().FromModel(x, pkMap)));
@@ -91,6 +122,12 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             target.ContentType = ContentType;
             target.IsActive = IsActive;
             target.IsAllEvents = IsAllEvents;
+
+            target.AuthType = AuthType;
+            target.BasicUsername = BasicUsername;
+            target.BasicPassword = BasicPassword;
+            target.BearerToken = BearerToken;
+
 
             if (!Events.IsNullCollection())
             {

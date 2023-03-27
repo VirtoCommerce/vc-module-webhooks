@@ -22,7 +22,11 @@
           "url": "URL",
           "event": "Event",
           "additional-fields": "Additional fields ({{fields_count}}/10)",
-          "warning": "We found issues with your webhooks, e.g., multiple event subscription. Currently, the new UX limitations allow you to select only one event to subscribe to, per webhook."
+          "warning": "We found issues with your webhooks, e.g., multiple event subscription. Currently, the new UX limitations allow you to select only one event to subscribe to, per webhook.",
+          "auth-type": "Authentification",
+          "basicUsername": "User Name",
+          "basicPassword": "Password",
+          "bearerToken": "Bearer Token"
         },
         "discription": {
           "webhook": "Webhooks offer you a way to quickly find out what has been changed within your Virto Commerce ecosystem. Select the events you want to follow, and we will send you a detailed notification to the URL you specified once any such event occurs.",
@@ -31,11 +35,21 @@
           "event": "Select the event you want to get notified on.",
           "specify-payload": "This allows you to specify additional data this webhook will include in the report.",
           "specify-payload-note": "Note",
-          "specify-payload-note-content": "The ID and ObjectType properties are included into the report by default and will always be there."
+          "specify-payload-note-content": "The ID and ObjectType properties are included into the report by default and will always be there.",
+          "auth-type": "",
+          "basicUsername": "Username for basic authentication",
+          "basicPassword": "Password for basic authentication",
+          "bearerToken": "Bearer token for bearer token authentication"
         },
         "placeholders": {
           "name": "Specify webhook name",
-          "event": "Please select"
+          "event": "Please select",
+          "auth-type": "Authentification"
+        },
+        "auth-types": {
+          "none": "None",
+          "basic": "Basic",
+          "bearertoken": "Bearer Token"
         }
       },
       "webhook-error-list": {

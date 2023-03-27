@@ -29,6 +29,18 @@ namespace VirtoCommerce.WebhooksModule.Data.PostgreSql.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)");
 
+                    b.Property<int>("AuthType")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("BasicPassword")
+                        .HasColumnType("text");
+
+                    b.Property<string>("BasicUsername")
+                        .HasColumnType("text");
+
+                    b.Property<string>("BearerToken")
+                        .HasColumnType("text");
+
                     b.Property<string>("ContentType")
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)");

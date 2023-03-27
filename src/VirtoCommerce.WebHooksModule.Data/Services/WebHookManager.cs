@@ -127,7 +127,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                     WebHooks = webHookSearchResult.Results
                 };
 
-                _backgroundJobClient.Schedule(() => NotifyAsync(request, cancellationToken), TimeSpan.FromMinutes(1));
+                _backgroundJobClient.Schedule(() => NotifyAsync(request, cancellationToken), TimeSpan.FromSeconds(5));
             }
         }
 
@@ -147,11 +147,12 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         private static Dictionary<string, JToken> ResolveEventPropertiesFromEventEntity(Webhook webHook, DomainEventObject<IEntity> entity)
         {
             var jObject = JObject.FromObject(entity.NewEntry);
-            var currentResult = new Dictionary<string, JToken>();
-
-            // Add Generic Properties ObjectType and Id
-            currentResult.Add("ObjectType", JToken.FromObject(entity.NewEntry.GetType().FullName));
-            currentResult.Add("Id", JToken.FromObject(jObject.SelectToken("$.Id")));
+            var currentResult = new Dictionary<string, JToken>
+            {
+                // Add Generic Properties ObjectType and Id
+                { "ObjectType", JToken.FromObject(entity.NewEntry.GetType().FullName) },
+                { "Id", JToken.FromObject(jObject.SelectToken("$.Id")) }
+            };
 
             // Add Rroperties  properties from new entity
             foreach (var webHookEventPayloadProperty in webHook.Payloads.Select(x => x.EventPropertyName))

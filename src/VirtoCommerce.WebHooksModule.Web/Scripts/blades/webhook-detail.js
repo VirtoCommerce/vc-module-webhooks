@@ -1,16 +1,20 @@
 angular.module('virtoCommerce.webhooksModule')
     .controller('virtoCommerce.webhooksModule.webhookDetailController', ['$rootScope', '$scope', 'platformWebApp.dialogService', 'platformWebApp.bladeNavigationService', 'virtoCommerce.webhooksModule.webApi', 'platformWebApp.metaFormsService', function ($rootScope, $scope, dialogService, bladeNavigationService, webhookApi, metaFormsService) {
         var blade = $scope.blade;
+
         blade.availableContentTypes = [{ value: 'application/json', title: 'application/json' }];
         blade.availableEvents = [];
         blade.availablePayloadProperties = [];
+        blade.availableAuthTypes = ['None', 'Basic', 'BearerToken'];
 
         blade.metaFields = metaFormsService.getMetaFields("webhookDetail");
 
         blade.refresh = function(parentRefresh) {
             blade.isLoading = true;
             if (blade.isNew) {
-                initializeBlade({});
+                initializeBlade({
+                    authType: 'None'
+                });
             } else {
                 webhookApi.get({ id: blade.currentEntityId },
                     function(data) {

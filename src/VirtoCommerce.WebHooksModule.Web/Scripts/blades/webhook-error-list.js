@@ -1,6 +1,7 @@
 angular.module('virtoCommerce.webhooksModule')
     .controller('virtoCommerce.webhooksModule.feedListController', ['$scope', 'virtoCommerce.webhooksModule.webApi', 'platformWebApp.bladeNavigationService', 'platformWebApp.dialogService', 'platformWebApp.authService', 'platformWebApp.uiGridHelper', 'platformWebApp.bladeUtils', '$timeout', function ($scope, webHookApi, bladeNavigationService, dialogService, authService, uiGridHelper, bladeUtils, $timeout) {
         $scope.uiGridConstants = uiGridHelper.uiGridConstants;
+
         var blade = $scope.blade;
 
         blade.refresh = function () {
