@@ -21,7 +21,7 @@
   <assemblyFile>VirtoCommerce.WebhooksModule.Web.dll</assemblyFile>
   <moduleType>VirtoCommerce.WebHooksModule.Web.Module, VirtoCommerce.WebhooksModule.Web</moduleType>
   <dependencies>
-    <dependency id="VirtoCommerce.Core" version="3.800.0" />
+    <dependency id="VirtoCommerce.Core" version="3.800.0-alpha.1593-pt-14740-net8" />
   </dependencies>
   <useFullTypeNameInSwagger>false</useFullTypeNameInSwagger>
 </module>
