@@ -2,10 +2,11 @@ using System.Reflection;
 using EntityFrameworkCore.Triggers;
 using Microsoft.EntityFrameworkCore;
 using VirtoCommerce.WebhooksModule.Data.Models;
+using VirtoCommerce.Platform.Data.Infrastructure;
 
 namespace VirtoCommerce.WebhooksModule.Data.Repositories
 {
-    public class WebhookDbContext : DbContextWithTriggers
+    public class WebhookDbContext : DbContextBase
     {
         public WebhookDbContext(DbContextOptions<WebhookDbContext> options)
             : base(options)
