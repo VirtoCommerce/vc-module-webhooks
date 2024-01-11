@@ -1,21 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
-        <noWarn>1591</noWarn>
-        <IsPackable>True</IsPackable>
-        <PublishRepositoryUrl>true</PublishRepositoryUrl>
-        <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <IncludeSymbols>true</IncludeSymbols>
-        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    </PropertyGroup>
-    <ItemGroup>
-        <PackageReference Include="Hangfire" Version="1.7.9" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
-        <PackageReference Include="VirtoCommerce.Platform.Core" Version="3.200.0" />
-        <PackageReference Include="VirtoCommerce.Platform.Data" Version="3.200.0" />
-    </ItemGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\VirtoCommerce.WebHooksModule.Core\VirtoCommerce.WebhooksModule.Core.csproj" />
-    </ItemGroup>
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <noWarn>1591</noWarn>
+    <IsPackable>True</IsPackable>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Hangfire" Version="1.8.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.1" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+    <PackageReference Include="VirtoCommerce.Platform.Core" Version="3.800.0" />
+    <PackageReference Include="VirtoCommerce.Platform.Data" Version="3.800.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VirtoCommerce.WebHooksModule.Core\VirtoCommerce.WebhooksModule.Core.csproj" />
+  </ItemGroup>
 </Project>
