@@ -106,7 +106,7 @@ namespace VirtoCommerce.WebhooksModule.Core.Extensions
                 displayName = fullName;
             }
 
-            return Regex.Replace(displayName, "[A-Z][a-z0-9_]+", "$0 ").Trim();
+            return Regex.Replace(displayName, "[A-Z][a-z0-9_]+", "$0 ", RegexOptions.Compiled).Trim();
         }
     }
 }

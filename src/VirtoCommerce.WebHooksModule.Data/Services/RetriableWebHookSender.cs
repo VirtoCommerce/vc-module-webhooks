@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -126,14 +125,14 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         {
             return new WebhookSendResponse()
             {
-                StatusCode = (int)(response?.StatusCode ?? 0),
+                StatusCode = (int)response.StatusCode,
                 ResponseParams = new WebhookHttpParams()
                 {
-                    Headers = response?.Headers.ToDictionary(x => x.Key, x => string.Join(";", x.Value)) ?? new Dictionary<string, string>(),
+                    Headers = response.Headers.ToDictionary(x => x.Key, x => string.Join(";", x.Value)),
                     Body = responseString
                 },
-                Error = response != null && response.IsSuccessStatusCode ? string.Empty: responseString,
-                IsSuccessfull = response?.IsSuccessStatusCode ?? false
+                Error = response.IsSuccessStatusCode ? string.Empty : responseString,
+                IsSuccessfull = response.IsSuccessStatusCode
             };
         }
 
