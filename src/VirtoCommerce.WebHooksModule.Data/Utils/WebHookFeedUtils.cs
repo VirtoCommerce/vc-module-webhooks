@@ -26,11 +26,11 @@ namespace VirtoCommerce.WebHooksModule.Data.Utils
                 EventId = eventId,
                 AttemptCount = 0,
                 Error = new string(response.Error.Take(1024).ToArray()),
-                Status = response?.StatusCode ?? 0,
+                Status = response.StatusCode,
                 RequestHeaders = GetJsonString(webHook.RequestParams.Headers),
                 RequestBody = webHook.RequestParams.Body,
-                ResponseHeaders = GetJsonString(response?.ResponseParams?.Headers),
-                ResponseBody = response?.ResponseParams?.Body,
+                ResponseHeaders = GetJsonString(response.ResponseParams?.Headers),
+                ResponseBody = response.ResponseParams?.Body,
             };
 
             return result;
