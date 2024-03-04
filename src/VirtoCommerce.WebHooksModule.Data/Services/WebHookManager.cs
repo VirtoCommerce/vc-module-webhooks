@@ -20,19 +20,17 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
     {
         private const int _webhooksPerButch = 20;
 
-        private readonly IRegisteredEventStore _registeredEventStore;
         private readonly IHandlerRegistrar _eventHandlerRegistrar;
         private readonly IWebHookSearchService _webHookSearchService;
         private readonly IWebHookSender _webHookSender;
         private readonly IBackgroundJobClient _backgroundJobClient;
 
-        public WebHookManager(IRegisteredEventStore registeredEventStore,
+        public WebHookManager(
             IHandlerRegistrar eventHandlerRegistrar,
             IWebHookSearchService webHookSearchService,
             IWebHookSender webHookSender,
             IBackgroundJobClient backgroundJobClient)
         {
-            _registeredEventStore = registeredEventStore;
             _eventHandlerRegistrar = eventHandlerRegistrar;
             _webHookSearchService = webHookSearchService;
             _webHookSender = webHookSender;
