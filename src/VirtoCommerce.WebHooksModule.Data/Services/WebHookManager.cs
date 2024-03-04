@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Hangfire;
@@ -43,12 +42,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         /// <inheritdoc />
         public virtual void SubscribeToAllEvents()
         {
-            var allRegisteredEvents = _registeredEventStore.GetAllEvents();
-
-            foreach (var registeredEvent in allRegisteredEvents)
-            {
-                InvokeHandler(registeredEvent.EventType, _eventHandlerRegistrar);
-            }
+            _eventHandlerRegistrar.RegisterHandler<DomainEvent>(HandleEvent);
         }
 
         public virtual async Task<int> NotifyAsync(WebhookRequest request, CancellationToken cancellationToken)
@@ -75,25 +69,6 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             throw new NotImplementedException();
         }
 
-
-        private void InvokeHandler(Type eventType, IHandlerRegistrar registrar)
-        {
-            var registerExecutorMethod = registrar
-                .GetType()
-                .GetMethods(BindingFlags.Instance | BindingFlags.Public)
-                .Where(mi => mi.Name == nameof(IHandlerRegistrar.RegisterHandler))
-                .Where(mi => mi.IsGenericMethod)
-                .Where(mi => mi.GetGenericArguments().Length == 1)
-                .Single(mi => mi.GetParameters().Length == 1)
-                .MakeGenericMethod(eventType);
-
-            Func<DomainEvent, CancellationToken, Task> del = (x, token) =>
-            {
-                return HandleEvent(x, token);
-            };
-
-            registerExecutorMethod.Invoke(registrar, new object[] { del });
-        }
 
         protected virtual async Task HandleEvent(DomainEvent domainEvent, CancellationToken cancellationToken)
         {

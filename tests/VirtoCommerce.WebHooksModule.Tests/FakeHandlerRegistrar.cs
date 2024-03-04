@@ -11,7 +11,7 @@ namespace VirtoCommerce.WebhooksModule.Tests
     {
         public List<object> Handlers { get; internal set; } = new List<object>();
 
-        public void RegisterHandler<T>(Func<T, CancellationToken, Task> handler) where T : class, IMessage
+        public void RegisterHandler<T>(Func<T, CancellationToken, Task> handler) where T : IMessage
         {
             Handlers.Add(handler);
         }

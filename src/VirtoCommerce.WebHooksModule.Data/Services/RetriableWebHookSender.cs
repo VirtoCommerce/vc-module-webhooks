@@ -35,7 +35,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             {
                 if (_retryCount == null)
                 {
-                    _retryCount = _settingsManager.GetValue(ModuleConstants.Settings.General.SendRetryCount.Name, 3);
+                    _retryCount = _settingsManager.GetValue<int>(ModuleConstants.Settings.General.SendRetryCount);
                 }
 
                 return (int)_retryCount;
@@ -48,7 +48,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             {
                 if (_latestErrorCount == null)
                 {
-                    _latestErrorCount = _settingsManager.GetValue(ModuleConstants.Settings.General.SendRetryCount.Name, 5);
+                    _latestErrorCount = _settingsManager.GetValue<int>(ModuleConstants.Settings.General.LatestErrorCount);
                 }
 
                 return (int)_latestErrorCount;
