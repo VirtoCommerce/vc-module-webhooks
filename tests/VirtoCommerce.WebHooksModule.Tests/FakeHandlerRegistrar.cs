@@ -2,16 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using VirtoCommerce.Platform.Core.Bus;
-using VirtoCommerce.Platform.Core.Messages;
+using VirtoCommerce.Platform.Core.Events;
 
 namespace VirtoCommerce.WebhooksModule.Tests
 {
-    public sealed class FakeHandlerRegistrar : IHandlerRegistrar
+    public sealed class FakeHandlerRegistrar : IEventHandlerRegistrar
     {
-        public List<object> Handlers { get; internal set; } = new List<object>();
+        public List<object> Handlers { get; internal set; } = [];
 
-        public void RegisterHandler<T>(Func<T, CancellationToken, Task> handler) where T : IMessage
+        public void RegisterEventHandler<T>(Func<T, Task> handler) where T : IEvent
+        {
+            Handlers.Add(handler);
+        }
+
+        public void RegisterEventHandler<T>(Func<T, CancellationToken, Task> handler) where T : IEvent
         {
             Handlers.Add(handler);
         }
