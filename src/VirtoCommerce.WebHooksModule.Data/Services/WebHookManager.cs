@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Hangfire;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using VirtoCommerce.Platform.Core.Bus;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Events;
 using VirtoCommerce.WebhooksModule.Core.Extensions;
@@ -21,19 +19,17 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
     {
         private const int _webhooksPerButch = 20;
 
-        private readonly IRegisteredEventStore _registeredEventStore;
-        private readonly IHandlerRegistrar _eventHandlerRegistrar;
+        private readonly IEventHandlerRegistrar _eventHandlerRegistrar;
         private readonly IWebHookSearchService _webHookSearchService;
         private readonly IWebHookSender _webHookSender;
         private readonly IBackgroundJobClient _backgroundJobClient;
 
-        public WebHookManager(IRegisteredEventStore registeredEventStore,
-            IHandlerRegistrar eventHandlerRegistrar,
+        public WebHookManager(
+            IEventHandlerRegistrar eventHandlerRegistrar,
             IWebHookSearchService webHookSearchService,
             IWebHookSender webHookSender,
             IBackgroundJobClient backgroundJobClient)
         {
-            _registeredEventStore = registeredEventStore;
             _eventHandlerRegistrar = eventHandlerRegistrar;
             _webHookSearchService = webHookSearchService;
             _webHookSender = webHookSender;
@@ -43,12 +39,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         /// <inheritdoc />
         public virtual void SubscribeToAllEvents()
         {
-            var allRegisteredEvents = _registeredEventStore.GetAllEvents();
-
-            foreach (var registeredEvent in allRegisteredEvents)
-            {
-                InvokeHandler(registeredEvent.EventType, _eventHandlerRegistrar);
-            }
+            _eventHandlerRegistrar.RegisterEventHandler<DomainEvent>(HandleEvent);
         }
 
         public virtual async Task<int> NotifyAsync(WebhookRequest request, CancellationToken cancellationToken)
@@ -60,7 +51,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             {
                 // TechDebt: Here we could create a lot of tasks. Need to add throttling. Also need to decrease pool threads usage.
                 tasks.AddRange(request.WebHooks.Skip(i).Take(_webhooksPerButch)
-                        .Select(x => Task.Run(() => NotifyWebHook(request.EventId, request.WebhooksPayload?.FirstOrDefault(r => r.Key.EqualsInvariant(x.Id)).Value, x, cancellationToken)))
+                        .Select(x => Task.Run(() => NotifyWebHook(request.EventId, request.WebhooksPayload?.FirstOrDefault(r => r.Key.EqualsInvariant(x.Id)).Value, x, cancellationToken), cancellationToken))
                         .ToArray());
             }
 
@@ -76,32 +67,13 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         }
 
 
-        private void InvokeHandler(Type eventType, IHandlerRegistrar registrar)
-        {
-            var registerExecutorMethod = registrar
-                .GetType()
-                .GetMethods(BindingFlags.Instance | BindingFlags.Public)
-                .Where(mi => mi.Name == nameof(IHandlerRegistrar.RegisterHandler))
-                .Where(mi => mi.IsGenericMethod)
-                .Where(mi => mi.GetGenericArguments().Length == 1)
-                .Single(mi => mi.GetParameters().Length == 1)
-                .MakeGenericMethod(eventType);
-
-            Func<DomainEvent, CancellationToken, Task> del = (x, token) =>
-            {
-                return HandleEvent(x, token);
-            };
-
-            registerExecutorMethod.Invoke(registrar, new object[] { del });
-        }
-
         protected virtual async Task HandleEvent(DomainEvent domainEvent, CancellationToken cancellationToken)
         {
             var eventId = domainEvent.GetType().FullName;
             var criteria = new WebhookSearchCriteria()
             {
                 IsActive = true,
-                EventIds = new[] { eventId },
+                EventIds = [eventId],
                 Skip = 0,
                 Take = int.MaxValue,
                 ResponseGroup = WebhookResponseGroup.Info.ToString()
@@ -154,14 +126,14 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                 { "Id", JToken.FromObject(jObject.SelectToken("$.Id")) }
             };
 
-            // Add Rroperties  properties from new entity
+            // Add properties from new entity
             foreach (var webHookEventPayloadProperty in webHook.Payloads.Select(x => x.EventPropertyName))
             {
                 currentResult.Add(webHookEventPayloadProperty, jObject.SelectToken($"$.{webHookEventPayloadProperty}"));
 
             }
 
-            // Add Rroperties from new old entity
+            // Add properties from old entity
             if (entity.OldEntry != null)
             {
                 var oldEntryObject = new JObject();

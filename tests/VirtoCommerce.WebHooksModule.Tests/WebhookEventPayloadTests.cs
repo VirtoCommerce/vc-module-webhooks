@@ -59,7 +59,7 @@ namespace VirtoCommerce.WebhooksModule.Tests
             var requestBody = string.Empty;
             var mockedWebHookSender = new Mock<IWebHookSender>();
 
-            var webhookManager = new WebHookManager(mockedRegisteredEventStore.Object, fakeHandlerRegistrar,
+            var webhookManager = new WebHookManager(fakeHandlerRegistrar,
                 mockedWebHookSearchService.Object, mockedWebHookSender.Object, mockedBackgroundJobClient.Object);
 
             // Act
@@ -122,7 +122,7 @@ namespace VirtoCommerce.WebhooksModule.Tests
             var requestBody = string.Empty;
             var mockedWebHookSender = new Mock<IWebHookSender>();
 
-            var webhookManager = new WebHookManager(mockedRegisteredEventStore.Object, fakeHandlerRegistrar,
+            var webhookManager = new WebHookManager(fakeHandlerRegistrar,
                 mockedWebHookSearchService.Object, mockedWebHookSender.Object, mockedBackgroundJobClient.Object);
 
             // Act
