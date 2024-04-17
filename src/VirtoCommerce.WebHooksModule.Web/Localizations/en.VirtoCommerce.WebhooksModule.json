@@ -23,7 +23,7 @@
           "event": "Event",
           "additional-fields": "Additional fields ({{fields_count}}/10)",
           "warning": "We found issues with your webhooks, e.g., multiple event subscription. Currently, the new UX limitations allow you to select only one event to subscribe to, per webhook.",
-          "auth-type": "Authentification",
+          "auth-type": "Authentication",
           "basicUsername": "User Name",
           "basicPassword": "Password",
           "bearerToken": "Bearer Token",
