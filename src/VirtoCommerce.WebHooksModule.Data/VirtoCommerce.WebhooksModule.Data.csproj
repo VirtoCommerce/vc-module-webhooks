@@ -12,7 +12,7 @@
     <PackageReference Include="Hangfire" Version="1.8.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
-    <PackageReference Include="VirtoCommerce.Platform.Data" Version="3.814.0" />
+    <PackageReference Include="VirtoCommerce.Platform.Data" Version="3.825.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VirtoCommerce.WebHooksModule.Core\VirtoCommerce.WebhooksModule.Core.csproj" />
