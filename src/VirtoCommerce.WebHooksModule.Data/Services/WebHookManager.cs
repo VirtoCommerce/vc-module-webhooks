@@ -15,7 +15,7 @@ using VirtoCommerce.WebHooksModule.Core.Services;
 
 namespace VirtoCommerce.WebHooksModule.Data.Services
 {
-    public class WebHookManager : IWebHookManager
+    public class WebHookManager : IWebHookManager, ICancellableEventHandler<DomainEvent>
     {
         private const int _webhooksPerButch = 20;
 
@@ -39,7 +39,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         /// <inheritdoc />
         public virtual void SubscribeToAllEvents()
         {
-            _eventHandlerRegistrar.RegisterEventHandler<DomainEvent>(HandleEvent);
+            _eventHandlerRegistrar.RegisterEventHandler(this);
         }
 
         public virtual async Task<int> NotifyAsync(WebhookRequest request, CancellationToken cancellationToken)
@@ -66,6 +66,11 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             throw new NotImplementedException();
         }
 
+
+        public Task Handle(DomainEvent message, CancellationToken token = default)
+        {
+            return HandleEvent(message, token);
+        }
 
         protected virtual async Task HandleEvent(DomainEvent domainEvent, CancellationToken cancellationToken)
         {

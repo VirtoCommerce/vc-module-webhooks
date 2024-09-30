@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 using VirtoCommerce.Platform.Core.Caching;
@@ -27,14 +26,14 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                 throw new ArgumentNullException(nameof(feedEntry));
             }
 
-           return IntrenalLogAsync(feedEntry);
+            return IntrenalLogAsync(feedEntry);
         }
 
         protected virtual async Task<WebhookFeedEntry> IntrenalLogAsync(WebhookFeedEntry feedEntry)
         {
             WebhookFeedEntry result = null;
 
-            using (await AsyncLock.GetLockByKey(CacheKey.With(typeof(WebhookFeedEntry), feedEntry.WebHookId)).GetReleaserAsync())
+            using (await AsyncLock.GetLockByKey(CacheKey.With(typeof(WebhookFeedEntry), feedEntry.WebHookId)).LockAsync())
             {
                 switch (feedEntry.RecordType)
                 {

@@ -19,5 +19,25 @@ namespace VirtoCommerce.WebhooksModule.Tests
         {
             Handlers.Add(handler);
         }
+
+        public void RegisterEventHandler<T>(IEventHandler<T> handler) where T : IEvent
+        {
+            Handlers.Add(handler);
+        }
+
+        public void RegisterEventHandler<T>(ICancellableEventHandler<T> handler) where T : IEvent
+        {
+            Handlers.Add(handler);
+        }
+
+        public void UnregisterEventHandler<T>(Type handlerType = null) where T : IEvent
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UnregisterAllEventHandlers()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

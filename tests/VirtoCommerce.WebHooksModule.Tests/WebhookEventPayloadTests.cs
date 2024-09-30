@@ -67,7 +67,7 @@ namespace VirtoCommerce.WebhooksModule.Tests
 
             var eventHandler = fakeHandlerRegistrar.Handlers.First();
 
-            await ((Func<FakeEvent, CancellationToken, Task>)eventHandler).Invoke(new FakeEvent(new[]{ new GenericChangedEntry<FakeEntity>(new FakeEntity
+            await ((ICancellableEventHandler<DomainEvent>)eventHandler).Handle(new FakeEvent(new[]{ new GenericChangedEntry<FakeEntity>(new FakeEntity
             {
                 Id = Guid.NewGuid().ToString(),
                 Number = 15M,
@@ -132,7 +132,7 @@ namespace VirtoCommerce.WebhooksModule.Tests
 
             var entityId = Guid.NewGuid().ToString();
 
-            await ((Func<FakeEvent, CancellationToken, Task>)eventHandler).Invoke(new FakeEvent(new[]{ new GenericChangedEntry<FakeEntity>(new FakeEntity
+            await ((ICancellableEventHandler<DomainEvent>)eventHandler).Handle(new FakeEvent(new[]{ new GenericChangedEntry<FakeEntity>(new FakeEntity
             {
                 Id = entityId,
                 Number = 15M,
