@@ -1,0 +1,164 @@
+{
+  "webhooks": {
+    "main-menu-title": "Вебхуки",
+    "blades": {
+      "webhooks-list": {
+        "title": "Список вебхуков",
+        "subtitle": "Список пользовательских вебхуков",
+        "labels": {
+          "name": "Название",
+          "active": "Активный",
+          "percent-success-calls": "% успешных вызовов",
+          "unresolved-errors": "Нерешенные ошибки",
+          "total-count": "Общее количество вызовов"
+        }
+      },
+      "webhook-detail": {
+        "title": "Список вебхуков",
+        "subtitle": "Управление настройками и деталями вебхука",
+        "labels": {
+          "name": "Название",
+          "is-active": "Активировать",
+          "url": "URL",
+          "event": "Событие",
+          "additional-fields": "Дополнительные поля ({{fields_count}}/10)",
+          "warning": "Мы обнаружили проблемы с вашими вебхуками, например, подписку на несколько событий. В настоящее время новые ограничения UX позволяют выбрать только одно событие для подписки на вебхук",
+          "auth-type": "Аутентификация",
+          "basicUsername": "Имя пользователя",
+          "basicPassword": "Пароль",
+          "bearerToken": "Токен на предъявителя",
+          "customHttpHeaderName": "Название пользовательского HTTP-заголовка",
+          "customHttpHeaderValue": "Значение пользовательского HTTP-заголовка"
+        },
+        "discription": {
+          "webhook": "Вебхуки предоставляют вам быстрый способ узнать, что изменилось в вашей экосистеме Virto Commerce. Выберите события, которые вы хотите отслеживать, и мы отправим вам подробное уведомление на указанный URL, когда произойдет событие",
+          "name": "Отображаемое название этого вебхука",
+          "url": "URL, который вызывается при каждом срабатывании события",
+          "event": "Выберите событие, о котором вы хотите получать уведомления",
+          "specify-payload": "Это позволяет указать дополнительные данные, которые этот вебхук включит в отчет",
+          "specify-payload-note": "Примечание",
+          "specify-payload-note-content": "Свойства ID и ObjectType включены в отчет по умолчанию и всегда присутствуют",
+          "auth-type": "",
+          "basicUsername": "Имя пользователя для базовой аутентификации",
+          "basicPassword": "Пароль для базовой аутентификации",
+          "bearerToken": "Токен на предъявителя  для аутентификации",
+          "customHttpHeaderName": "Установите пользовательское название для HTTP-заголовка для ваших запросов API вебхука",
+          "customHttpHeaderValue": "Установите пользовательское значение для HTTP-заголовка для ваших запросов API вебхука"
+        },
+        "placeholders": {
+          "name": "Укажите название вебхука",
+          "event": "Выбрать",
+          "auth-type": "Аутентификация"
+        },
+        "auth-types": {
+          "none": "Нет",
+          "basic": "Базовая",
+          "bearertoken": "Токен на предъявителя",
+          "customheader": "Пользовательский заголовок"
+        }
+      },
+      "webhook-error-list": {
+        "title": "Ошибки вебхука",
+        "subtitle": "Список всех нерешенных ошибок для этого вебхука",
+        "labels": {
+          "event": "Событие",
+          "attempt-count": "Количество попыток",
+          "created": "Создано",
+          "last-attempt": "Последняя попытка",
+          "error": "Ошибка"
+        }
+      }
+    },
+    "widgets": {
+      "errors-widget": {
+        "title": "Количество ошибок"
+      }
+    },
+    "dialogs": {
+      "setting-save": {
+        "title": "Сохранить изменения",
+        "message": "Этот вебхук был изменен. Хотите сохранить изменения?"
+      },
+      "setting-delete": {
+        "title": "Подтвердить удаление",
+        "message": "Вы уверены, что хотите удалить этот вебхук?"
+      },
+      "feed-delete": {
+        "title": "Подтвердить удаление",
+        "message": "Вы уверены, что хотите удалить этот фид?"
+      }
+    },
+    "events": {
+      "types": {
+        "VirtoCommerce.Platform.Core.Security.Events.UserChangedEvent": "Пользователь был изменен",
+        "VirtoCommerce.Platform.Core.Security.Events.UserChangingEvent": "Происходит редактирование пользователя",
+        "VirtoCommerce.Platform.Core.Security.Events.UserPasswordChangedEvent": "Пароль был изменен",
+        "VirtoCommerce.Platform.Core.Security.Events.UserResetPasswordEvent": "Пользователь сбросил пароль",
+        "VirtoCommerce.Platform.Core.Security.Events.UserLogoutEvent": "Пользователь вышел из системы",
+        "VirtoCommerce.Platform.Core.Security.Events.UserLoginEvent": "Пользователь вошел в систему",
+        "VirtoCommerce.Platform.Core.Settings.Events.ObjectSettingChangedEvent": "Настройка объекта была изменена",
+        "VirtoCommerce.Platform.Core.Events.DomainEvent": "Домен был изменен",
+        "VirtoCommerce.QuoteModule.Core.Events.QuoteRequestChangeEvent": "Запрос на котировку был изменен",
+        "VirtoCommerce.PricingModule.Core.Events.PriceChangedEvent": "Цена была изменена",
+        "VirtoCommerce.PricingModule.Core.Events.PriceChangingEvent": "Происходит редактирование цены",
+        "VirtoCommerce.OrdersModule.Core.Events.OrderChangedEvent": "Заказ был изменен",
+        "VirtoCommerce.OrdersModule.Core.Events.OrderChangeEvent": "Происходит редактирование заказа",
+        "VirtoCommerce.CustomerModule.Core.Events.MemberChangedEvent": "Участник был изменен",
+        "VirtoCommerce.CustomerModule.Core.Events.MemberChangingEvent": "Происходит редактирование участника",
+        "VirtoCommerce.InventoryModule.Core.Events.InventoryChangedEvent": "Складские запасы были изменены",
+        "VirtoCommerce.InventoryModule.Core.Events.InventoryChangingEvent": "Происходит редактирование складских запасов",
+        "VirtoCommerce.InventoryModule.Core.Events.FulfillmentCenterChangedEvent": "Центр выполнения заказов был изменен",
+        "VirtoCommerce.InventoryModule.Core.Events.FulfillmentCenterChangingEvent": "Происходит редактирование центра выполнения заказов",
+        "VirtoCommerce.CatalogModule.Core.Events.CategoryChangedEvent": "Категория была изменена",
+        "VirtoCommerce.CatalogModule.Core.Events.CategoryChangingEvent": "Происходит редактирование категория",
+        "VirtoCommerce.CatalogModule.Core.Events.PropertyChangingEvent": "Происходит редактирование свойства",
+        "VirtoCommerce.CatalogModule.Core.Events.PropertyChangedEvent": "Свойство было изменено",
+        "VirtoCommerce.CatalogModule.Core.Events.ProductChangedEvent": "Продукт был изменен",
+        "VirtoCommerce.CatalogModule.Core.Events.CatalogChangedEvent": "Каталог был изменен",
+        "VirtoCommerce.CatalogModule.Core.Events.ProductChangingEvent": "Происходит редактирование продукта",
+        "VirtoCommerce.CatalogModule.Core.Events.CatalogChangingEvent": "Происходит редактирование каталога",
+        "VirtoCommerce.CartModule.Core.Events.CartChangedEvent": "Корзина была изменена",
+        "VirtoCommerce.CartModule.Core.Events.CartChangeEvent": "Происходит редактирование корзины",
+        "VirtoCommerce.SubscriptionModule.Core.Events.PaymentPlanChangedEvent": "План оплаты был изменен",
+        "VirtoCommerce.SubscriptionModule.Core.Events.SubscriptionChangedEvent": "Подписка была изменена",
+        "VirtoCommerce.SubscriptionModule.Core.Events.PaymentPlanChangingEvent": "Происходит редактирование плана оплаты",
+        "VirtoCommerce.SubscriptionModule.Core.Events.SubscriptionChangingEvent": "Происходит редактирование подписки",
+        "VirtoCommerce.ContentModule.Core.Events.MenuLinkListChangedEvent": "Список ссылок меню был изменен",
+        "VirtoCommerce.MarketingModule.Core.Events.CouponChangedEvent": "Купон был изменен",
+        "VirtoCommerce.MarketingModule.Core.Events.DynamicContentFolderChangedEvent": "Папка динамического контента была изменена",
+        "VirtoCommerce.MarketingModule.Core.Events.DynamicContentItemChangedEvent": "Элемент динамического контента был изменен",
+        "VirtoCommerce.MarketingModule.Core.Events.DynamicContentPlaceChangedEvent": "Место динамического контента было изменено",
+        "VirtoCommerce.MarketingModule.Core.Events.DynamicContentPublicationChangedEvent": "Публикация динамического контента была изменена",
+        "VirtoCommerce.MarketingModule.Core.Events.PromotionChangedEvent": "Акция была изменена",
+        "VirtoCommerce.MarketingModule.Core.Events.PromotionUsageChangedEvent": "Использование акции было изменено",
+        "VirtoCommerce.NotificationsModule.Core.Events.NotificationChangedEvent": "Уведомление было изменено",
+        "VirtoCommerce.NotificationsModule.Core.Events.NotificationChangingEvent": "Происходит редактирование уведомления",
+        "VirtoCommerce.NotificationsModule.Core.Events.NotificationMessageChangedEvent": "Текст уведомления был изменен",
+        "VirtoCommerce.NotificationsModule.Core.Events.NotificationMessageChangingEvent": "Происходит редактирование текста уведомления",
+        "VirtoCommerce.StoreModule.Core.Events.StoreChangedEvent": "Магазин был изменен",
+        "VirtoCommerce.CustomerReviews.Core.Events.CustomerReviewChangedEvent": "Отзыв клиента был изменен",
+        "VirtoCommerce.CustomerReviews.Core.Events.ReviewStatusChangedEvent": "Статус отзыва был изменен",
+        "VirtoCommerce.DynamicAssociationsModule.Core.Events.AssociationChangedEvent": "Ассоциация была изменена",
+        "VirtoCommerce.DynamicAssociationsModule.Core.Events.AssociationChangingEvent": "Происходит редактирование ассоциации"
+      }
+    }
+  },
+  "permissions": {
+    "webhooks:access": "Открыть меню вебхуков",
+    "webhooks:read": "Просмотр данных, связанных с вебхуками",
+    "webhooks:feed:read": "Просмотр логов вебхуков",
+    "webhooks:execute": "Ручная отправка вебхуков",
+    "webhooks:update": "Создание или обновление вебхуков",
+    "webhooks:delete": "Удаление вебхуков"
+  },
+  "settings": {
+    "Webhooks": {
+      "General": {
+        "SendRetryCount": {
+          "description": "Если HTTP-запрос, отправляющий уведомление вебхука, не удается по какой-либо причине, операция повторяется X раз или до успешного завершения. Интервалы между попытками следующие (в минутах): 1, 2, 4, …, 2^N (минут)",
+          "title": "Количество попыток повторной отправки уведомления вебхука в случае неудачной первой попытки"
+        }
+      }
+    }
+  }
+}

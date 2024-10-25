@@ -1,0 +1,164 @@
+{
+  "webhooks": {
+    "main-menu-title": "网络钩子",
+    "blades": {
+      "webhooks-list": {
+        "title": "网络钩子列表",
+        "subtitle": "用户定义的网络钩子列表",
+        "labels": {
+          "name": "名称",
+          "active": "活跃",
+          "percent-success-calls": "成功调用百分比",
+          "unresolved-errors": "未解决的错误",
+          "total-count": "总调用次数"
+        }
+      },
+      "webhook-detail": {
+        "title": "网络钩子列表",
+        "subtitle": "管理网络钩子设置和详情",
+        "labels": {
+          "name": "名称",
+          "is-active": "激活",
+          "url": "URL",
+          "event": "事件",
+          "additional-fields": "附加字段 ({{fields_count}}/10)",
+          "warning": "我们发现您的网络钩子存在问题，例如多个事件订阅。目前，新的用户体验限制只允许每个网络钩子选择一个事件进行订阅",
+          "auth-type": "认证",
+          "basicUsername": "用户名",
+          "basicPassword": "密码",
+          "bearerToken": "Bearer令牌",
+          "customHttpHeaderName": "自定义HTTP头名称",
+          "customHttpHeaderValue": "自定义HTTP头值"
+        },
+        "discription": {
+          "webhook": "网络钩子为您提供了一种快速了解Virto Commerce生态系统中发生变化的方法。选择您想要关注的事件，当事件发生时，我们将向您指定的URL发送详细通知",
+          "name": "此网络钩子的显示名称",
+          "url": "每次事件触发时调用的URL",
+          "event": "选择您想要接收通知的事件",
+          "specify-payload": "这允许您指定此网络钩子将包含在报告中的附加数据",
+          "specify-payload-note": "注意",
+          "specify-payload-note-content": "ID和ObjectType属性默认包含在报告中，并且始终存在",
+          "auth-type": "",
+          "basicUsername": "基本认证的用户名",
+          "basicPassword": "基本认证的密码",
+          "bearerToken": "Bearer令牌认证的令牌",
+          "customHttpHeaderName": "为您的网络钩子API请求设置自定义HTTP头名称",
+          "customHttpHeaderValue": "为您的网络钩子API请求设置自定义HTTP头值"
+        },
+        "placeholders": {
+          "name": "指定网络钩子名称",
+          "event": "选择",
+          "auth-type": "认证"
+        },
+        "auth-types": {
+          "none": "无",
+          "basic": "基本",
+          "bearertoken": "Bearer令牌",
+          "customheader": "自定义头"
+        }
+      },
+      "webhook-error-list": {
+        "title": "网络钩子错误",
+        "subtitle": "此网络钩子的所有未解决错误列表",
+        "labels": {
+          "event": "事件",
+          "attempt-count": "尝试次数",
+          "created": "创建时间",
+          "last-attempt": "最后尝试",
+          "error": "错误"
+        }
+      }
+    },
+    "widgets": {
+      "errors-widget": {
+        "title": "错误计数"
+      }
+    },
+    "dialogs": {
+      "setting-save": {
+        "title": "保存更改",
+        "message": "此网络钩子已被修改。您想保存更改吗？"
+      },
+      "setting-delete": {
+        "title": "确认删除",
+        "message": "您确定要删除此网络钩子吗？"
+      },
+      "feed-delete": {
+        "title": "确认删除",
+        "message": "您确定要删除此feed吗？"
+      }
+    },
+    "events": {
+      "types": {
+        "VirtoCommerce.Platform.Core.Security.Events.UserChangedEvent": "用户已更改",
+        "VirtoCommerce.Platform.Core.Security.Events.UserChangingEvent": "用户正在更改",
+        "VirtoCommerce.Platform.Core.Security.Events.UserPasswordChangedEvent": "密码已更改",
+        "VirtoCommerce.Platform.Core.Security.Events.UserResetPasswordEvent": "用户重置了密码",
+        "VirtoCommerce.Platform.Core.Security.Events.UserLogoutEvent": "用户已登出",
+        "VirtoCommerce.Platform.Core.Security.Events.UserLoginEvent": "用户已登录",
+        "VirtoCommerce.Platform.Core.Settings.Events.ObjectSettingChangedEvent": "设置对象已更改",
+        "VirtoCommerce.Platform.Core.Events.DomainEvent": "域已更改",
+        "VirtoCommerce.QuoteModule.Core.Events.QuoteRequestChangeEvent": "报价请求已更改",
+        "VirtoCommerce.PricingModule.Core.Events.PriceChangedEvent": "价格已更改",
+        "VirtoCommerce.PricingModule.Core.Events.PriceChangingEvent": "价格正在更改",
+        "VirtoCommerce.OrdersModule.Core.Events.OrderChangedEvent": "订单已更改",
+        "VirtoCommerce.OrdersModule.Core.Events.OrderChangeEvent": "订单正在更改",
+        "VirtoCommerce.CustomerModule.Core.Events.MemberChangedEvent": "成员已更改",
+        "VirtoCommerce.CustomerModule.Core.Events.MemberChangingEvent": "成员正在更改",
+        "VirtoCommerce.InventoryModule.Core.Events.InventoryChangedEvent": "库存已更改",
+        "VirtoCommerce.InventoryModule.Core.Events.InventoryChangingEvent": "库存正在更改",
+        "VirtoCommerce.InventoryModule.Core.Events.FulfillmentCenterChangedEvent": "履行中心已更改",
+        "VirtoCommerce.InventoryModule.Core.Events.FulfillmentCenterChangingEvent": "履行中心正在更改",
+        "VirtoCommerce.CatalogModule.Core.Events.CategoryChangedEvent": "类别已更改",
+        "VirtoCommerce.CatalogModule.Core.Events.CategoryChangingEvent": "类别正在更改",
+        "VirtoCommerce.CatalogModule.Core.Events.PropertyChangingEvent": "属性正在更改",
+        "VirtoCommerce.CatalogModule.Core.Events.PropertyChangedEvent": "属性已更改",
+        "VirtoCommerce.CatalogModule.Core.Events.ProductChangedEvent": "产品已更改",
+        "VirtoCommerce.CatalogModule.Core.Events.CatalogChangedEvent": "目录已更改",
+        "VirtoCommerce.CatalogModule.Core.Events.ProductChangingEvent": "产品正在更改",
+        "VirtoCommerce.CatalogModule.Core.Events.CatalogChangingEvent": "目录正在更改",
+        "VirtoCommerce.CartModule.Core.Events.CartChangedEvent": "购物车已更改",
+        "VirtoCommerce.CartModule.Core.Events.CartChangeEvent": "购物车正在更改",
+        "VirtoCommerce.SubscriptionModule.Core.Events.PaymentPlanChangedEvent": "支付计划已更改",
+        "VirtoCommerce.SubscriptionModule.Core.Events.SubscriptionChangedEvent": "订阅已更改",
+        "VirtoCommerce.SubscriptionModule.Core.Events.PaymentPlanChangingEvent": "支付计划正在更改",
+        "VirtoCommerce.SubscriptionModule.Core.Events.SubscriptionChangingEvent": "订阅正在更改",
+        "VirtoCommerce.ContentModule.Core.Events.MenuLinkListChangedEvent": "菜单链接列表已更改",
+        "VirtoCommerce.MarketingModule.Core.Events.CouponChangedEvent": "优惠券已更改",
+        "VirtoCommerce.MarketingModule.Core.Events.DynamicContentFolderChangedEvent": "动态内容文件夹已更改",
+        "VirtoCommerce.MarketingModule.Core.Events.DynamicContentItemChangedEvent": "动态内容项已更改",
+        "VirtoCommerce.MarketingModule.Core.Events.DynamicContentPlaceChangedEvent": "动态内容位置已更改",
+        "VirtoCommerce.MarketingModule.Core.Events.DynamicContentPublicationChangedEvent": "动态内容发布已更改",
+        "VirtoCommerce.MarketingModule.Core.Events.PromotionChangedEvent": "促销已更改",
+        "VirtoCommerce.MarketingModule.Core.Events.PromotionUsageChangedEvent": "促销使用已更改",
+        "VirtoCommerce.NotificationsModule.Core.Events.NotificationChangedEvent": "通知已更改",
+        "VirtoCommerce.NotificationsModule.Core.Events.NotificationChangingEvent": "通知正在更改",
+        "VirtoCommerce.NotificationsModule.Core.Events.NotificationMessageChangedEvent": "通知消息已更改",
+        "VirtoCommerce.NotificationsModule.Core.Events.NotificationMessageChangingEvent": "通知消息正在更改",
+        "VirtoCommerce.StoreModule.Core.Events.StoreChangedEvent": "商店已更改",
+        "VirtoCommerce.CustomerReviews.Core.Events.CustomerReviewChangedEvent": "客户评论已更改",
+        "VirtoCommerce.CustomerReviews.Core.Events.ReviewStatusChangedEvent": "评论状态已更改",
+        "VirtoCommerce.DynamicAssociationsModule.Core.Events.AssociationChangedEvent": "关联已更改",
+        "VirtoCommerce.DynamicAssociationsModule.Core.Events.AssociationChangingEvent": "关联正在更改"
+      }
+    }
+  },
+  "permissions": {
+    "webhooks:access": "打开网络钩子菜单",
+    "webhooks:read": "查看网络钩子相关数据",
+    "webhooks:feed:read": "查看网络钩子日志",
+    "webhooks:execute": "手动发送网络钩子",
+    "webhooks:update": "创建或更新网络钩子",
+    "webhooks:delete": "删除网络钩子"
+  },
+  "settings": {
+    "Webhooks": {
+      "General": {
+        "SendRetryCount": {
+          "description": "如果发送网络钩子通知的HTTP请求因任何原因失败，操作将重复X次或直到成功。尝试之间的间隔如下（以分钟为单位）：1、2、4、…、2^N（分钟）",
+          "title": "第一次尝试失败时重新发送网络钩子通知的尝试次数"
+        }
+      }
+    }
+  }
+}

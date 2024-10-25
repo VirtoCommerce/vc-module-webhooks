@@ -1,0 +1,164 @@
+{
+  "webhooks": {
+    "main-menu-title": "Webhooks",
+    "blades": {
+      "webhooks-list": {
+        "title": "Lista de webhooks",
+        "subtitle": "Lista de webhooks definidos pelo usuário",
+        "labels": {
+          "name": "Nome",
+          "active": "Ativo",
+          "percent-success-calls": "% de chamadas bem-sucedidas",
+          "unresolved-errors": "Erros não resolvidos",
+          "total-count": "Contagem total de chamadas"
+        }
+      },
+      "webhook-detail": {
+        "title": "Lista de webhooks",
+        "subtitle": "Gerenciar configurações e detalhes do webhook",
+        "labels": {
+          "name": "Nome",
+          "is-active": "Ativar",
+          "url": "URL",
+          "event": "Evento",
+          "additional-fields": "Campos adicionais ({{fields_count}}/10)",
+          "warning": "Encontramos problemas com seus webhooks, por exemplo, assinatura de múltiplos eventos. Atualmente, as novas limitações de UX permitem selecionar apenas um evento para assinar por webhook",
+          "auth-type": "Autenticação",
+          "basicUsername": "Nome de usuário",
+          "basicPassword": "Senha",
+          "bearerToken": "Token Bearer",
+          "customHttpHeaderName": "Nome do cabeçalho HTTP personalizado",
+          "customHttpHeaderValue": "Valor do cabeçalho HTTP personalizado"
+        },
+        "discription": {
+          "webhook": "Os webhooks oferecem uma maneira rápida de descobrir o que foi alterado em seu ecossistema Virto Commerce. Selecione os eventos que deseja acompanhar e enviaremos uma notificação detalhada para a URL especificada quando um evento ocorrer",
+          "name": "Nome de exibição deste webhook",
+          "url": "A URL que é chamada em cada acionamento de evento",
+          "event": "Selecione o evento sobre o qual deseja ser notificado",
+          "specify-payload": "Isso permite especificar dados adicionais que este webhook incluirá no relatório",
+          "specify-payload-note": "Nota",
+          "specify-payload-note-content": "As propriedades ID e ObjectType são incluídas no relatório por padrão e estão sempre presentes",
+          "auth-type": "",
+          "basicUsername": "Nome de usuário para autenticação básica",
+          "basicPassword": "Senha para autenticação básica",
+          "bearerToken": "Token Bearer para autenticação de token Bearer",
+          "customHttpHeaderName": "Defina um nome personalizado para um cabeçalho HTTP para suas solicitações de API de Webhook",
+          "customHttpHeaderValue": "Defina um valor personalizado para um cabeçalho HTTP para suas solicitações de API de Webhook"
+        },
+        "placeholders": {
+          "name": "Especificar nome do webhook",
+          "event": "Selecionar",
+          "auth-type": "Autenticação"
+        },
+        "auth-types": {
+          "none": "Nenhuma",
+          "basic": "Básica",
+          "bearertoken": "Token Bearer",
+          "customheader": "Cabeçalho personalizado"
+        }
+      },
+      "webhook-error-list": {
+        "title": "Erros de webhook",
+        "subtitle": "Lista de todos os erros não resolvidos para este webhook",
+        "labels": {
+          "event": "Evento",
+          "attempt-count": "Número de tentativas",
+          "created": "Criado",
+          "last-attempt": "Última tentativa",
+          "error": "Erro"
+        }
+      }
+    },
+    "widgets": {
+      "errors-widget": {
+        "title": "Contagem de erros"
+      }
+    },
+    "dialogs": {
+      "setting-save": {
+        "title": "Salvar alterações",
+        "message": "Este webhook foi modificado. Deseja salvar as alterações?"
+      },
+      "setting-delete": {
+        "title": "Confirmar exclusão",
+        "message": "Tem certeza de que deseja excluir este webhook?"
+      },
+      "feed-delete": {
+        "title": "Confirmar exclusão",
+        "message": "Tem certeza de que deseja excluir este feed?"
+      }
+    },
+    "events": {
+      "types": {
+        "VirtoCommerce.Platform.Core.Security.Events.UserChangedEvent": "O usuário foi alterado",
+        "VirtoCommerce.Platform.Core.Security.Events.UserChangingEvent": "O usuário está sendo alterado",
+        "VirtoCommerce.Platform.Core.Security.Events.UserPasswordChangedEvent": "A senha foi alterada",
+        "VirtoCommerce.Platform.Core.Security.Events.UserResetPasswordEvent": "O usuário redefiniu sua senha",
+        "VirtoCommerce.Platform.Core.Security.Events.UserLogoutEvent": "O usuário saiu",
+        "VirtoCommerce.Platform.Core.Security.Events.UserLoginEvent": "O usuário entrou",
+        "VirtoCommerce.Platform.Core.Settings.Events.ObjectSettingChangedEvent": "O objeto de configuração foi alterado",
+        "VirtoCommerce.Platform.Core.Events.DomainEvent": "O domínio foi alterado",
+        "VirtoCommerce.QuoteModule.Core.Events.QuoteRequestChangeEvent": "A solicitação de cotação foi alterada",
+        "VirtoCommerce.PricingModule.Core.Events.PriceChangedEvent": "O preço foi alterado",
+        "VirtoCommerce.PricingModule.Core.Events.PriceChangingEvent": "O preço está sendo alterado",
+        "VirtoCommerce.OrdersModule.Core.Events.OrderChangedEvent": "O pedido foi alterado",
+        "VirtoCommerce.OrdersModule.Core.Events.OrderChangeEvent": "O pedido está sendo alterado",
+        "VirtoCommerce.CustomerModule.Core.Events.MemberChangedEvent": "O membro foi alterado",
+        "VirtoCommerce.CustomerModule.Core.Events.MemberChangingEvent": "O membro está sendo alterado",
+        "VirtoCommerce.InventoryModule.Core.Events.InventoryChangedEvent": "O inventário foi alterado",
+        "VirtoCommerce.InventoryModule.Core.Events.InventoryChangingEvent": "O inventário está sendo alterado",
+        "VirtoCommerce.InventoryModule.Core.Events.FulfillmentCenterChangedEvent": "O centro de atendimento foi alterado",
+        "VirtoCommerce.InventoryModule.Core.Events.FulfillmentCenterChangingEvent": "O centro de atendimento está sendo alterado",
+        "VirtoCommerce.CatalogModule.Core.Events.CategoryChangedEvent": "A categoria foi alterada",
+        "VirtoCommerce.CatalogModule.Core.Events.CategoryChangingEvent": "A categoria está sendo alterada",
+        "VirtoCommerce.CatalogModule.Core.Events.PropertyChangingEvent": "A propriedade está sendo alterada",
+        "VirtoCommerce.CatalogModule.Core.Events.PropertyChangedEvent": "A propriedade foi alterada",
+        "VirtoCommerce.CatalogModule.Core.Events.ProductChangedEvent": "O produto foi alterado",
+        "VirtoCommerce.CatalogModule.Core.Events.CatalogChangedEvent": "O catálogo foi alterado",
+        "VirtoCommerce.CatalogModule.Core.Events.ProductChangingEvent": "O produto está sendo alterado",
+        "VirtoCommerce.CatalogModule.Core.Events.CatalogChangingEvent": "O catálogo está sendo alterado",
+        "VirtoCommerce.CartModule.Core.Events.CartChangedEvent": "O carrinho foi alterado",
+        "VirtoCommerce.CartModule.Core.Events.CartChangeEvent": "O carrinho está sendo alterado",
+        "VirtoCommerce.SubscriptionModule.Core.Events.PaymentPlanChangedEvent": "O plano de pagamento foi alterado",
+        "VirtoCommerce.SubscriptionModule.Core.Events.SubscriptionChangedEvent": "A assinatura foi alterada",
+        "VirtoCommerce.SubscriptionModule.Core.Events.PaymentPlanChangingEvent": "O plano de pagamento está sendo alterado",
+        "VirtoCommerce.SubscriptionModule.Core.Events.SubscriptionChangingEvent": "A assinatura está sendo alterada",
+        "VirtoCommerce.ContentModule.Core.Events.MenuLinkListChangedEvent": "A lista de links do menu foi alterada",
+        "VirtoCommerce.MarketingModule.Core.Events.CouponChangedEvent": "O cupom foi alterado",
+        "VirtoCommerce.MarketingModule.Core.Events.DynamicContentFolderChangedEvent": "A pasta de conteúdo dinâmico foi alterada",
+        "VirtoCommerce.MarketingModule.Core.Events.DynamicContentItemChangedEvent": "O item de conteúdo dinâmico foi alterado",
+        "VirtoCommerce.MarketingModule.Core.Events.DynamicContentPlaceChangedEvent": "O local de conteúdo dinâmico foi alterado",
+        "VirtoCommerce.MarketingModule.Core.Events.DynamicContentPublicationChangedEvent": "A publicação de conteúdo dinâmico foi alterada",
+        "VirtoCommerce.MarketingModule.Core.Events.PromotionChangedEvent": "A promoção foi alterada",
+        "VirtoCommerce.MarketingModule.Core.Events.PromotionUsageChangedEvent": "O uso da promoção foi alterado",
+        "VirtoCommerce.NotificationsModule.Core.Events.NotificationChangedEvent": "A notificação foi alterada",
+        "VirtoCommerce.NotificationsModule.Core.Events.NotificationChangingEvent": "A notificação está sendo alterada",
+        "VirtoCommerce.NotificationsModule.Core.Events.NotificationMessageChangedEvent": "A mensagem de notificação foi alterada",
+        "VirtoCommerce.NotificationsModule.Core.Events.NotificationMessageChangingEvent": "A mensagem de notificação está sendo alterada",
+        "VirtoCommerce.StoreModule.Core.Events.StoreChangedEvent": "A loja foi alterada",
+        "VirtoCommerce.CustomerReviews.Core.Events.CustomerReviewChangedEvent": "A avaliação do cliente foi alterada",
+        "VirtoCommerce.CustomerReviews.Core.Events.ReviewStatusChangedEvent": "O status da avaliação foi alterado",
+        "VirtoCommerce.DynamicAssociationsModule.Core.Events.AssociationChangedEvent": "A associação foi alterada",
+        "VirtoCommerce.DynamicAssociationsModule.Core.Events.AssociationChangingEvent": "A associação está sendo alterada"
+      }
+    }
+  },
+  "permissions": {
+    "webhooks:access": "Abrir menu de webhooks",
+    "webhooks:read": "Visualizar dados relacionados a webhooks",
+    "webhooks:feed:read": "Visualizar logs de webhooks",
+    "webhooks:execute": "Enviar webhooks manualmente",
+    "webhooks:update": "Criar ou atualizar webhooks",
+    "webhooks:delete": "Excluir webhooks"
+  },
+  "settings": {
+    "Webhooks": {
+      "General": {
+        "SendRetryCount": {
+          "description": "Se a solicitação HTTP que envia a notificação do webhook falhar por qualquer motivo, a operação é repetida X número de vezes ou até que seja bem-sucedida. Os intervalos entre as tentativas são os seguintes (em minutos): 1, 2, 4, …, 2^N (minutos)",
+          "title": "Número de tentativas de reenvio da notificação do webhook caso a primeira tentativa falhe"
+        }
+      }
+    }
+  }
+}
