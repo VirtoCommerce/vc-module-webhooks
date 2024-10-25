@@ -1,0 +1,164 @@
+{
+  "webhooks": {
+    "main-menu-title": "ウェブフック",
+    "blades": {
+      "webhooks-list": {
+        "title": "ウェブフックリスト",
+        "subtitle": "ユーザー定義のウェブフックリスト",
+        "labels": {
+          "name": "名前",
+          "active": "アクティブ",
+          "percent-success-calls": "成功呼び出し率",
+          "unresolved-errors": "未解決のエラー",
+          "total-count": "総呼び出し回数"
+        }
+      },
+      "webhook-detail": {
+        "title": "ウェブフックリスト",
+        "subtitle": "ウェブフックの設定と詳細を管理",
+        "labels": {
+          "name": "名前",
+          "is-active": "アクティブ化",
+          "url": "URL",
+          "event": "イベント",
+          "additional-fields": "追加フィールド ({{fields_count}}/10)",
+          "warning": "ウェブフックに問題が見つかりました。例：複数のイベント購読。現在の新しいUX制限では、ウェブフックごとに1つのイベントのみを選択できます",
+          "auth-type": "認証",
+          "basicUsername": "ユーザー名",
+          "basicPassword": "パスワード",
+          "bearerToken": "Bearerトークン",
+          "customHttpHeaderName": "カスタムHTTPヘッダー名",
+          "customHttpHeaderValue": "カスタムHTTPヘッダー値"
+        },
+        "discription": {
+          "webhook": "ウェブフックは、Virto Commerceエコシステム内で何が変更されたかを素早く知る方法を提供します。フォローしたいイベントを選択すると、イベントが発生したときに指定したURLに詳細な通知を送信します",
+          "name": "このウェブフックの表示名",
+          "url": "各イベントトリガーで呼び出されるURL",
+          "event": "通知を受けたいイベントを選択してください",
+          "specify-payload": "このウェブフックがレポートに含める追加データを指定できます",
+          "specify-payload-note": "注意",
+          "specify-payload-note-content": "IDとObjectTypeプロパティはデフォルトでレポートに含まれており、常に存在します",
+          "auth-type": "",
+          "basicUsername": "基本認証のユーザー名",
+          "basicPassword": "基本認証のパスワード",
+          "bearerToken": "Bearerトークン認証のトークン",
+          "customHttpHeaderName": "ウェブフックAPIリクエスト用のカスタムHTTPヘッダー名を設定",
+          "customHttpHeaderValue": "ウェブフックAPIリクエスト用のカスタムHTTPヘッダー値を設定"
+        },
+        "placeholders": {
+          "name": "ウェブフック名を指定",
+          "event": "選択",
+          "auth-type": "認証"
+        },
+        "auth-types": {
+          "none": "なし",
+          "basic": "基本",
+          "bearertoken": "Bearerトークン",
+          "customheader": "カスタムヘッダー"
+        }
+      },
+      "webhook-error-list": {
+        "title": "ウェブフックエラー",
+        "subtitle": "このウェブフックの未解決エラーリスト",
+        "labels": {
+          "event": "イベント",
+          "attempt-count": "試行回数",
+          "created": "作成日時",
+          "last-attempt": "最終試行",
+          "error": "エラー"
+        }
+      }
+    },
+    "widgets": {
+      "errors-widget": {
+        "title": "エラー数"
+      }
+    },
+    "dialogs": {
+      "setting-save": {
+        "title": "変更を保存",
+        "message": "このウェブフックが変更されました。変更を保存しますか？"
+      },
+      "setting-delete": {
+        "title": "削除の確認",
+        "message": "このウェブフックを削除してもよろしいですか？"
+      },
+      "feed-delete": {
+        "title": "削除の確認",
+        "message": "このフィードを削除してもよろしいですか？"
+      }
+    },
+    "events": {
+      "types": {
+        "VirtoCommerce.Platform.Core.Security.Events.UserChangedEvent": "ユーザーが変更されました",
+        "VirtoCommerce.Platform.Core.Security.Events.UserChangingEvent": "ユーザーが変更中です",
+        "VirtoCommerce.Platform.Core.Security.Events.UserPasswordChangedEvent": "パスワードが変更されました",
+        "VirtoCommerce.Platform.Core.Security.Events.UserResetPasswordEvent": "ユーザーがパスワードをリセットしました",
+        "VirtoCommerce.Platform.Core.Security.Events.UserLogoutEvent": "ユーザーがログアウトしました",
+        "VirtoCommerce.Platform.Core.Security.Events.UserLoginEvent": "ユーザーがログインしました",
+        "VirtoCommerce.Platform.Core.Settings.Events.ObjectSettingChangedEvent": "設定オブジェクトが変更されました",
+        "VirtoCommerce.Platform.Core.Events.DomainEvent": "ドメインが変更されました",
+        "VirtoCommerce.QuoteModule.Core.Events.QuoteRequestChangeEvent": "見積リクエストが変更されました",
+        "VirtoCommerce.PricingModule.Core.Events.PriceChangedEvent": "価格が変更されました",
+        "VirtoCommerce.PricingModule.Core.Events.PriceChangingEvent": "価格が変更中です",
+        "VirtoCommerce.OrdersModule.Core.Events.OrderChangedEvent": "注文が変更されました",
+        "VirtoCommerce.OrdersModule.Core.Events.OrderChangeEvent": "注文が変更中です",
+        "VirtoCommerce.CustomerModule.Core.Events.MemberChangedEvent": "メンバーが変更されました",
+        "VirtoCommerce.CustomerModule.Core.Events.MemberChangingEvent": "メンバーが変更中です",
+        "VirtoCommerce.InventoryModule.Core.Events.InventoryChangedEvent": "在庫が変更されました",
+        "VirtoCommerce.InventoryModule.Core.Events.InventoryChangingEvent": "在庫が変更中です",
+        "VirtoCommerce.InventoryModule.Core.Events.FulfillmentCenterChangedEvent": "フルフィルメントセンターが変更されました",
+        "VirtoCommerce.InventoryModule.Core.Events.FulfillmentCenterChangingEvent": "フルフィルメントセンターが変更中です",
+        "VirtoCommerce.CatalogModule.Core.Events.CategoryChangedEvent": "カテゴリが変更されました",
+        "VirtoCommerce.CatalogModule.Core.Events.CategoryChangingEvent": "カテゴリが変更中です",
+        "VirtoCommerce.CatalogModule.Core.Events.PropertyChangingEvent": "プロパティが変更中です",
+        "VirtoCommerce.CatalogModule.Core.Events.PropertyChangedEvent": "プロパティが変更されました",
+        "VirtoCommerce.CatalogModule.Core.Events.ProductChangedEvent": "商品が変更されました",
+        "VirtoCommerce.CatalogModule.Core.Events.CatalogChangedEvent": "カタログが変更されました",
+        "VirtoCommerce.CatalogModule.Core.Events.ProductChangingEvent": "商品が変更中です",
+        "VirtoCommerce.CatalogModule.Core.Events.CatalogChangingEvent": "カタログが変更中です",
+        "VirtoCommerce.CartModule.Core.Events.CartChangedEvent": "カートが変更されました",
+        "VirtoCommerce.CartModule.Core.Events.CartChangeEvent": "カートが変更中です",
+        "VirtoCommerce.SubscriptionModule.Core.Events.PaymentPlanChangedEvent": "支払いプランが変更されました",
+        "VirtoCommerce.SubscriptionModule.Core.Events.SubscriptionChangedEvent": "サブスクリプションが変更されました",
+        "VirtoCommerce.SubscriptionModule.Core.Events.PaymentPlanChangingEvent": "支払いプランが変更中です",
+        "VirtoCommerce.SubscriptionModule.Core.Events.SubscriptionChangingEvent": "サブスクリプションが変更中です",
+        "VirtoCommerce.ContentModule.Core.Events.MenuLinkListChangedEvent": "メニューリンクリストが変更されました",
+        "VirtoCommerce.MarketingModule.Core.Events.CouponChangedEvent": "クーポンが変更されました",
+        "VirtoCommerce.MarketingModule.Core.Events.DynamicContentFolderChangedEvent": "動的コンテンツフォルダが変更されました",
+        "VirtoCommerce.MarketingModule.Core.Events.DynamicContentItemChangedEvent": "動的コンテンツアイテムが変更されました",
+        "VirtoCommerce.MarketingModule.Core.Events.DynamicContentPlaceChangedEvent": "動的コンテンツの場所が変更されました",
+        "VirtoCommerce.MarketingModule.Core.Events.DynamicContentPublicationChangedEvent": "動的コンテンツの公開が変更されました",
+        "VirtoCommerce.MarketingModule.Core.Events.PromotionChangedEvent": "プロモーションが変更されました",
+        "VirtoCommerce.MarketingModule.Core.Events.PromotionUsageChangedEvent": "プロモーション使用が変更されました",
+        "VirtoCommerce.NotificationsModule.Core.Events.NotificationChangedEvent": "通知が変更されました",
+        "VirtoCommerce.NotificationsModule.Core.Events.NotificationChangingEvent": "通知が変更中です",
+        "VirtoCommerce.NotificationsModule.Core.Events.NotificationMessageChangedEvent": "通知メッセージが変更されました",
+        "VirtoCommerce.NotificationsModule.Core.Events.NotificationMessageChangingEvent": "通知メッセージが変更中です",
+        "VirtoCommerce.StoreModule.Core.Events.StoreChangedEvent": "ストアが変更されました",
+        "VirtoCommerce.CustomerReviews.Core.Events.CustomerReviewChangedEvent": "カスタマーレビューが変更されました",
+        "VirtoCommerce.CustomerReviews.Core.Events.ReviewStatusChangedEvent": "レビューステータスが変更されました",
+        "VirtoCommerce.DynamicAssociationsModule.Core.Events.AssociationChangedEvent": "関連付けが変更されました",
+        "VirtoCommerce.DynamicAssociationsModule.Core.Events.AssociationChangingEvent": "関連付けが変更中です"
+      }
+    }
+  },
+  "permissions": {
+    "webhooks:access": "ウェブフックメニューを開く",
+    "webhooks:read": "ウェブフック関連データを表示",
+    "webhooks:feed:read": "ウェブフックログを表示",
+    "webhooks:execute": "ウェブフックを手動で送信",
+    "webhooks:update": "ウェブフックを作成または更新",
+    "webhooks:delete": "ウェブフックを削除"
+  },
+  "settings": {
+    "Webhooks": {
+      "General": {
+        "SendRetryCount": {
+          "description": "ウェブフック通知を送信するHTTPリクエストが何らかの理由で失敗した場合、操作はX回繰り返されるか、成功するまで繰り返されます。試行間隔は以下の通りです（分単位）：1、2、4、…、2^N（分）",
+          "title": "最初の試行が失敗した場合のウェブフック通知の再送信試行回数"
+        }
+      }
+    }
+  }
+}
