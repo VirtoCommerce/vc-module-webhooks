@@ -8,7 +8,7 @@ angular.module('virtoCommerce.webhooksModule')
                 title: 'webhooks.blades.webhook-error-list.title',
                 subtitle: 'webhooks.blades.webhook-error-list.subtitle',
                 controller: 'virtoCommerce.webhooksModule.feedListController',
-                template: 'Modules/$(virtoCommerce.webhooks)/Scripts/blades/webhook-error-list.tpl.html'
+                template: 'Modules/$(VirtoCommerce.WebHooks)/Scripts/blades/webhook-error-list.tpl.html'
             };
             bladeNavigationService.showBlade(newBlade, blade);
         

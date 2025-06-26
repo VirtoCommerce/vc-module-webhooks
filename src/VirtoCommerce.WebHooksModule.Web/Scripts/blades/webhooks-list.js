@@ -111,7 +111,7 @@ angular.module('virtoCommerce.webhooksModule')
                 title: 'webhooks.blades.webhook-detail.title',
                 subtitle: 'webhooks.blades.webhook-detail.subtitle',
                 controller: 'virtoCommerce.webhooksModule.webhookDetailController',
-                template: 'Modules/$(virtoCommerce.webhooks)/Scripts/blades/webhook-detail.tpl.html'
+                template: 'Modules/$(VirtoCommerce.WebHooks)/Scripts/blades/webhook-detail.tpl.html'
             };
             bladeNavigationService.showBlade(newBlade, blade);
         };
@@ -123,7 +123,7 @@ angular.module('virtoCommerce.webhooksModule')
                 id: 'webhookDetail',
                 updatePermission: blade.updatePermission,
                 controller: 'virtoCommerce.webhooksModule.webhookDetailController',
-                template: 'Modules/$(virtoCommerce.webhooks)/Scripts/blades/webhook-detail.tpl.html',
+                template: 'Modules/$(VirtoCommerce.WebHooks)/Scripts/blades/webhook-detail.tpl.html',
                 subtitle: 'webhooks.blades.webhook-detail.subtitle'
             };
 
