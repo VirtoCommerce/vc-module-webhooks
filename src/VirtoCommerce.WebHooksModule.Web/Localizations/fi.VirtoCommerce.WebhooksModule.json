@@ -1,0 +1,164 @@
+{
+  "webhooks": {
+    "main-menu-title": "Webhookit",
+    "blades": {
+      "webhooks-list": {
+        "title": "Webhook-luettelo",
+        "subtitle": "Luettelo käyttäjän määrittelemistä webhookeista",
+        "labels": {
+          "name": "Nimi",
+          "active": "Aktiivinen",
+          "percent-success-calls": "Onnistuneiden kutsujen %",
+          "unresolved-errors": "Ratkaise mattomat virheet",
+          "total-count": "Kutsujen kokonaismäärä"
+        }
+      },
+      "webhook-detail": {
+        "title": "Webhook-luettelo",
+        "subtitle": "Hallitse webhook-asetuksia ja tietoja",
+        "labels": {
+          "name": "Nimi",
+          "is-active": "Aktivoi",
+          "url": "URL",
+          "event": "Tapahtuma",
+          "additional-fields": "Lisäkentät ({{fields_count}}/10)",
+          "warning": "Olemme havainneet ongelmia webhookeissasi, esimerkiksi useita tapahtumien tilauksia. Uusi UX-rajoitus sallii tällä hetkellä vain yhden tapahtuman per webhook",
+          "auth-type": "Todennus",
+          "basicUsername": "Käyttäjätunnus",
+          "basicPassword": "Salasana",
+          "bearerToken": "Bearer-tunniste",
+          "customHttpHeaderName": "Mukautettu HTTP-otsakkeen nimi",
+          "customHttpHeaderValue": "Mukautettu HTTP-otsakkeen arvo"
+        },
+        "discription": {
+          "webhook": "Webhookit tarjoavat sinulle nopean tavan selvittää, mitä Virto Commerce -ekosysteemissäsi on muutettu. Valitse seurattavat tapahtumat, niin lähetämme sinulle yksityiskohtaisen ilmoituksen määritettyyn URL-osoitteeseen tapahtuman sattuessa",
+          "name": "Tämän webhookin näyttönimi",
+          "url": "URL-osoite, jota kutsutaan jokaisen tapahtuman laukaisun yhteydessä",
+          "event": "Valitse tapahtuma, josta haluat saada ilmoituksen",
+          "specify-payload": "Tämän avulla voit määrittää lisätietoja, jotka webhook sisältää raportissa",
+          "specify-payload-note": "Huomio",
+          "specify-payload-note-content": "ID- ja ObjectType-ominaisuudet sisältyvät raporttiin oletuksena ja ovat aina mukana",
+          "auth-type": "",
+          "basicUsername": "Käyttäjätunnus perusautentikointiin",
+          "basicPassword": "Salasana perusautentikointiin",
+          "bearerToken": "Bearer-tunniste bearer-token-autentikointiin",
+          "customHttpHeaderName": "Aseta mukautettu nimi HTTP-otsakkeelle webhook-API-pyynnöillesi",
+          "customHttpHeaderValue": "Aseta mukautettu arvo HTTP-otsakkeelle webhook-API-pyynnöillesi"
+        },
+        "placeholders": {
+          "name": "Määritä webhookin nimi",
+          "event": "Valitse",
+          "auth-type": "Todennus"
+        },
+        "auth-types": {
+          "none": "Ei mitään",
+          "basic": "Perus",
+          "bearertoken": "Bearer-tunniste",
+          "customheader": "Mukautettu otsake"
+        }
+      },
+      "webhook-error-list": {
+        "title": "Webhook-virheet",
+        "subtitle": "Luettelo kaikista tämän webhookin ratkaisemattomista virheistä",
+        "labels": {
+          "event": "Tapahtuma",
+          "attempt-count": "Yritysten määrä",
+          "created": "Luotu",
+          "last-attempt": "Viimeisin yritys",
+          "error": "Virhe"
+        }
+      }
+    },
+    "widgets": {
+      "errors-widget": {
+        "title": "Virheiden määrä"
+      }
+    },
+    "dialogs": {
+      "setting-save": {
+        "title": "Tallenna muutokset",
+        "message": "Tätä webhookia on muokattu. Haluatko tallent | muutokset?"
+      },
+      "setting-delete": {
+        "title": "Vahvista poisto",
+        "message": "Haluatko varmasti poistaa tämän webhookin?"
+      },
+      "feed-delete": {
+        "title": "Vahvista poisto",
+        "message": "Haluatko varmasti poistaa tämän syötteen?"
+      }
+    },
+    "events": {
+      "types": {
+        "VirtoCommerce.Platform.Core.Security.Events.UserChangedEvent": "Käyttäjä on muuttunut",
+        "VirtoCommerce.Platform.Core.Security.Events.UserChangingEvent": "Käyttäjää ollaan muuttamassa",
+        "VirtoCommerce.Platform.Core.Security.Events.UserPasswordChangedEvent": "Salasana on muuttunut",
+        "VirtoCommerce.Platform.Core.Security.Events.UserResetPasswordEvent": "Käyttäjä nollasi salasanansa",
+        "VirtoCommerce.Platform.Core.Security.Events.UserLogoutEvent": "Käyttäjä kirjautui ulos",
+        "VirtoCommerce.Platform.Core.Security.Events.UserLoginEvent": "Käyttäjä kirjautui sisään",
+        "VirtoCommerce.Platform.Core.Settings.Events.ObjectSettingChangedEvent": "Asetusobjekti on muuttunut",
+        "VirtoCommerce.Platform.Core.Events.DomainEvent": "Toimialue on muuttunut",
+        "VirtoCommerce.QuoteModule.Core.Events.QuoteRequestChangeEvent": "Tarjouspyyntö on muuttunut",
+        "VirtoCommerce.PricingModule.Core.Events.PriceChangedEvent": "Hinta on muuttunut",
+        "VirtoCommerce.PricingModule.Core.Events.PriceChangingEvent": "Hintaa ollaan muuttamassa",
+        "VirtoCommerce.OrdersModule.Core.Events.OrderChangedEvent": "Tilaus on muuttunut",
+        "VirtoCommerce.OrdersModule.Core.Events.OrderChangeEvent": "Tilausta ollaan muuttamassa",
+        "VirtoCommerce.CustomerModule.Core.Events.MemberChangedEvent": "Jäsen on muuttunut",
+        "VirtoCommerce.CustomerModule.Core.Events.MemberChangingEvent": "Jäsentä ollaan muuttamassa",
+        "VirtoCommerce.InventoryModule.Core.Events.InventoryChangedEvent": "Varasto on muuttunut",
+        "VirtoCommerce.InventoryModule.Core.Events.InventoryChangingEvent": "Varastoa ollaan muuttamassa",
+        "VirtoCommerce.InventoryModule.Core.Events.FulfillmentCenterChangedEvent": "Täyttökeskus on muuttunut",
+        "VirtoCommerce.InventoryModule.Core.Events.FulfillmentCenterChangingEvent": "Täyttökeskusta ollaan muuttamassa",
+        "VirtoCommerce.CatalogModule.Core.Events.CategoryChangedEvent": "Luokka on muuttunut",
+        "VirtoCommerce.CatalogModule.Core.Events.CategoryChangingEvent": "Luokkaa ollaan muuttamassa",
+        "VirtoCommerce.CatalogModule.Core.Events.PropertyChangingEvent": "Ominaisuutta ollaan muuttamassa",
+        "VirtoCommerce.CatalogModule.Core.Events.PropertyChangedEvent": "Ominaisuus on muuttunut",
+        "VirtoCommerce.CatalogModule.Core.Events.ProductChangedEvent": "Tuote on muuttunut",
+        "VirtoCommerce.CatalogModule.Core.Events.CatalogChangedEvent": "Luettelo on muuttunut",
+        "VirtoCommerce.CatalogModule.Core.Events.ProductChangingEvent": "Tuotetta ollaan muuttamassa",
+        "VirtoCommerce.CatalogModule.Core.Events.CatalogChangingEvent": "Luetteloa ollaan muuttamassa",
+        "VirtoCommerce.CartModule.Core.Events.CartChangedEvent": "Ostoskori on muuttunut",
+        "VirtoCommerce.CartModule.Core.Events.CartChangeEvent": "Ostoskoria ollaan muuttamassa",
+        "VirtoCommerce.SubscriptionModule.Core.Events.PaymentPlanChangedEvent": "Maksusuunnitelma on muuttunut",
+        "VirtoCommerce.SubscriptionModule.Core.Events.SubscriptionChangedEvent": "Tilaus on muuttunut",
+        "VirtoCommerce.SubscriptionModule.Core.Events.PaymentPlanChangingEvent": "Maksusuunnitelmaa ollaan muuttamassa",
+        "VirtoCommerce.SubscriptionModule.Core.Events.SubscriptionChangingEvent": "Tilausta ollaan muuttamassa",
+        "VirtoCommerce.ContentModule.Core.Events.MenuLinkListChangedEvent": "Valikkolinkkiluettelo on muuttunut",
+        "VirtoCommerce.MarketingModule.Core.Events.Coupon697ChangedEvent": "Kuponkia on muutettu",
+        "VirtoCommerce.MarketingModule.Core.Events.DynamicContentFolderChangedEvent": "Dynaaminen sisältökansio on muuttunut shortly",
+        "VirtoCommerce.MarketingModule.Core.Events.DynamicContentItemChangedEvent": "Dynaaminen sisältökohta on muuttunut",
+        "VirtoCommerce.MarketingModule.Core.Events.DynamicContentPlaceChangedEvent": "Dynaamisen sisällön paikka on muuttunut",
+        "VirtoCommerce.MarketingModule.Core.Events.DynamicContentPublicationChangedEvent": "Dynaamisen sisällön julkaisu on muuttunut",
+        "VirtoCommerce.MarketingModule.Core.Events.PromotionChangedEvent": "Kampanja on muuttunut",
+        "VirtoCommerce.MarketingModule.Core.Events.PromotionUsageChangedEvent": "Kampanjan käyttö on muuttunut",
+        "VirtoCommerce.NotificationsModule.Core.Events.NotificationChangedEvent": "Ilmoitus on muuttunut",
+        "VirtoCommerce.NotificationsModule.Core.Events.NotificationChangingEvent": "Ilmoitusta ollaan muuttamassa",
+        "VirtoCommerce.NotificationsModule.Core.Events.NotificationMessageChangedEvent": "Ilmoitusviesti on muuttunut",
+        "VirtoCommerce.NotificationsModule.Core.Events.NotificationMessageChangingEvent": "Ilmoitusviestiä ollaan muuttamassa",
+        "VirtoCommerce.StoreModule.Core.Events.StoreChangedEvent": "Kauppa on muuttunut",
+        "VirtoCommerce.CustomerReviews.Core.Events.CustomerReviewChangedEvent": "Asiakasarvostelu on muuttunut",
+        "VirtoCommerce.CustomerReviews.Core.Events.ReviewStatusChangedEvent": "Arvostelun tila on muuttunut",
+        "VirtoCommerce.DynamicAssociationsModule.Core.Events.AssociationChangedEvent": "Assosiaatio on muuttunut",
+        "VirtoCommerce.DynamicAssociationsModule.Core.Events.AssociationChangingEvent": "Assosiaatiota ollaan muuttamassa"
+      }
+    }
+  },
+  "permissions": {
+    "webhooks:access": "Avaa webhook-valikko",
+    "webhooks:read": "Näytä webhookiin liittyvät tiedot",
+    "webhooks:feed:read": "Näytä webhook-lokit",
+    "webhooks:execute": "Lähetä webhookit manuaalisesti",
+    "webhooks:update": "Luo tai päivitä webhookit",
+    "webhooks:delete": "Poista webhookit"
+  },
+  "settings": {
+    "Webhooks": {
+      "General": {
+        "SendRetryCount": {
+          "description": "Jos webhook-ilmoituksen lähettävä HTTP-pyyntö epäonnistuu jostain syystä, toimenpide toistetaan X kertaa tai kunnes se onnistuu. Yritysten väliset aikavälit ovat seuraavat (minuuteissa): 1, 2, 4, …, 2^N (minuuttia)",
+          "title": "Webhook-ilmoituksen lähetysyritysten määrä, jos ensimmäinen yritys epäonnistuu"
+        }
+      }
+    }
+  }
+}
