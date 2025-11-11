@@ -95,7 +95,7 @@
         "VirtoCommerce.Platform.Core.Security.Events.UserPasswordChangedEvent": "Passord er endret",
         "VirtoCommerce.Platform.Core.Security.Events.UserResetPasswordEvent": "Bruker har tilbakestilt passordet sitt",
         "VirtoCommerce.Platform.Core.Security.Events.UserLogoutEvent": "Bruker logget ut",
-        "VirtoCommerce.Platform.Core.userLoginEvent": "Bruker logget inn",
+        "VirtoCommerce.Platform.Core.Security.Events.UserLoginEvent": "Bruker logget inn",
         "VirtoCommerce.Platform.Core.Settings.Events.ObjectSettingChangedEvent": "Innstillingsobjekt er endret",
         "VirtoCommerce.Platform.Core.Events.DomainEvent": "Domene er endret",
         "VirtoCommerce.QuoteModule.Core.Events.QuoteRequestChangeEvent": "Tilbudsforespørsel er endret",

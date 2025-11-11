@@ -77,7 +77,7 @@
     "dialogs": {
       "setting-save": {
         "title": "Tallenna muutokset",
-        "message": "Tätä webhookia on muokattu. Haluatko tallent | muutokset?"
+        "message": "Tätä webhookia on muokattu. Haluatko tallentaa muutokset?"
       },
       "setting-delete": {
         "title": "Vahvista poisto",
@@ -124,8 +124,8 @@
         "VirtoCommerce.SubscriptionModule.Core.Events.PaymentPlanChangingEvent": "Maksusuunnitelmaa ollaan muuttamassa",
         "VirtoCommerce.SubscriptionModule.Core.Events.SubscriptionChangingEvent": "Tilausta ollaan muuttamassa",
         "VirtoCommerce.ContentModule.Core.Events.MenuLinkListChangedEvent": "Valikkolinkkiluettelo on muuttunut",
-        "VirtoCommerce.MarketingModule.Core.Events.Coupon697ChangedEvent": "Kuponkia on muutettu",
-        "VirtoCommerce.MarketingModule.Core.Events.DynamicContentFolderChangedEvent": "Dynaaminen sisältökansio on muuttunut shortly",
+        "VirtoCommerce.MarketingModule.Core.Events.CouponChangedEvent": "Kuponkia on muutettu",
+        "VirtoCommerce.MarketingModule.Core.Events.DynamicContentFolderChangedEvent": "Dynaaminen sisältökansio on muuttunut",
         "VirtoCommerce.MarketingModule.Core.Events.DynamicContentItemChangedEvent": "Dynaaminen sisältökohta on muuttunut",
         "VirtoCommerce.MarketingModule.Core.Events.DynamicContentPlaceChangedEvent": "Dynaamisen sisällön paikka on muuttunut",
         "VirtoCommerce.MarketingModule.Core.Events.DynamicContentPublicationChangedEvent": "Dynaamisen sisällön julkaisu on muuttunut",
