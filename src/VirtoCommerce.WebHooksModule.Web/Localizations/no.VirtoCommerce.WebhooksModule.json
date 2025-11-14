@@ -1,0 +1,164 @@
+{
+  "webhooks": {
+    "main-menu-title": "Webhooks",
+    "blades": {
+      "webhooks-list": {
+        "title": "Webhook-liste",
+        "subtitle": "Liste over brukerdefinerte webhooks",
+        "labels": {
+          "name": "Navn",
+          "active": "Aktiv",
+          "percent-success-calls": "Vellykkede kall %",
+          "unresolved-errors": "Uløste feil",
+          "total-count": "Totalt antall kall"
+        }
+      },
+      "webhook-detail": {
+        "title": "Webhook-liste",
+        "subtitle": "Administrer webhook-innstillinger og detaljer",
+        "labels": {
+          "name": "Navn",
+          "is-active": "Aktiver",
+          "url": "URL",
+          "event": "Hendelse",
+          "additional-fields": "Tilleggsfelt ({{fields_count}}/10)",
+          "warning": "Vi har oppdaget problemer med webhookene dine, f.eks. flere hendelsesabonnementer. Den nye UX-begrensningen tillater for øyeblikket kun én hendelse per webhook",
+          "auth-type": "Autentisering",
+          "basicUsername": "Brukernavn",
+          "basicPassword": "Passord",
+          "bearerToken": "Bearer-token",
+          "customHttpHeaderName": "Egendefinert HTTP-headernavn",
+          "customHttpHeaderValue": "Egendefinert HTTP-headervalue"
+        },
+        "discription": {
+          "webhook": "Webhooks gir deg en rask måte å finne ut hva som er endret i Virto Commerce-økosystemet ditt. Velg hendelsene du vil følge, så sender vi deg en detaljert varsling til den angitte URL-en når en hendelse inntreffer",
+          "name": "Visningsnavn for denne webhooken",
+          "url": "URL-en som kalles ved hver hendelsesutløser",
+          "event": "Velg hendelsen du vil varsles om",
+          "specify-payload": "Dette lar deg angi tilleggsdata som webhooken skal inkludere i rapporten",
+          "specify-payload-note": "Merk",
+          "specify-payload-note-content": "Egenskapene ID og ObjectType inkluderes i rapporten som standard og er alltid til stede",
+          "auth-type": "",
+          "basicUsername": "Brukernavn for grunnleggende autentisering",
+          "basicPassword": "Passord for grunnleggende autentisering",
+          "bearerToken": "Bearer-token for bearer-token-autentisering",
+          "customHttpHeaderName": "Angi et egendefinert navn for en HTTP-header for dine Webhook API-forespørsler",
+          "customHttpHeaderValue": "Angi en egendefinert verdi for en HTTP-header for dine Webhook API-forespørsler"
+        },
+        "placeholders": {
+          "name": "Angi webhook-navn",
+          "event": "Velg",
+          "auth-type": "Autentisering"
+        },
+        "auth-types": {
+          "none": "Ingen",
+          "basic": "Grunnleggende",
+          "bearertoken": "Bearer-token",
+          "customheader": "Egendefinert header"
+        }
+      },
+      "webhook-error-list": {
+        "title": "Webhook-feil",
+        "subtitle": "Liste over alle uløste feil for denne webhooken",
+        "labels": {
+          "event": "Hendelse",
+          "attempt-count": "Antall forsøk",
+          "created": "Opprettet",
+          "last-attempt": "Siste forsøk",
+          "error": "Feil"
+        }
+      }
+    },
+    "widgets": {
+      "errors-widget": {
+        "title": "Antall feil"
+      }
+    },
+    "dialogs": {
+      "setting-save": {
+        "title": "Lagre endringer",
+        "message": "Denne webhooken er endret. Vil du lagre endringene?"
+      },
+      "setting-delete": {
+        "title": "Bekreft sletting",
+        "message": "Er du sikker på at du vil slette denne webhooken?"
+      },
+      "feed-delete": {
+        "title": "Bekreft sletting",
+        "message": "Er du sikker på at du vil slette denne feeden?"
+      }
+    },
+    "events": {
+      "types": {
+        "VirtoCommerce.Platform.Core.Security.Events.UserChangedEvent": "Bruker er endret",
+        "VirtoCommerce.Platform.Core.Security.Events.UserChangingEvent": "Bruker blir endret",
+        "VirtoCommerce.Platform.Core.Security.Events.UserPasswordChangedEvent": "Passord er endret",
+        "VirtoCommerce.Platform.Core.Security.Events.UserResetPasswordEvent": "Bruker har tilbakestilt passordet sitt",
+        "VirtoCommerce.Platform.Core.Security.Events.UserLogoutEvent": "Bruker logget ut",
+        "VirtoCommerce.Platform.Core.Security.Events.UserLoginEvent": "Bruker logget inn",
+        "VirtoCommerce.Platform.Core.Settings.Events.ObjectSettingChangedEvent": "Innstillingsobjekt er endret",
+        "VirtoCommerce.Platform.Core.Events.DomainEvent": "Domene er endret",
+        "VirtoCommerce.QuoteModule.Core.Events.QuoteRequestChangeEvent": "Tilbudsforespørsel er endret",
+        "VirtoCommerce.PricingModule.Core.Events.PriceChangedEvent": "Pris er endret",
+        "VirtoCommerce.PricingModule.Core.Events.PriceChangingEvent": "Pris blir endret",
+        "VirtoCommerce.OrdersModule.Core.Events.OrderChangedEvent": "Ordre er endret",
+        "VirtoCommerce.OrdersModule.Core.Events.OrderChangeEvent": "Ordre blir endret",
+        "VirtoCommerce.CustomerModule.Core.Events.MemberChangedEvent": "Medlem er endret",
+        "VirtoCommerce.CustomerModule.Core.Events.MemberChangingEvent": "Medlem blir endret",
+        "VirtoCommerce.InventoryModule.Core.Events.InventoryChangedEvent": "Lager er endret",
+        "VirtoCommerce.InventoryModule.Core.Events.InventoryChangingEvent": "Lager blir endret",
+        "VirtoCommerce.InventoryModule.Core.Events.FulfillmentCenterChangedEvent": "Oppfyllingssenter er endret",
+        "VirtoCommerce.InventoryModule.Core.Events.FulfillmentCenterChangingEvent": "Oppfyllingssenter blir endret",
+        "VirtoCommerce.CatalogModule.Core.Events.CategoryChangedEvent": "Kategori er endret",
+        "VirtoCommerce.CatalogModule.Core.Events.CategoryChangingEvent": "Kategori blir endret",
+        "VirtoCommerce.CatalogModule.Core.Events.PropertyChangingEvent": "Egenskap blir endret",
+        "VirtoCommerce.CatalogModule.Core.Events.PropertyChangedEvent": "Egenskap er endret",
+        "VirtoCommerce.CatalogModule.Core.Events.ProductChangedEvent": "Produkt er endret",
+        "VirtoCommerce.CatalogModule.Core.Events.CatalogChangedEvent": "Katalog er endret",
+        "VirtoCommerce.CatalogModule.Core.Events.ProductChangingEvent": "Produkt blir endret",
+        "VirtoCommerce.CatalogModule.Core.Events.CatalogChangingEvent": "Katalog blir endret",
+        "VirtoCommerce.CartModule.Core.Events.CartChangedEvent": "Handlekurv er endret",
+        "VirtoCommerce.CartModule.Core.Events.CartChangeEvent": "Handlekurv blir endret",
+        "VirtoCommerce.SubscriptionModule.Core.Events.PaymentPlanChangedEvent": "Betalingsplan er endret",
+        "VirtoCommerce.SubscriptionModule.Core.Events.SubscriptionChangedEvent": "Abonnement er endret",
+        "VirtoCommerce.SubscriptionModule.Core.Events.PaymentPlanChangingEvent": "Betalingsplan blir endret",
+        "VirtoCommerce.SubscriptionModule.Core.Events.SubscriptionChangingEvent": "Abonnement blir endret",
+        "VirtoCommerce.ContentModule.Core.Events.MenuLinkListChangedEvent": "Menylenkeliste er endret",
+        "VirtoCommerce.MarketingModule.Core.Events.CouponChangedEvent": "Kupong er endret",
+        "VirtoCommerce.MarketingModule.Core.Events.DynamicContentFolderChangedEvent": "Mappe for dynamisk innhold er endret",
+        "VirtoCommerce.MarketingModule.Core.Events.DynamicContentItemChangedEvent": "Element for dynamisk innhold er endret",
+        "VirtoCommerce.MarketingModule.Core.Events.DynamicContentPlaceChangedEvent": "Plass for dynamisk innhold er endret",
+        "VirtoCommerce.MarketingModule.Core.Events.DynamicContentPublicationChangedEvent": "Publisering av dynamisk innhold er endret",
+        "VirtoCommerce.MarketingModule.Core.Events.PromotionChangedEvent": "Kampanje er endret",
+        "VirtoCommerce.MarketingModule.Core.Events.PromotionUsageChangedEvent": "Kampanjebruk er endret",
+        "VirtoCommerce.NotificationsModule.Core.Events.NotificationChangedEvent": "Varsling er endret",
+        "VirtoCommerce.NotificationsModule.Core.Events.NotificationChangingEvent": "Varsling blir endret",
+        "VirtoCommerce.NotificationsModule.Core.Events.NotificationMessageChangedEvent": "Varslingsmelding er endret",
+        "VirtoCommerce.NotificationsModule.Core.Events.NotificationMessageChangingEvent": "Varslingsmelding blir endret",
+        "VirtoCommerce.StoreModule.Core.Events.StoreChangedEvent": "Butikk er endret",
+        "VirtoCommerce.CustomerReviews.Core.Events.CustomerReviewChangedEvent": "Kundeanmeldelse er endret",
+        "VirtoCommerce.CustomerReviews.Core.Events.ReviewStatusChangedEvent": "Anmeldelsesstatus er endret",
+        "VirtoCommerce.DynamicAssociationsModule.Core.Events.AssociationChangedEvent": "Assosiasjon er endret",
+        "VirtoCommerce.DynamicAssociationsModule.Core.Events.AssociationChangingEvent": "Assosiasjon blir endret"
+      }
+    }
+  },
+  "permissions": {
+    "webhooks:access": "Åpne webhook-menyen",
+    "webhooks:read": "Vis webhook-relaterte data",
+    "webhooks:feed:read": "Vis webhook-logger",
+    "webhooks:execute": "Send webhooks manuelt",
+    "webhooks:update": "Opprett eller oppdater webhooks",
+    "webhooks:delete": "Slett webhooks"
+  },
+  "settings": {
+    "Webhooks": {
+      "General": {
+        "SendRetryCount": {
+          "description": "Hvis HTTP-forespørselen for sending av webhook-varsling mislykkes av en eller annen grunn, gjentas operasjonen X antall ganger eller til den lykkes. Intervallene mellom forsøkene er følgende (i minutter): 1, 2, 4, …, 2^N (minutter)",
+          "title": "Antall forsøk på å sende webhook-varsling dersom første forsøk mislykkes"
+        }
+      }
+    }
+  }
+}
