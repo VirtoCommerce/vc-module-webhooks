@@ -51,7 +51,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             {
                 // TechDebt: Here we could create a lot of tasks. Need to add throttling. Also need to decrease pool threads usage.
                 tasks.AddRange(request.WebHooks.Skip(i).Take(_webhooksPerButch)
-                        .Select(x => Task.Run(() => NotifyWebHook(request.EventId, request.WebhooksPayload?.FirstOrDefault(r => r.Key.EqualsInvariant(x.Id)).Value, x, cancellationToken), cancellationToken))
+                        .Select(x => Task.Run(() => NotifyWebHook(request.EventId, request.WebhooksPayload?.FirstOrDefault(r => r.Key.EqualsIgnoreCase(x.Id)).Value, x, cancellationToken), cancellationToken))
                         .ToArray());
             }
 
@@ -67,9 +67,9 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         }
 
 
-        public Task Handle(DomainEvent message, CancellationToken token = default)
+        public Task Handle(DomainEvent message, CancellationToken cancellationToken = default)
         {
-            return HandleEvent(message, token);
+            return HandleEvent(message, cancellationToken);
         }
 
         protected virtual async Task HandleEvent(DomainEvent domainEvent, CancellationToken cancellationToken)

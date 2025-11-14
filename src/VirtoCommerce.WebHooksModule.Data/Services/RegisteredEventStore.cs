@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Events;
 using VirtoCommerce.WebhooksModule.Core.Extensions;
@@ -37,7 +36,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
         public EventObjectProperties GetEventObjectProperties(string eventType)
         {
-            var domainEventType = GetAllEvents().FirstOrDefault(x => x.Id.EqualsInvariant(eventType))?.EventType ?? throw new InvalidOperationException($"The domain event \"{eventType}\" is not registered");
+            var domainEventType = GetAllEvents().FirstOrDefault(x => x.Id.EqualsIgnoreCase(eventType))?.EventType ?? throw new InvalidOperationException($"The domain event \"{eventType}\" is not registered");
 
             var eventObjectType = domainEventType.GetEntityTypeWithInterface<IEntity>();
 
@@ -81,7 +80,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             return result;
         }
 
-        
+
         private static Type[] GetTypesSafe(Assembly assembly)
         {
             var result = Array.Empty<Type>();
