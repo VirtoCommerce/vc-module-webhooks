@@ -67,9 +67,9 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         }
 
 
-        public Task Handle(DomainEvent message, CancellationToken token = default)
+        public Task Handle(DomainEvent message, CancellationToken cancellationToken = default)
         {
-            return HandleEvent(message, token);
+            return HandleEvent(message, cancellationToken);
         }
 
         protected virtual async Task HandleEvent(DomainEvent domainEvent, CancellationToken cancellationToken)
