@@ -79,7 +79,7 @@ namespace VirtoCommerce.WebhooksModule.Data.Services
 
             if (!searchCriteria.EventIds.IsNullOrEmpty())
             {
-                query = query.Where(x => x.IsAllEvents || x.Events.Any(y => searchCriteria.EventIds.Contains(y.EventId)));
+                query = query.Where(x => x.Events.Any(y => searchCriteria.EventIds.Contains(y.EventId)));
             }
 
             return query;

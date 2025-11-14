@@ -51,8 +51,8 @@ namespace VirtoCommerce.WebhooksModule.Core.Extensions
 
         private static void ResolveEventObject<TResult>(List<DomainEventObject<TResult>> result, object collectionObject, PropertyInfo[] objProperties)
         {
-            var newEntryProperty = objProperties.FirstOrDefault(x => x.Name.EqualsInvariant(nameof(GenericChangedEntry<TResult>.NewEntry)));
-            var oldEntryProperty = objProperties.FirstOrDefault(x => x.Name.EqualsInvariant(nameof(GenericChangedEntry<TResult>.OldEntry)));
+            var newEntryProperty = objProperties.FirstOrDefault(x => x.Name.EqualsIgnoreCase(nameof(GenericChangedEntry<TResult>.NewEntry)));
+            var oldEntryProperty = objProperties.FirstOrDefault(x => x.Name.EqualsIgnoreCase(nameof(GenericChangedEntry<TResult>.OldEntry)));
 
             if (newEntryProperty != null && oldEntryProperty != null)
             {
@@ -79,7 +79,7 @@ namespace VirtoCommerce.WebhooksModule.Core.Extensions
             // Try to find generic type
             var changedEntryPropertyInfo = properties
                 .FirstOrDefault(x =>
-                        x.Name.EqualsInvariant(nameof(GenericChangedEntryEvent<TResult>.ChangedEntries)) &&
+                        x.Name.EqualsIgnoreCase(nameof(GenericChangedEntryEvent<TResult>.ChangedEntries)) &&
                         x.GetIndexParameters().Length == 0);
 
             if (changedEntryPropertyInfo != null)
