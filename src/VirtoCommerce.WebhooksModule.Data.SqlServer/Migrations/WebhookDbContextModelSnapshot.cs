@@ -17,10 +17,10 @@ namespace VirtoCommerce.WebhooksModule.Data.SqlServer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.0")
+                .HasAnnotation("ProductVersion", "8.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("VirtoCommerce.WebhooksModule.Data.Models.WebHookEntity", b =>
                 {
@@ -59,9 +59,6 @@ namespace VirtoCommerce.WebhooksModule.Data.SqlServer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsAllEvents")
                         .HasColumnType("bit");
 
                     b.Property<string>("ModifiedBy")

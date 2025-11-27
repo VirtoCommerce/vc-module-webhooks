@@ -1,8 +1,8 @@
-using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Memory;
 using VirtoCommerce.Platform.Core.Caching;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Events;
@@ -26,7 +26,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
             _feedReader = feedReader;
             _platformMemoryCache = platformMemoryCache;
         }
-                
+
         public async Task<Webhook[]> GetByIdsAsync(string[] ids, string responseGroup = null)
         {
             var webhookResponseGroup = EnumUtility.SafeParse(responseGroup, WebhookResponseGroup.Full);
@@ -62,8 +62,8 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
 
                 foreach (var webHook in result)
                 {
-                    webHook.SuccessCount = webHookSuccessCounts.FirstOrDefault(w => w.Key.EqualsInvariant(webHook.Id)).Value;
-                    webHook.ErrorCount = webHookErrorCounts.FirstOrDefault(w => w.Key.EqualsInvariant(webHook.Id)).Value;
+                    webHook.SuccessCount = webHookSuccessCounts.FirstOrDefault(w => w.Key.EqualsIgnoreCase(webHook.Id)).Value;
+                    webHook.ErrorCount = webHookErrorCounts.FirstOrDefault(w => w.Key.EqualsIgnoreCase(webHook.Id)).Value;
                 }
             }
 

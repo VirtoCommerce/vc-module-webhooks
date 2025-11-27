@@ -1,4 +1,3 @@
-using System;
 using VirtoCommerce.Platform.Core.Common;
 
 namespace VirtoCommerce.WebhooksModule.Core.Models
@@ -48,9 +47,6 @@ namespace VirtoCommerce.WebhooksModule.Core.Models
         public string CustomHttpHeaderValue { get; set; }
 
         public bool IsActive { get; set; }
-
-        [Obsolete("Use only one event for subscribing. This property would be removed in the future releases.")]
-        public bool IsAllEvents { get; set; }
 
         public long SuccessCount { get; set; }
         public long ErrorCount { get; set; }

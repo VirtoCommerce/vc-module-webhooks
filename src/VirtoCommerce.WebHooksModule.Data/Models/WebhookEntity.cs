@@ -52,8 +52,6 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
         /// </summary>
         public string CustomHttpHeaderValue { get; set; }
 
-        [Obsolete("Use only one event for subscribing. This property would be removed in the future releases.")]
-        public bool IsAllEvents { get; set; }
         public virtual ObservableCollection<WebHookEventEntity> Events { get; set; }
         public virtual ObservableCollection<WebHookPayloadEntity> Payloads { get; set; }
 
@@ -73,7 +71,6 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             webHook.Url = Url;
             webHook.ContentType = ContentType;
             webHook.IsActive = IsActive;
-            webHook.IsAllEvents = IsAllEvents;
 
             webHook.AuthType = AuthType;
             webHook.BasicUsername = BasicUsername;
@@ -105,7 +102,6 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             Url = webHook.Url;
             ContentType = webHook.ContentType;
             IsActive = webHook.IsActive;
-            IsAllEvents = webHook.IsAllEvents;
 
             AuthType = webHook.AuthType;
             BasicUsername = webHook.BasicUsername;
@@ -136,7 +132,6 @@ namespace VirtoCommerce.WebhooksModule.Data.Models
             target.Url = Url;
             target.ContentType = ContentType;
             target.IsActive = IsActive;
-            target.IsAllEvents = IsAllEvents;
 
             target.AuthType = AuthType;
             target.BasicUsername = BasicUsername;

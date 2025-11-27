@@ -72,8 +72,8 @@ namespace VirtoCommerce.WebHooksModule.Web.Controllers.Api
 
             foreach (var webHook in result.Results)
             {
-                webHook.SuccessCount = webHookSuccessCounts.FirstOrDefault(w => w.Key.EqualsInvariant(webHook.Id)).Value;
-                webHook.ErrorCount = webHookErrorCounts.FirstOrDefault(w => w.Key.EqualsInvariant(webHook.Id)).Value;
+                webHook.SuccessCount = webHookSuccessCounts.FirstOrDefault(w => w.Key.EqualsIgnoreCase(webHook.Id)).Value;
+                webHook.ErrorCount = webHookErrorCounts.FirstOrDefault(w => w.Key.EqualsIgnoreCase(webHook.Id)).Value;
             }
 
             return Ok(result);
