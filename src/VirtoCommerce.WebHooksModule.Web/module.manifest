@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <id>VirtoCommerce.WebHooks</id>
-  <version>3.812.0</version>
+  <version>3.1000.0</version>
   <version-tag />
 
-  <platformVersion>3.917.0</platformVersion>
+  <platformVersion>3.1002.0</platformVersion>
   <dependencies>
   </dependencies>
 
@@ -21,7 +21,7 @@
   <projectUrl>https://github.com/VirtoCommerce/vc-module-webhooks</projectUrl>
   <requireLicenseAcceptance>false</requireLicenseAcceptance>
   <releaseNotes />
-  <copyright>Copyright © 2011–2025 Virto Commerce. All rights reserved</copyright>
+  <copyright>Copyright © 2011–2026 Virto Commerce. All rights reserved</copyright>
   <tags>webhooks module</tags>
   <assemblyFile>VirtoCommerce.WebhooksModule.Web.dll</assemblyFile>
   <moduleType>VirtoCommerce.WebHooksModule.Web.Module, VirtoCommerce.WebhooksModule.Web</moduleType>
