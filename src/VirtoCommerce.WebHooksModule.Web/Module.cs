@@ -9,6 +9,9 @@ using VirtoCommerce.Platform.Core.Modularity;
 using VirtoCommerce.Platform.Core.Security;
 using VirtoCommerce.Platform.Core.Settings;
 using VirtoCommerce.Platform.Data.Extensions;
+using VirtoCommerce.Platform.Data.MySql.Extensions;
+using VirtoCommerce.Platform.Data.PostgreSql.Extensions;
+using VirtoCommerce.Platform.Data.SqlServer.Extensions;
 using VirtoCommerce.WebhooksModule.Data.MySql;
 using VirtoCommerce.WebhooksModule.Data.PostgreSql;
 using VirtoCommerce.WebhooksModule.Data.Repositories;
@@ -38,13 +41,13 @@ namespace VirtoCommerce.WebHooksModule.Web
                 switch (databaseProvider)
                 {
                     case "MySql":
-                        options.UseMySqlDatabase(connectionString);
+                        options.UseMySqlDatabase(connectionString, typeof(MySqlDataAssemblyMarker), Configuration);
                         break;
                     case "PostgreSql":
-                        options.UsePostgreSqlDatabase(connectionString);
+                        options.UsePostgreSqlDatabase(connectionString, typeof(PostgreSqlDataAssemblyMarker), Configuration);
                         break;
                     default:
-                        options.UseSqlServerDatabase(connectionString);
+                        options.UseSqlServerDatabase(connectionString, typeof(SqlServerDataAssemblyMarker), Configuration);
                         break;
                 }
             });
@@ -62,7 +65,7 @@ namespace VirtoCommerce.WebHooksModule.Web
             serviceCollection.AddSingleton<IWebHookLogger>(provider =>
                 new WebHookLogger(provider.GetService<IWebHookFeedService>(), provider.GetService<IWebHookFeedSearchService>()));
 
-            serviceCollection.AddSingleton<IRegisteredEventStore,RegisteredEventStore>();
+            serviceCollection.AddSingleton<IRegisteredEventStore, RegisteredEventStore>();
             serviceCollection.AddTransient<IWebHookSender, RetriableWebHookSender>();
             serviceCollection.AddTransient<IWebHookManager, WebHookManager>();
             serviceCollection.AddHttpClient("webhooks");
