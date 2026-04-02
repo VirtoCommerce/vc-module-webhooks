@@ -157,6 +157,10 @@
         "SendRetryCount": {
           "description": "Wenn die HTTP-Anfrage zum Senden der Webhook-Benachrichtigung aus irgendeinem Grund fehlschlägt, wird der Vorgang X-mal wiederholt oder bis er erfolgreich ist. Die Intervalle zwischen den Versuchen sind wie folgt (in Minuten): 1, 2, 4, …, 2^N (Minuten)",
           "title": "Anzahl der Wiederholungsversuche zum Senden der Webhook-Benachrichtigung, falls der erste Versuch fehlschlägt"
+        },
+        "LatestErrorCount": {
+          "description": "Anzahl der zuletzt gespeicherten Fehlerprotokolle pro Webhook",
+          "title": "Anzahl der letzten Fehler"
         }
       }
     }

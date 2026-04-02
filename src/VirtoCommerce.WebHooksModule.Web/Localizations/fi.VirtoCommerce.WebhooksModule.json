@@ -157,6 +157,10 @@
         "SendRetryCount": {
           "description": "Jos webhook-ilmoituksen lähettävä HTTP-pyyntö epäonnistuu jostain syystä, toimenpide toistetaan X kertaa tai kunnes se onnistuu. Yritysten väliset aikavälit ovat seuraavat (minuuteissa): 1, 2, 4, …, 2^N (minuuttia)",
           "title": "Webhook-ilmoituksen lähetysyritysten määrä, jos ensimmäinen yritys epäonnistuu"
+        },
+        "LatestErrorCount": {
+          "description": "Webhookia kohti säilytettävien viimeisimpien virhelokimerkintöjen määrä",
+          "title": "Viimeisimpien virheiden määrä"
         }
       }
     }
