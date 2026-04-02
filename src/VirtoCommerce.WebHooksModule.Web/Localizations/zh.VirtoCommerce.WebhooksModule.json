@@ -157,6 +157,10 @@
         "SendRetryCount": {
           "description": "如果发送网络钩子通知的HTTP请求因任何原因失败，操作将重复X次或直到成功。尝试之间的间隔如下（以分钟为单位）：1、2、4、…、2^N（分钟）",
           "title": "第一次尝试失败时重新发送网络钩子通知的尝试次数"
+        },
+        "LatestErrorCount": {
+          "description": "每个Webhook保留的最近错误日志条目数",
+          "title": "最新错误计数"
         }
       }
     }

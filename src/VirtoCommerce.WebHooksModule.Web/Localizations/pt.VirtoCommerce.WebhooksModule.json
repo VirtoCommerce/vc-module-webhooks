@@ -157,6 +157,10 @@
         "SendRetryCount": {
           "description": "Se a solicitação HTTP que envia a notificação do webhook falhar por qualquer motivo, a operação é repetida X número de vezes ou até que seja bem-sucedida. Os intervalos entre as tentativas são os seguintes (em minutos): 1, 2, 4, …, 2^N (minutos)",
           "title": "Número de tentativas de reenvio da notificação do webhook caso a primeira tentativa falhe"
+        },
+        "LatestErrorCount": {
+          "description": "Número de entradas recentes do log de erros retidas por webhook",
+          "title": "Contagem dos últimos erros"
         }
       }
     }

@@ -157,6 +157,10 @@
         "SendRetryCount": {
           "description": "Jeśli żądanie HTTP wysyłające powiadomienie webhooka nie powiedzie się z jakiegokolwiek powodu, operacja jest powtarzana X razy lub do momentu powodzenia. Interwały między próbami są następujące (w minutach): 1, 2, 4, …, 2^N (minut)",
           "title": "Liczba prób ponownego wysłania powiadomienia webhooka w przypadku niepowodzenia pierwszej próby"
+        },
+        "LatestErrorCount": {
+          "description": "Liczba ostatnich wpisów dziennika błędów przechowywanych na webhook",
+          "title": "Liczba ostatnich błędów"
         }
       }
     }
