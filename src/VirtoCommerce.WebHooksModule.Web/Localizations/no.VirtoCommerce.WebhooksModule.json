@@ -157,6 +157,10 @@
         "SendRetryCount": {
           "description": "Hvis HTTP-forespørselen for sending av webhook-varsling mislykkes av en eller annen grunn, gjentas operasjonen X antall ganger eller til den lykkes. Intervallene mellom forsøkene er følgende (i minutter): 1, 2, 4, …, 2^N (minutter)",
           "title": "Antall forsøk på å sende webhook-varsling dersom første forsøk mislykkes"
+        },
+        "LatestErrorCount": {
+          "description": "Antall nylige feilloggoppføringer beholdt per webhook",
+          "title": "Antall siste feil"
         }
       }
     }
