@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="Web Hooks">
+  <title>Web Hooks</title>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="92%" y2="100%">
+      <stop offset="0%" stop-color="#5FD080"/>
+      <stop offset="100%" stop-color="#2FA85A"/>
+    </linearGradient>
+    <filter id="lift" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3.5" flood-color="#0B4F2A" flood-opacity="0.30"/>
+    </filter>
+  </defs>
+
+  <rect width="128" height="128" rx="28" fill="url(#bg)"/>
+
+  <g transform="translate(60,64)" filter="url(#lift)">
+    <!-- Connectors -->
+    <path d="M-2,-8 Q18,-22 30,-20" fill="none" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round"/>
+    <path d="M-2,8 Q18,22 30,20" fill="none" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round"/>
+
+    <!-- Endpoint nodes -->
+    <circle cx="34" cy="-20" r="10" fill="#5FC8F5"/>
+    <circle cx="34" cy="20" r="10" fill="#FFC24D"/>
+
+    <!-- Event source -->
+    <circle cx="-22" cy="0" r="20" fill="#ffffff"/>
+    <polygon points="-18,-13 -30,3 -22,3 -27,15 -13,-3 -21,-3" fill="#F2A81E"/>
+  </g>
+</svg>
