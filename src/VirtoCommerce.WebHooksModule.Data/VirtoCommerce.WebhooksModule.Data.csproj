@@ -10,8 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     
-    <PackageReference Include="VirtoCommerce.Platform.Data" Version="3.1039.0" />
-    <PackageReference Include="VirtoCommerce.Platform.Hangfire" Version="3.1039.0" />
+    <PackageReference Include="VirtoCommerce.Platform.Data" Version="3.1076.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VirtoCommerce.WebHooksModule.Core\VirtoCommerce.WebhooksModule.Core.csproj" />

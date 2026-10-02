@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using VirtoCommerce.Platform.Core.Common;
+using VirtoCommerce.Platform.Core.Jobs;
 using VirtoCommerce.Platform.Core.Modularity;
 using VirtoCommerce.Platform.Core.Security;
 using VirtoCommerce.Platform.Core.Settings;
@@ -19,6 +20,7 @@ using VirtoCommerce.WebhooksModule.Data.Services;
 using VirtoCommerce.WebhooksModule.Data.SqlServer;
 using VirtoCommerce.WebHooksModule.Core;
 using VirtoCommerce.WebHooksModule.Core.Services;
+using VirtoCommerce.WebHooksModule.Data.BackgroundJobs;
 using VirtoCommerce.WebHooksModule.Data.Services;
 
 namespace VirtoCommerce.WebHooksModule.Web
@@ -68,6 +70,7 @@ namespace VirtoCommerce.WebHooksModule.Web
             serviceCollection.AddSingleton<IRegisteredEventStore, RegisteredEventStore>();
             serviceCollection.AddTransient<IWebHookSender, RetriableWebHookSender>();
             serviceCollection.AddTransient<IWebHookManager, WebHookManager>();
+            serviceCollection.AddBackgroundJob<NotifyWebhookJob>();
             serviceCollection.AddHttpClient("webhooks");
         }
 
