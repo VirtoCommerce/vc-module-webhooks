@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Hangfire;
-using Hangfire.Common;
-using Hangfire.States;
+using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Newtonsoft.Json.Linq;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Events;
+using VirtoCommerce.Platform.Core.Jobs;
 using VirtoCommerce.WebhooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Services;
+using VirtoCommerce.WebHooksModule.Data.BackgroundJobs;
 using VirtoCommerce.WebHooksModule.Data.Services;
 using Xunit;
 
@@ -46,21 +46,24 @@ namespace VirtoCommerce.WebhooksModule.Tests
                     TotalCount = 1,
                 });
 
-            var mockedBackgroundJobClient = new Mock<IBackgroundJobClient>();
+            var mockedBackgroundJob = new Mock<IBackgroundJob>();
 
             var webHookRequest = default(WebhookRequest);
 
-            mockedBackgroundJobClient.Setup(x => x.Create(It.IsAny<Job>(), It.IsAny<IState>()))
-                .Callback<Job, IState>((x, s) =>
-                {
-                    webHookRequest = (WebhookRequest)x.Args.First();
-                });
+            mockedBackgroundJob.Setup(x => x.Enqueue<NotifyWebhookJob>(It.IsAny<object>(), It.IsAny<EnqueueOptions>(), It.IsAny<CancellationToken>()))
+                .Callback<object, EnqueueOptions, CancellationToken>((payload, options, token) => webHookRequest = (WebhookRequest)payload)
+                .ReturnsAsync("job-id");
+
+            var serviceProvider = new ServiceCollection()
+                .AddScoped(_ => mockedBackgroundJob.Object)
+                .BuildServiceProvider();
+            BackgroundJob.Initialize(serviceProvider);
 
             var requestBody = string.Empty;
             var mockedWebHookSender = new Mock<IWebHookSender>();
 
             var webhookManager = new WebHookManager(fakeHandlerRegistrar,
-                mockedWebHookSearchService.Object, mockedWebHookSender.Object, mockedBackgroundJobClient.Object);
+                mockedWebHookSearchService.Object, mockedWebHookSender.Object);
 
             // Act
             webhookManager.SubscribeToAllEvents();
@@ -109,21 +112,24 @@ namespace VirtoCommerce.WebhooksModule.Tests
                     TotalCount = 1,
                 });
 
-            var mockedBackgroundJobClient = new Mock<IBackgroundJobClient>();
+            var mockedBackgroundJob = new Mock<IBackgroundJob>();
 
             var webHookRequest = default(WebhookRequest);
 
-            mockedBackgroundJobClient.Setup(x => x.Create(It.IsAny<Job>(), It.IsAny<IState>()))
-                .Callback<Job, IState>((x, s) =>
-                {
-                    webHookRequest = (WebhookRequest)x.Args.First();
-                });
+            mockedBackgroundJob.Setup(x => x.Enqueue<NotifyWebhookJob>(It.IsAny<object>(), It.IsAny<EnqueueOptions>(), It.IsAny<CancellationToken>()))
+                .Callback<object, EnqueueOptions, CancellationToken>((payload, options, token) => webHookRequest = (WebhookRequest)payload)
+                .ReturnsAsync("job-id");
+
+            var serviceProvider = new ServiceCollection()
+                .AddScoped(_ => mockedBackgroundJob.Object)
+                .BuildServiceProvider();
+            BackgroundJob.Initialize(serviceProvider);
 
             var requestBody = string.Empty;
             var mockedWebHookSender = new Mock<IWebHookSender>();
 
             var webhookManager = new WebHookManager(fakeHandlerRegistrar,
-                mockedWebHookSearchService.Object, mockedWebHookSender.Object, mockedBackgroundJobClient.Object);
+                mockedWebHookSearchService.Object, mockedWebHookSender.Object);
 
             // Act
             webhookManager.SubscribeToAllEvents();

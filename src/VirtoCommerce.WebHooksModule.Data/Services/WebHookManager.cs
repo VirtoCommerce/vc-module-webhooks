@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Hangfire;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Platform.Core.Events;
+using VirtoCommerce.Platform.Core.Jobs;
 using VirtoCommerce.WebhooksModule.Core.Extensions;
 using VirtoCommerce.WebhooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Models;
 using VirtoCommerce.WebHooksModule.Core.Services;
+using VirtoCommerce.WebHooksModule.Data.BackgroundJobs;
 
 namespace VirtoCommerce.WebHooksModule.Data.Services
 {
@@ -22,18 +23,15 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
         private readonly IEventHandlerRegistrar _eventHandlerRegistrar;
         private readonly IWebHookSearchService _webHookSearchService;
         private readonly IWebHookSender _webHookSender;
-        private readonly IBackgroundJobClient _backgroundJobClient;
 
         public WebHookManager(
             IEventHandlerRegistrar eventHandlerRegistrar,
             IWebHookSearchService webHookSearchService,
-            IWebHookSender webHookSender,
-            IBackgroundJobClient backgroundJobClient)
+            IWebHookSender webHookSender)
         {
             _eventHandlerRegistrar = eventHandlerRegistrar;
             _webHookSearchService = webHookSearchService;
             _webHookSender = webHookSender;
-            _backgroundJobClient = backgroundJobClient;
         }
 
         /// <inheritdoc />
@@ -104,7 +102,7 @@ namespace VirtoCommerce.WebHooksModule.Data.Services
                     WebHooks = webHookSearchResult.Results
                 };
 
-                _backgroundJobClient.Schedule(() => NotifyAsync(request, cancellationToken), TimeSpan.FromSeconds(5));
+                await BackgroundJob.Enqueue<NotifyWebhookJob>(request, cancellationToken: cancellationToken);
             }
         }
 
