@@ -1,5 +1,4 @@
 {
-  // Webhooks admin UI for the Admin Shell host (Module Federation remote)
   "remote": { "name": "webhooks_admin", "exposed": "./Module" },
   "contributions": {
     "menu": [

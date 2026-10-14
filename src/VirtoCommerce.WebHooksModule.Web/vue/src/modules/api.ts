@@ -97,8 +97,9 @@ const loadTexts = () =>
 // Event id → title: the translated name, else the registered display name ("Blob Created Event")
 let titles: Promise<Record<string, string>> | undefined;
 export function eventNames() {
-  return (titles ??= Promise.all([loadTexts(), registeredEvents().catch(() => [])]).then(([all, events]) => {
+  titles ??= Promise.all([loadTexts(), registeredEvents().catch(() => [])]).then(([all, events]) => {
     const types = ((all.webhooks as Record<string, unknown>)?.events as Record<string, unknown>)?.types as Record<string, string> | undefined;
     return { ...Object.fromEntries(events.map((e) => [e.id, e.displayName ?? e.id])), ...types };
-  }));
+  });
+  return titles;
 }
