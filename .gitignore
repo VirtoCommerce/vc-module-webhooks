@@ -271,3 +271,5 @@ __pycache__/
 # Webpack output
 dist/
 /build/Build.cs
+# Admin Shell module UI build output (built from src/VirtoCommerce.WebHooksModule.Web/vue)
+src/VirtoCommerce.WebHooksModule.Web/plugins/
