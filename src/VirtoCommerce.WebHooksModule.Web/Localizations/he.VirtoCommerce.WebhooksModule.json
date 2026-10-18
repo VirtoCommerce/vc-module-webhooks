@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "webhooks:access": "פתיחת תפריט Webhook",
+    "webhooks:read": "צפייה בנתונים הקשורים ל-Webhook",
+    "webhooks:feed:read": "צפייה ביומני Webhook",
+    "webhooks:execute": "שליחת Webhooks באופן ידני",
+    "webhooks:update": "יצירה או עדכון של Webhooks",
+    "webhooks:delete": "מחיקת Webhooks"
+  },
+  "settings": {
+    "Webhooks": {
+      "General": {
+        "SendRetryCount": {
+          "description": "אם בקשת ה-HTTP השולחת את התראת ה-Webhook נכשלת מסיבה כלשהי, הפעולה חוזרת X פעמים או עד שהיא מצליחה. המרווחים בין הניסיונות הם (בדקות): 1, 2, 4, …, 2^N (דקות)",
+          "title": "מספר הניסיונות החוזרים לשליחת התראת ה-Webhook במקרה שהניסיון הראשון נכשל"
+        },
+        "LatestErrorCount": {
+          "description": "מספר רשומות יומן השגיאות האחרונות שנשמרות לכל Webhook",
+          "title": "מספר השגיאות האחרונות"
+        }
+      }
+    }
+  }
+}
