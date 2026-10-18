@@ -1,0 +1,81 @@
+{
+  "WEBHOOKS": {
+    "LIST": {
+      "TITLE": "Webhooks",
+      "SUBTITLE": "Webhooks définis par l'utilisateur",
+      "EMPTY": "Aucun webhook pour l'instant",
+      "ACTIVE": "Actif",
+      "YES": "Actif",
+      "NO": "Inactif",
+      "SUCCESS_PERCENT": "Appels réussis, %",
+      "ERRORS": "Erreurs non résolues",
+      "TOTAL": "Total des appels",
+      "DELETE_CONFIRM": "Supprimer {count} webhook(s) ?"
+    },
+    "DETAILS": {
+      "NEW_TITLE": "Nouveau webhook",
+      "SUBTITLE": "Paramètres et détails du webhook",
+      "GENERAL": "Webhook",
+      "DESCRIPTION": "Les webhooks vous permettent de savoir rapidement ce qui a changé dans votre Virto Commerce. Choisissez l'événement à suivre : à chaque fois qu'il se produit, une notification est envoyée à l'URL que vous indiquez.",
+      "BAD_DATA": "Ce webhook est abonné à plusieurs événements (ou à tous). Un seul événement par webhook peut être modifié ici ; créez plutôt des webhooks distincts.",
+      "REQUIRED": "Obligatoire",
+      "NAME_PLACEHOLDER": "Nom du webhook",
+      "NAME_HINT": "Nom d'affichage du webhook",
+      "EVENT_PLACEHOLDER": "Sélectionnez un événement",
+      "EVENT_HINT": "L'événement dont vous souhaitez être notifié",
+      "PAYLOADS_HINT": "Données supplémentaires que ce webhook inclut dans sa notification",
+      "PAYLOADS_NOTE": "Les propriétés Id et ObjectType sont toujours incluses.",
+      "URL_HINT": "L'URL appelée à chaque occurrence de l'événement",
+      "BASIC_USERNAME_HINT": "Nom d'utilisateur pour l'authentification de base",
+      "BASIC_PASSWORD_HINT": "Mot de passe pour l'authentification de base",
+      "BEARER_TOKEN_HINT": "Jeton pour l'authentification par jeton Bearer",
+      "HEADER_NAME_HINT": "Nom d'un en-tête HTTP personnalisé envoyé avec chaque appel",
+      "HEADER_VALUE_HINT": "Valeur de l'en-tête HTTP personnalisé",
+      "SAVED": "Webhook enregistré",
+      "CLOSE_CONFIRM": "Ce webhook a été modifié. Fermer sans enregistrer ?",
+      "DELETE_CONFIRM": "Supprimer le webhook « {name} » ?"
+    },
+    "ERRORS": {
+      "TITLE": "Erreurs du webhook",
+      "SUBTITLE": "Erreurs non résolues de ce webhook",
+      "EMPTY": "Aucune erreur non résolue",
+      "ERROR": "Erreur",
+      "CREATED": "Créé",
+      "ATTEMPTS": "Tentatives",
+      "LAST_ATTEMPT": "Dernière tentative",
+      "DELETE_CONFIRM": "Supprimer {count} enregistrement(s) d'erreur ?"
+    },
+    "WIDGETS": {
+      "ERRORS": "Nombre d'erreurs"
+    },
+    "FIELDS": {
+      "NAME": "Nom",
+      "EVENT": "Événement",
+      "PAYLOADS": "Champs supplémentaires ({count}/10)",
+      "IS_ACTIVE": "Actif",
+      "URL": "URL",
+      "AUTH_TYPE": "Authentification",
+      "BASIC_USERNAME": "Nom d'utilisateur",
+      "BASIC_PASSWORD": "Mot de passe",
+      "BEARER_TOKEN": "Jeton Bearer",
+      "HEADER_NAME": "Nom de l'en-tête HTTP personnalisé",
+      "HEADER_VALUE": "Valeur de l'en-tête HTTP personnalisé"
+    },
+    "AUTH_TYPES": {
+      "None": "Aucune",
+      "Basic": "De base",
+      "BearerToken": "Jeton Bearer",
+      "CustomHeader": "En-tête personnalisé"
+    },
+    "TOOLBAR": {
+      "REFRESH": "Actualiser",
+      "ADD": "Ajouter",
+      "DELETE": "Supprimer",
+      "REMOVE": "Retirer",
+      "MANAGE": "Gérer",
+      "CREATE": "Créer",
+      "SAVE": "Enregistrer",
+      "RESET": "Réinitialiser"
+    }
+  }
+}

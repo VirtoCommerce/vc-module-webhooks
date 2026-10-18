@@ -1,0 +1,81 @@
+{
+  "WEBHOOKS": {
+    "LIST": {
+      "TITLE": "Webhooks",
+      "SUBTITLE": "Användardefinierade webhooks",
+      "EMPTY": "Inga webhooks ännu",
+      "ACTIVE": "Aktiv",
+      "YES": "Aktiv",
+      "NO": "Inaktiv",
+      "SUCCESS_PERCENT": "Lyckade anrop, %",
+      "ERRORS": "Olösta fel",
+      "TOTAL": "Totalt antal anrop",
+      "DELETE_CONFIRM": "Ta bort {count} webhook(s)?"
+    },
+    "DETAILS": {
+      "NEW_TITLE": "Ny webhook",
+      "SUBTITLE": "Webhook-inställningar och detaljer",
+      "GENERAL": "Webhook",
+      "DESCRIPTION": "Med webhooks får du snabbt reda på vad som har ändrats i Virto Commerce. Välj den händelse som ska följas, så skickas en avisering till den URL du anger varje gång den inträffar.",
+      "BAD_DATA": "Denna webhook prenumererar på flera händelser (eller alla). Endast en händelse per webhook kan redigeras här; skapa separata webhooks i stället.",
+      "REQUIRED": "Obligatoriskt",
+      "NAME_PLACEHOLDER": "Webhook-namn",
+      "NAME_HINT": "Webhookens visningsnamn",
+      "EVENT_PLACEHOLDER": "Välj en händelse",
+      "EVENT_HINT": "Den händelse du vill bli aviserad om",
+      "PAYLOADS_HINT": "Ytterligare data som denna webhook inkluderar i sin avisering",
+      "PAYLOADS_NOTE": "Egenskaperna Id och ObjectType inkluderas alltid.",
+      "URL_HINT": "Den URL som anropas varje gång händelsen inträffar",
+      "BASIC_USERNAME_HINT": "Användarnamn för grundläggande autentisering",
+      "BASIC_PASSWORD_HINT": "Lösenord för grundläggande autentisering",
+      "BEARER_TOKEN_HINT": "Token för bearer-token-autentisering",
+      "HEADER_NAME_HINT": "Namnet på en egendefinierad HTTP-header som skickas med varje anrop",
+      "HEADER_VALUE_HINT": "Värdet på den egendefinierade HTTP-headern",
+      "SAVED": "Webhook sparad",
+      "CLOSE_CONFIRM": "Denna webhook har ändrats. Stänga utan att spara?",
+      "DELETE_CONFIRM": "Ta bort webhooken ”{name}”?"
+    },
+    "ERRORS": {
+      "TITLE": "Webhook-fel",
+      "SUBTITLE": "Olösta fel för denna webhook",
+      "EMPTY": "Inga olösta fel",
+      "ERROR": "Fel",
+      "CREATED": "Skapad",
+      "ATTEMPTS": "Försök",
+      "LAST_ATTEMPT": "Senaste försök",
+      "DELETE_CONFIRM": "Ta bort {count} felpost(er)?"
+    },
+    "WIDGETS": {
+      "ERRORS": "Antal fel"
+    },
+    "FIELDS": {
+      "NAME": "Namn",
+      "EVENT": "Händelse",
+      "PAYLOADS": "Ytterligare fält ({count}/10)",
+      "IS_ACTIVE": "Aktiv",
+      "URL": "URL",
+      "AUTH_TYPE": "Autentisering",
+      "BASIC_USERNAME": "Användarnamn",
+      "BASIC_PASSWORD": "Lösenord",
+      "BEARER_TOKEN": "Bearer-token",
+      "HEADER_NAME": "Egendefinierat HTTP-headernamn",
+      "HEADER_VALUE": "Egendefinierat HTTP-headervärde"
+    },
+    "AUTH_TYPES": {
+      "None": "Ingen",
+      "Basic": "Grundläggande",
+      "BearerToken": "Bearer-token",
+      "CustomHeader": "Egendefinierad header"
+    },
+    "TOOLBAR": {
+      "REFRESH": "Uppdatera",
+      "ADD": "Lägg till",
+      "DELETE": "Ta bort",
+      "REMOVE": "Ta bort",
+      "MANAGE": "Hantera",
+      "CREATE": "Skapa",
+      "SAVE": "Spara",
+      "RESET": "Återställ"
+    }
+  }
+}

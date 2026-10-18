@@ -1,0 +1,81 @@
+{
+  "WEBHOOKS": {
+    "LIST": {
+      "TITLE": "Webhooks",
+      "SUBTITLE": "Brukerdefinerte webhooks",
+      "EMPTY": "Ingen webhooks ennå",
+      "ACTIVE": "Aktiv",
+      "YES": "Aktiv",
+      "NO": "Inaktiv",
+      "SUCCESS_PERCENT": "Vellykkede kall, %",
+      "ERRORS": "Uløste feil",
+      "TOTAL": "Totalt antall kall",
+      "DELETE_CONFIRM": "Slette {count} webhook(s)?"
+    },
+    "DETAILS": {
+      "NEW_TITLE": "Ny webhook",
+      "SUBTITLE": "Webhook-innstillinger og detaljer",
+      "GENERAL": "Webhook",
+      "DESCRIPTION": "Med webhooks får du raskt vite hva som er endret i Virto Commerce. Velg hendelsen du vil følge, så sendes et varsel til URL-en du angir hver gang den inntreffer.",
+      "BAD_DATA": "Denne webhooken abonnerer på flere hendelser (eller alle). Bare én hendelse per webhook kan redigeres her; opprett separate webhooks i stedet.",
+      "REQUIRED": "Påkrevd",
+      "NAME_PLACEHOLDER": "Webhook-navn",
+      "NAME_HINT": "Visningsnavnet til webhooken",
+      "EVENT_PLACEHOLDER": "Velg en hendelse",
+      "EVENT_HINT": "Hendelsen du vil varsles om",
+      "PAYLOADS_HINT": "Tilleggsdata som denne webhooken tar med i varselet",
+      "PAYLOADS_NOTE": "Egenskapene Id og ObjectType er alltid inkludert.",
+      "URL_HINT": "URL-en som kalles hver gang hendelsen inntreffer",
+      "BASIC_USERNAME_HINT": "Brukernavn for grunnleggende autentisering",
+      "BASIC_PASSWORD_HINT": "Passord for grunnleggende autentisering",
+      "BEARER_TOKEN_HINT": "Token for bearer-token-autentisering",
+      "HEADER_NAME_HINT": "Navnet på en egendefinert HTTP-header som sendes med hvert kall",
+      "HEADER_VALUE_HINT": "Verdien til den egendefinerte HTTP-headeren",
+      "SAVED": "Webhook lagret",
+      "CLOSE_CONFIRM": "Denne webhooken er endret. Lukke uten å lagre?",
+      "DELETE_CONFIRM": "Slette webhooken «{name}»?"
+    },
+    "ERRORS": {
+      "TITLE": "Webhook-feil",
+      "SUBTITLE": "Uløste feil for denne webhooken",
+      "EMPTY": "Ingen uløste feil",
+      "ERROR": "Feil",
+      "CREATED": "Opprettet",
+      "ATTEMPTS": "Forsøk",
+      "LAST_ATTEMPT": "Siste forsøk",
+      "DELETE_CONFIRM": "Slette {count} feiloppføring(er)?"
+    },
+    "WIDGETS": {
+      "ERRORS": "Antall feil"
+    },
+    "FIELDS": {
+      "NAME": "Navn",
+      "EVENT": "Hendelse",
+      "PAYLOADS": "Tilleggsfelt ({count}/10)",
+      "IS_ACTIVE": "Aktiv",
+      "URL": "URL",
+      "AUTH_TYPE": "Autentisering",
+      "BASIC_USERNAME": "Brukernavn",
+      "BASIC_PASSWORD": "Passord",
+      "BEARER_TOKEN": "Bearer-token",
+      "HEADER_NAME": "Egendefinert HTTP-headernavn",
+      "HEADER_VALUE": "Egendefinert HTTP-headerverdi"
+    },
+    "AUTH_TYPES": {
+      "None": "Ingen",
+      "Basic": "Grunnleggende",
+      "BearerToken": "Bearer-token",
+      "CustomHeader": "Egendefinert header"
+    },
+    "TOOLBAR": {
+      "REFRESH": "Oppdater",
+      "ADD": "Legg til",
+      "DELETE": "Slett",
+      "REMOVE": "Fjern",
+      "MANAGE": "Administrer",
+      "CREATE": "Opprett",
+      "SAVE": "Lagre",
+      "RESET": "Tilbakestill"
+    }
+  }
+}
