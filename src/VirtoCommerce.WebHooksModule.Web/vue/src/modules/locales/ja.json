@@ -1,0 +1,81 @@
+{
+  "WEBHOOKS": {
+    "LIST": {
+      "TITLE": "ウェブフック",
+      "SUBTITLE": "ユーザー定義のウェブフック",
+      "EMPTY": "ウェブフックはまだありません",
+      "ACTIVE": "アクティブ",
+      "YES": "アクティブ",
+      "NO": "非アクティブ",
+      "SUCCESS_PERCENT": "成功した呼び出し、%",
+      "ERRORS": "未解決のエラー",
+      "TOTAL": "総呼び出し回数",
+      "DELETE_CONFIRM": "{count}件のウェブフックを削除しますか？"
+    },
+    "DETAILS": {
+      "NEW_TITLE": "新しいウェブフック",
+      "SUBTITLE": "ウェブフックの設定と詳細",
+      "GENERAL": "ウェブフック",
+      "DESCRIPTION": "ウェブフックを使用すると、Virto Commerceで何が変更されたかをすばやく把握できます。追跡するイベントを選択すると、イベントが発生するたびに指定したURLに通知が送信されます。",
+      "BAD_DATA": "このウェブフックは複数のイベント（またはすべてのイベント）を購読しています。ここではウェブフックごとに1つのイベントしか編集できないため、代わりに個別のウェブフックを作成してください。",
+      "REQUIRED": "必須",
+      "NAME_PLACEHOLDER": "ウェブフック名",
+      "NAME_HINT": "ウェブフックの表示名",
+      "EVENT_PLACEHOLDER": "イベントを選択",
+      "EVENT_HINT": "通知を受け取るイベント",
+      "PAYLOADS_HINT": "このウェブフックが通知に含める追加データ",
+      "PAYLOADS_NOTE": "IdとObjectTypeプロパティは常に含まれます。",
+      "URL_HINT": "イベントが発生するたびに呼び出されるURL",
+      "BASIC_USERNAME_HINT": "基本認証のユーザー名",
+      "BASIC_PASSWORD_HINT": "基本認証のパスワード",
+      "BEARER_TOKEN_HINT": "Bearerトークン認証のトークン",
+      "HEADER_NAME_HINT": "各呼び出しで送信されるカスタムHTTPヘッダーの名前",
+      "HEADER_VALUE_HINT": "カスタムHTTPヘッダーの値",
+      "SAVED": "ウェブフックを保存しました",
+      "CLOSE_CONFIRM": "このウェブフックは変更されています。保存せずに閉じますか？",
+      "DELETE_CONFIRM": "ウェブフック「{name}」を削除しますか？"
+    },
+    "ERRORS": {
+      "TITLE": "ウェブフックエラー",
+      "SUBTITLE": "このウェブフックの未解決のエラー",
+      "EMPTY": "未解決のエラーはありません",
+      "ERROR": "エラー",
+      "CREATED": "作成日時",
+      "ATTEMPTS": "試行回数",
+      "LAST_ATTEMPT": "最終試行",
+      "DELETE_CONFIRM": "{count}件のエラー記録を削除しますか？"
+    },
+    "WIDGETS": {
+      "ERRORS": "エラー数"
+    },
+    "FIELDS": {
+      "NAME": "名前",
+      "EVENT": "イベント",
+      "PAYLOADS": "追加フィールド ({count}/10)",
+      "IS_ACTIVE": "アクティブ",
+      "URL": "URL",
+      "AUTH_TYPE": "認証",
+      "BASIC_USERNAME": "ユーザー名",
+      "BASIC_PASSWORD": "パスワード",
+      "BEARER_TOKEN": "Bearerトークン",
+      "HEADER_NAME": "カスタムHTTPヘッダー名",
+      "HEADER_VALUE": "カスタムHTTPヘッダー値"
+    },
+    "AUTH_TYPES": {
+      "None": "なし",
+      "Basic": "基本",
+      "BearerToken": "Bearerトークン",
+      "CustomHeader": "カスタムヘッダー"
+    },
+    "TOOLBAR": {
+      "REFRESH": "更新",
+      "ADD": "追加",
+      "DELETE": "削除",
+      "REMOVE": "除去",
+      "MANAGE": "管理",
+      "CREATE": "作成",
+      "SAVE": "保存",
+      "RESET": "リセット"
+    }
+  }
+}

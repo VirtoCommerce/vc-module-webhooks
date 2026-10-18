@@ -1,0 +1,81 @@
+{
+  "WEBHOOKS": {
+    "LIST": {
+      "TITLE": "Webhookit",
+      "SUBTITLE": "Käyttäjän määrittämät webhookit",
+      "EMPTY": "Ei vielä webhookeja",
+      "ACTIVE": "Aktiivinen",
+      "YES": "Aktiivinen",
+      "NO": "Ei aktiivinen",
+      "SUCCESS_PERCENT": "Onnistuneet kutsut, %",
+      "ERRORS": "Ratkaisemattomat virheet",
+      "TOTAL": "Kutsuja yhteensä",
+      "DELETE_CONFIRM": "Poistetaanko webhookit ({count})?"
+    },
+    "DETAILS": {
+      "NEW_TITLE": "Uusi webhook",
+      "SUBTITLE": "Webhookin asetukset ja tiedot",
+      "GENERAL": "Webhook",
+      "DESCRIPTION": "Webhookien avulla näet nopeasti, mitä Virto Commercessa on muuttunut. Valitse seurattava tapahtuma, niin ilmoitus lähetetään määrittämääsi URL-osoitteeseen aina, kun tapahtuma sattuu.",
+      "BAD_DATA": "Tämä webhook tilaa useita tapahtumia (tai kaikki). Täällä voi muokata vain yhtä tapahtumaa webhookia kohden; luo sen sijaan erilliset webhookit.",
+      "REQUIRED": "Pakollinen",
+      "NAME_PLACEHOLDER": "Webhookin nimi",
+      "NAME_HINT": "Webhookin näyttönimi",
+      "EVENT_PLACEHOLDER": "Valitse tapahtuma",
+      "EVENT_HINT": "Tapahtuma, josta haluat saada ilmoituksen",
+      "PAYLOADS_HINT": "Lisätiedot, jotka tämä webhook sisällyttää ilmoitukseensa",
+      "PAYLOADS_NOTE": "Id- ja ObjectType-ominaisuudet sisältyvät aina.",
+      "URL_HINT": "URL-osoite, jota kutsutaan aina tapahtuman sattuessa",
+      "BASIC_USERNAME_HINT": "Käyttäjätunnus perustodennukseen",
+      "BASIC_PASSWORD_HINT": "Salasana perustodennukseen",
+      "BEARER_TOKEN_HINT": "Tunniste Bearer-tunnistetodennukseen",
+      "HEADER_NAME_HINT": "Jokaisen kutsun mukana lähetettävän mukautetun HTTP-otsakkeen nimi",
+      "HEADER_VALUE_HINT": "Mukautetun HTTP-otsakkeen arvo",
+      "SAVED": "Webhook tallennettu",
+      "CLOSE_CONFIRM": "Tätä webhookia on muokattu. Suljetaanko tallentamatta?",
+      "DELETE_CONFIRM": "Poistetaanko webhook ”{name}”?"
+    },
+    "ERRORS": {
+      "TITLE": "Webhook-virheet",
+      "SUBTITLE": "Tämän webhookin ratkaisemattomat virheet",
+      "EMPTY": "Ei ratkaisemattomia virheitä",
+      "ERROR": "Virhe",
+      "CREATED": "Luotu",
+      "ATTEMPTS": "Yritykset",
+      "LAST_ATTEMPT": "Viimeisin yritys",
+      "DELETE_CONFIRM": "Poistetaanko virhetietueet ({count})?"
+    },
+    "WIDGETS": {
+      "ERRORS": "Virheiden määrä"
+    },
+    "FIELDS": {
+      "NAME": "Nimi",
+      "EVENT": "Tapahtuma",
+      "PAYLOADS": "Lisäkentät ({count}/10)",
+      "IS_ACTIVE": "Aktiivinen",
+      "URL": "URL",
+      "AUTH_TYPE": "Todennus",
+      "BASIC_USERNAME": "Käyttäjätunnus",
+      "BASIC_PASSWORD": "Salasana",
+      "BEARER_TOKEN": "Bearer-tunniste",
+      "HEADER_NAME": "Mukautetun HTTP-otsakkeen nimi",
+      "HEADER_VALUE": "Mukautetun HTTP-otsakkeen arvo"
+    },
+    "AUTH_TYPES": {
+      "None": "Ei mitään",
+      "Basic": "Perus",
+      "BearerToken": "Bearer-tunniste",
+      "CustomHeader": "Mukautettu otsake"
+    },
+    "TOOLBAR": {
+      "REFRESH": "Päivitä",
+      "ADD": "Lisää",
+      "DELETE": "Poista",
+      "REMOVE": "Poista",
+      "MANAGE": "Hallitse",
+      "CREATE": "Luo",
+      "SAVE": "Tallenna",
+      "RESET": "Palauta"
+    }
+  }
+}

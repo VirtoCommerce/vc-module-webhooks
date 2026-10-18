@@ -1,0 +1,81 @@
+{
+  "WEBHOOKS": {
+    "LIST": {
+      "TITLE": "Webhooks",
+      "SUBTITLE": "Webhooks definidos por el usuario",
+      "EMPTY": "Aún no hay webhooks",
+      "ACTIVE": "Activo",
+      "YES": "Activo",
+      "NO": "Inactivo",
+      "SUCCESS_PERCENT": "Llamadas exitosas, %",
+      "ERRORS": "Errores no resueltos",
+      "TOTAL": "Total de llamadas",
+      "DELETE_CONFIRM": "¿Eliminar {count} webhook(s)?"
+    },
+    "DETAILS": {
+      "NEW_TITLE": "Nuevo webhook",
+      "SUBTITLE": "Configuración y detalles del webhook",
+      "GENERAL": "Webhook",
+      "DESCRIPTION": "Los webhooks le permiten averiguar rápidamente qué ha cambiado en su Virto Commerce. Elija el evento que desea seguir y, cada vez que ocurra, se enviará una notificación a la URL que especifique.",
+      "BAD_DATA": "Este webhook está suscrito a varios eventos (o a todos). Aquí solo se puede editar un evento por webhook; cree webhooks independientes en su lugar.",
+      "REQUIRED": "Obligatorio",
+      "NAME_PLACEHOLDER": "Nombre del webhook",
+      "NAME_HINT": "Nombre de visualización del webhook",
+      "EVENT_PLACEHOLDER": "Seleccione un evento",
+      "EVENT_HINT": "El evento sobre el que desea recibir notificaciones",
+      "PAYLOADS_HINT": "Datos adicionales que este webhook incluye en su notificación",
+      "PAYLOADS_NOTE": "Las propiedades Id y ObjectType siempre se incluyen.",
+      "URL_HINT": "La URL a la que se llama cada vez que ocurre el evento",
+      "BASIC_USERNAME_HINT": "Nombre de usuario para la autenticación básica",
+      "BASIC_PASSWORD_HINT": "Contraseña para la autenticación básica",
+      "BEARER_TOKEN_HINT": "Token para la autenticación con token Bearer",
+      "HEADER_NAME_HINT": "Nombre de un encabezado HTTP personalizado que se envía con cada llamada",
+      "HEADER_VALUE_HINT": "Valor del encabezado HTTP personalizado",
+      "SAVED": "Webhook guardado",
+      "CLOSE_CONFIRM": "Este webhook ha sido modificado. ¿Cerrar sin guardar?",
+      "DELETE_CONFIRM": "¿Eliminar el webhook «{name}»?"
+    },
+    "ERRORS": {
+      "TITLE": "Errores de webhook",
+      "SUBTITLE": "Errores no resueltos de este webhook",
+      "EMPTY": "No hay errores no resueltos",
+      "ERROR": "Error",
+      "CREATED": "Creado",
+      "ATTEMPTS": "Intentos",
+      "LAST_ATTEMPT": "Último intento",
+      "DELETE_CONFIRM": "¿Eliminar {count} registro(s) de error?"
+    },
+    "WIDGETS": {
+      "ERRORS": "Recuento de errores"
+    },
+    "FIELDS": {
+      "NAME": "Nombre",
+      "EVENT": "Evento",
+      "PAYLOADS": "Campos adicionales ({count}/10)",
+      "IS_ACTIVE": "Activo",
+      "URL": "URL",
+      "AUTH_TYPE": "Autenticación",
+      "BASIC_USERNAME": "Nombre de usuario",
+      "BASIC_PASSWORD": "Contraseña",
+      "BEARER_TOKEN": "Token Bearer",
+      "HEADER_NAME": "Nombre de encabezado HTTP personalizado",
+      "HEADER_VALUE": "Valor de encabezado HTTP personalizado"
+    },
+    "AUTH_TYPES": {
+      "None": "Ninguna",
+      "Basic": "Básica",
+      "BearerToken": "Token Bearer",
+      "CustomHeader": "Encabezado personalizado"
+    },
+    "TOOLBAR": {
+      "REFRESH": "Actualizar",
+      "ADD": "Agregar",
+      "DELETE": "Eliminar",
+      "REMOVE": "Quitar",
+      "MANAGE": "Gestionar",
+      "CREATE": "Crear",
+      "SAVE": "Guardar",
+      "RESET": "Restablecer"
+    }
+  }
+}
