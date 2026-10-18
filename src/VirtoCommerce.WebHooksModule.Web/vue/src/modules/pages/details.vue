@@ -134,7 +134,7 @@ import {
   type IBladeToolbar,
 } from "@vc-shell/framework";
 import { VcBanner, VcBlade, VcCard, VcContainer, VcForm, VcHint, VcInput, VcSelect, VcSwitch } from "@vc-shell/framework/ui";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { api, ERROR_RECORD, eventNames, isMultiEvent, registeredEvents, type Webhook } from "../api";
 
@@ -145,7 +145,7 @@ defineBlade({
 });
 
 const MAX_PAYLOADS = 10;
-const { t } = useI18n({ useScope: "global" });
+const { t, locale } = useI18n({ useScope: "global" });
 const { param, openBlade, callParent, closeSelf, replaceWith, exposeToChildren } = useBlade();
 const { hasAccess } = usePermissions();
 const { showConfirmation } = usePopup();
@@ -153,7 +153,13 @@ const { showConfirmation } = usePopup();
 const isNew = computed(() => !param.value);
 const item = ref<Webhook>({});
 const stored = ref<Webhook>({});
-const events = ref<{ id: string; title: string }[]>([]);
+const registered = ref<{ id: string; displayName?: string }[]>([]);
+const names = ref<Record<string, string>>({});
+const events = computed(() =>
+  registered.value
+    .map((e) => ({ id: e.id, title: names.value[e.id] ?? e.displayName ?? e.id }))
+    .sort((a, b) => a.title.localeCompare(b.title)),
+);
 const properties = ref<string[]>([]);
 const discovered = ref(false);
 const errorCount = ref(0);
@@ -203,14 +209,13 @@ async function countErrors() {
 }
 
 const { loading: loadLoading, action: load } = useAsync(async () => {
-  const [all, names, webhook] = await Promise.all([
+  const [all, titles, webhook] = await Promise.all([
     registeredEvents(),
     eventNames(),
     isNew.value ? Promise.resolve<Webhook>({ authType: "None", isActive: false, events: [], payloads: [] }) : api.get(param.value!),
   ]);
-  events.value = all
-    .map((e) => ({ id: e.id, title: names[e.id] ?? e.displayName ?? e.id }))
-    .sort((a, b) => a.title.localeCompare(b.title));
+  registered.value = all;
+  names.value = titles;
   webhook.contentType = "application/json";
   webhook.events = (webhook.events ?? []).map((e) => ({ eventId: e.eventId, displayName: e.displayName }));
   webhook.payloads = (webhook.payloads ?? []).map((p) => ({ eventPropertyName: p.eventPropertyName }));
@@ -219,6 +224,12 @@ const { loading: loadLoading, action: load } = useAsync(async () => {
   stored.value = JSON.parse(JSON.stringify(webhook));
   form.setBaseline();
   await Promise.all([loadProperties(eventId.value), countErrors()]);
+});
+
+// the event titles follow the user's language switches
+watch(locale, async (lang) => {
+  const titles = await eventNames(lang);
+  if (lang === locale.value) names.value = titles;
 });
 
 const { loading: saveLoading, action: save } = useAsync(async () => {

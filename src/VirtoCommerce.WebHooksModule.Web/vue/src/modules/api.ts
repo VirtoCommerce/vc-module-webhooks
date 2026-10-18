@@ -1,3 +1,5 @@
+import { i18n } from "@vc-shell/framework";
+
 // Same-origin fetch client for api/webhooks (cookie auth works: the host is same-origin).
 async function http<T>(method: string, url: string, body?: unknown): Promise<T> {
   const res = await fetch(url, {
@@ -89,17 +91,37 @@ export const registeredEvents = () =>
     throw e;
   }));
 
-// The platform's merged module localization: event names live under "webhooks.events.types.<event id>"
-let texts: Promise<Record<string, unknown>> | undefined;
-const loadTexts = () =>
-  (texts ??= http<Record<string, unknown>>("GET", "/api/platform/localization?lang=en").catch(() => ({}) as Record<string, unknown>));
+// The language the UI shows now (vue-i18n's global locale, a string or a ref)
+export function currentLocale(): string {
+  const locale = i18n.global.locale as unknown;
+  return String((locale as { value?: string } | null)?.value ?? locale ?? "") || "en";
+}
 
-// Event id → title: the translated name, else the registered display name ("Blob Created Event")
-let titles: Promise<Record<string, string>> | undefined;
-export function eventNames() {
-  titles ??= Promise.all([loadTexts(), registeredEvents().catch(() => [])]).then(([all, events]) => {
-    const types = ((all.webhooks as Record<string, unknown>)?.events as Record<string, unknown>)?.types as Record<string, string> | undefined;
-    return { ...Object.fromEntries(events.map((e) => [e.id, e.displayName ?? e.id])), ...types };
-  });
-  return titles;
+// The platform's merged module localization: event names live under "webhooks.events.types.<event id>".
+// The server returns only the asked language's texts; each language is requested once.
+const texts = new Map<string, Promise<Record<string, string> | undefined>>();
+function eventTypes(locale: string) {
+  let loaded = texts.get(locale);
+  if (!loaded) {
+    loaded = http<Record<string, unknown>>("GET", `/api/platform/localization?lang=${encodeURIComponent(locale)}`)
+      .then((all) => ((all?.webhooks as Record<string, unknown>)?.events as Record<string, unknown>)?.types as Record<string, string> | undefined)
+      .catch(() => undefined);
+    texts.set(locale, loaded);
+  }
+  return loaded;
+}
+
+// Event id → title: the name in the UI's language, else in English, else the registered display name ("Blob Created Event")
+const titles = new Map<string, Promise<Record<string, string>>>();
+export function eventNames(locale = currentLocale()) {
+  let loaded = titles.get(locale);
+  if (!loaded) {
+    loaded = Promise.all([eventTypes(locale), eventTypes("en"), registeredEvents().catch(() => [])]).then(([types, english, events]) => ({
+      ...Object.fromEntries(events.map((e) => [e.id, e.displayName ?? e.id])),
+      ...english,
+      ...types,
+    }));
+    titles.set(locale, loaded);
+  }
+  return loaded;
 }

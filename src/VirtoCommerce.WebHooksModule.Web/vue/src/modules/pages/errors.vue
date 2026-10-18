@@ -96,7 +96,7 @@ defineBlade({
 });
 
 const PAGE_SIZE = 20;
-const { t } = useI18n({ useScope: "global" });
+const { t, locale } = useI18n({ useScope: "global" });
 const { param, options, callParent } = useBlade<{ name?: string }>();
 const { showConfirmation } = usePopup();
 const { hasAccess } = usePermissions();
@@ -141,6 +141,11 @@ const loading = useLoading(searchLoading, deleteLoading);
 load();
 watch(keyword, () => pagination.setPage(1));
 watch([keyword, sortExpression, () => pagination.skip], debounce(() => load(), 300));
+// the event titles follow the user's language switches
+watch(locale, async (lang) => {
+  const titles = await eventNames(lang);
+  if (lang === locale.value) names.value = titles;
+});
 
 async function remove(list: FeedEntry[]) {
   if (!(await showConfirmation(t("WEBHOOKS.ERRORS.DELETE_CONFIRM", { count: list.length })))) return;
