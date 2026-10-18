@@ -190,8 +190,8 @@ function setEvent(id: string) {
   loadProperties(id);
 }
 
-function setPayloads(names: string[]) {
-  item.value.payloads = (names ?? []).slice(0, MAX_PAYLOADS).map((eventPropertyName) => ({ eventPropertyName }));
+function setPayloads(fields: string[]) {
+  item.value.payloads = (fields ?? []).slice(0, MAX_PAYLOADS).map((eventPropertyName) => ({ eventPropertyName }));
 }
 
 const form = useBladeForm({
