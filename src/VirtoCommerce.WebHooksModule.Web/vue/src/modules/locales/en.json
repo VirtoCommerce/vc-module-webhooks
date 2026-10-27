@@ -1,0 +1,81 @@
+{
+  "WEBHOOKS": {
+    "LIST": {
+      "TITLE": "Webhooks",
+      "SUBTITLE": "User-defined webhooks",
+      "EMPTY": "No webhooks yet",
+      "ACTIVE": "Active",
+      "YES": "Active",
+      "NO": "Inactive",
+      "SUCCESS_PERCENT": "Successful calls, %",
+      "ERRORS": "Unresolved errors",
+      "TOTAL": "Total calls",
+      "DELETE_CONFIRM": "Delete {count} webhook(s)?"
+    },
+    "DETAILS": {
+      "NEW_TITLE": "New webhook",
+      "SUBTITLE": "Webhook settings and details",
+      "GENERAL": "Webhook",
+      "DESCRIPTION": "Webhooks let you find out quickly what changed in your Virto Commerce. Pick the event to follow, and a notification is sent to the URL you specify each time it occurs.",
+      "BAD_DATA": "This webhook subscribes to several events (or all of them). Only one event per webhook can be edited here; create separate webhooks instead.",
+      "REQUIRED": "Required",
+      "NAME_PLACEHOLDER": "Webhook name",
+      "NAME_HINT": "The webhook's display name",
+      "EVENT_PLACEHOLDER": "Select an event",
+      "EVENT_HINT": "The event you want to be notified about",
+      "PAYLOADS_HINT": "Additional data this webhook includes in its notification",
+      "PAYLOADS_NOTE": "The Id and ObjectType properties are always included.",
+      "URL_HINT": "The URL called each time the event occurs",
+      "BASIC_USERNAME_HINT": "User name for basic authentication",
+      "BASIC_PASSWORD_HINT": "Password for basic authentication",
+      "BEARER_TOKEN_HINT": "Token for bearer token authentication",
+      "HEADER_NAME_HINT": "Name of a custom HTTP header sent with each call",
+      "HEADER_VALUE_HINT": "Value of the custom HTTP header",
+      "SAVED": "Webhook saved",
+      "CLOSE_CONFIRM": "This webhook has been modified. Close without saving?",
+      "DELETE_CONFIRM": "Delete the webhook \"{name}\"?"
+    },
+    "ERRORS": {
+      "TITLE": "Webhook errors",
+      "SUBTITLE": "Unresolved errors of this webhook",
+      "EMPTY": "No unresolved errors",
+      "ERROR": "Error",
+      "CREATED": "Created",
+      "ATTEMPTS": "Attempts",
+      "LAST_ATTEMPT": "Latest attempt",
+      "DELETE_CONFIRM": "Delete {count} error record(s)?"
+    },
+    "WIDGETS": {
+      "ERRORS": "Error count"
+    },
+    "FIELDS": {
+      "NAME": "Name",
+      "EVENT": "Event",
+      "PAYLOADS": "Additional fields ({count}/10)",
+      "IS_ACTIVE": "Active",
+      "URL": "URL",
+      "AUTH_TYPE": "Authentication",
+      "BASIC_USERNAME": "User name",
+      "BASIC_PASSWORD": "Password",
+      "BEARER_TOKEN": "Bearer token",
+      "HEADER_NAME": "Custom HTTP header name",
+      "HEADER_VALUE": "Custom HTTP header value"
+    },
+    "AUTH_TYPES": {
+      "None": "None",
+      "Basic": "Basic",
+      "BearerToken": "Bearer token",
+      "CustomHeader": "Custom header"
+    },
+    "TOOLBAR": {
+      "REFRESH": "Refresh",
+      "ADD": "Add",
+      "DELETE": "Delete",
+      "REMOVE": "Remove",
+      "MANAGE": "Manage",
+      "CREATE": "Create",
+      "SAVE": "Save",
+      "RESET": "Reset"
+    }
+  }
+}

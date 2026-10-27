@@ -1,0 +1,81 @@
+{
+  "WEBHOOKS": {
+    "LIST": {
+      "TITLE": "خطافات الويب",
+      "SUBTITLE": "خطافات الويب التي يعرّفها المستخدم",
+      "EMPTY": "لا توجد خطافات ويب بعد",
+      "ACTIVE": "نشط",
+      "YES": "نشط",
+      "NO": "غير نشط",
+      "SUCCESS_PERCENT": "الاستدعاءات الناجحة، %",
+      "ERRORS": "الأخطاء غير المحلولة",
+      "TOTAL": "إجمالي الاستدعاءات",
+      "DELETE_CONFIRM": "هل تريد حذف خطافات الويب المحددة ({count})؟"
+    },
+    "DETAILS": {
+      "NEW_TITLE": "خطاف ويب جديد",
+      "SUBTITLE": "إعدادات خطاف الويب وتفاصيله",
+      "GENERAL": "خطاف الويب",
+      "DESCRIPTION": "تتيح لك خطافات الويب معرفة ما تغيّر في Virto Commerce بسرعة. اختر الحدث الذي تريد متابعته، وسيُرسل إشعار إلى عنوان URL الذي تحدده في كل مرة يقع فيها.",
+      "BAD_DATA": "خطاف الويب هذا مشترك في عدة أحداث (أو فيها كلها). لا يمكن هنا تحرير سوى حدث واحد لكل خطاف ويب؛ أنشئ خطافات ويب منفصلة بدلًا من ذلك.",
+      "REQUIRED": "مطلوب",
+      "NAME_PLACEHOLDER": "اسم خطاف الويب",
+      "NAME_HINT": "الاسم المعروض لخطاف الويب",
+      "EVENT_PLACEHOLDER": "اختر حدثًا",
+      "EVENT_HINT": "الحدث الذي تريد تلقي إشعار به",
+      "PAYLOADS_HINT": "بيانات إضافية يضمّنها خطاف الويب هذا في إشعاره",
+      "PAYLOADS_NOTE": "تُضمَّن الخاصيتان Id وObjectType دائمًا.",
+      "URL_HINT": "عنوان URL الذي يُستدعى في كل مرة يقع فيها الحدث",
+      "BASIC_USERNAME_HINT": "اسم المستخدم للمصادقة الأساسية",
+      "BASIC_PASSWORD_HINT": "كلمة المرور للمصادقة الأساسية",
+      "BEARER_TOKEN_HINT": "الرمز المميز للمصادقة باستخدام Bearer token",
+      "HEADER_NAME_HINT": "اسم ترويسة HTTP مخصصة تُرسل مع كل استدعاء",
+      "HEADER_VALUE_HINT": "قيمة ترويسة HTTP المخصصة",
+      "SAVED": "تم حفظ خطاف الويب",
+      "CLOSE_CONFIRM": "تم تعديل خطاف الويب هذا. هل تريد الإغلاق دون حفظ؟",
+      "DELETE_CONFIRM": "هل تريد حذف خطاف الويب «{name}»؟"
+    },
+    "ERRORS": {
+      "TITLE": "أخطاء خطاف الويب",
+      "SUBTITLE": "الأخطاء غير المحلولة لخطاف الويب هذا",
+      "EMPTY": "لا توجد أخطاء غير محلولة",
+      "ERROR": "الخطأ",
+      "CREATED": "تاريخ الإنشاء",
+      "ATTEMPTS": "المحاولات",
+      "LAST_ATTEMPT": "آخر محاولة",
+      "DELETE_CONFIRM": "هل تريد حذف سجلات الأخطاء ({count})؟"
+    },
+    "WIDGETS": {
+      "ERRORS": "عدد الأخطاء"
+    },
+    "FIELDS": {
+      "NAME": "الاسم",
+      "EVENT": "الحدث",
+      "PAYLOADS": "حقول إضافية ({count}/10)",
+      "IS_ACTIVE": "نشط",
+      "URL": "URL",
+      "AUTH_TYPE": "المصادقة",
+      "BASIC_USERNAME": "اسم المستخدم",
+      "BASIC_PASSWORD": "كلمة المرور",
+      "BEARER_TOKEN": "Bearer token",
+      "HEADER_NAME": "اسم ترويسة HTTP المخصصة",
+      "HEADER_VALUE": "قيمة ترويسة HTTP المخصصة"
+    },
+    "AUTH_TYPES": {
+      "None": "بدون",
+      "Basic": "أساسية (Basic)",
+      "BearerToken": "Bearer token",
+      "CustomHeader": "ترويسة مخصصة"
+    },
+    "TOOLBAR": {
+      "REFRESH": "تحديث",
+      "ADD": "إضافة",
+      "DELETE": "حذف",
+      "REMOVE": "إزالة",
+      "MANAGE": "إدارة",
+      "CREATE": "إنشاء",
+      "SAVE": "حفظ",
+      "RESET": "إعادة تعيين"
+    }
+  }
+}

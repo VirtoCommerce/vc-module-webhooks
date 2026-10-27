@@ -1,0 +1,81 @@
+{
+  "WEBHOOKS": {
+    "LIST": {
+      "TITLE": "Webhooki",
+      "SUBTITLE": "Webhooki zdefiniowane przez użytkownika",
+      "EMPTY": "Brak webhooków",
+      "ACTIVE": "Aktywny",
+      "YES": "Aktywny",
+      "NO": "Nieaktywny",
+      "SUCCESS_PERCENT": "Udane wywołania, %",
+      "ERRORS": "Nierozwiązane błędy",
+      "TOTAL": "Łączna liczba wywołań",
+      "DELETE_CONFIRM": "Usunąć webhooki ({count})?"
+    },
+    "DETAILS": {
+      "NEW_TITLE": "Nowy webhook",
+      "SUBTITLE": "Ustawienia i szczegóły webhooka",
+      "GENERAL": "Webhook",
+      "DESCRIPTION": "Webhooki pozwalają szybko dowiedzieć się, co zmieniło się w Virto Commerce. Wybierz zdarzenie do śledzenia, a przy każdym jego wystąpieniu powiadomienie zostanie wysłane na podany adres URL.",
+      "BAD_DATA": "Ten webhook subskrybuje kilka zdarzeń (lub wszystkie). Tutaj można edytować tylko jedno zdarzenie na webhook; zamiast tego utwórz osobne webhooki.",
+      "REQUIRED": "Wymagane",
+      "NAME_PLACEHOLDER": "Nazwa webhooka",
+      "NAME_HINT": "Nazwa wyświetlana webhooka",
+      "EVENT_PLACEHOLDER": "Wybierz zdarzenie",
+      "EVENT_HINT": "Zdarzenie, o którym chcesz otrzymywać powiadomienia",
+      "PAYLOADS_HINT": "Dodatkowe dane, które ten webhook dołącza do powiadomienia",
+      "PAYLOADS_NOTE": "Właściwości Id i ObjectType są zawsze dołączane.",
+      "URL_HINT": "Adres URL wywoływany przy każdym wystąpieniu zdarzenia",
+      "BASIC_USERNAME_HINT": "Nazwa użytkownika do uwierzytelniania podstawowego",
+      "BASIC_PASSWORD_HINT": "Hasło do uwierzytelniania podstawowego",
+      "BEARER_TOKEN_HINT": "Token do uwierzytelniania tokenem Bearer",
+      "HEADER_NAME_HINT": "Nazwa niestandardowego nagłówka HTTP wysyłanego z każdym wywołaniem",
+      "HEADER_VALUE_HINT": "Wartość niestandardowego nagłówka HTTP",
+      "SAVED": "Webhook zapisany",
+      "CLOSE_CONFIRM": "Ten webhook został zmodyfikowany. Zamknąć bez zapisywania?",
+      "DELETE_CONFIRM": "Usunąć webhook „{name}”?"
+    },
+    "ERRORS": {
+      "TITLE": "Błędy webhooka",
+      "SUBTITLE": "Nierozwiązane błędy tego webhooka",
+      "EMPTY": "Brak nierozwiązanych błędów",
+      "ERROR": "Błąd",
+      "CREATED": "Utworzono",
+      "ATTEMPTS": "Próby",
+      "LAST_ATTEMPT": "Ostatnia próba",
+      "DELETE_CONFIRM": "Usunąć wpisy błędów ({count})?"
+    },
+    "WIDGETS": {
+      "ERRORS": "Liczba błędów"
+    },
+    "FIELDS": {
+      "NAME": "Nazwa",
+      "EVENT": "Zdarzenie",
+      "PAYLOADS": "Dodatkowe pola ({count}/10)",
+      "IS_ACTIVE": "Aktywny",
+      "URL": "URL",
+      "AUTH_TYPE": "Uwierzytelnianie",
+      "BASIC_USERNAME": "Nazwa użytkownika",
+      "BASIC_PASSWORD": "Hasło",
+      "BEARER_TOKEN": "Token Bearer",
+      "HEADER_NAME": "Niestandardowa nazwa nagłówka HTTP",
+      "HEADER_VALUE": "Niestandardowa wartość nagłówka HTTP"
+    },
+    "AUTH_TYPES": {
+      "None": "Brak",
+      "Basic": "Podstawowe",
+      "BearerToken": "Token Bearer",
+      "CustomHeader": "Niestandardowy nagłówek"
+    },
+    "TOOLBAR": {
+      "REFRESH": "Odśwież",
+      "ADD": "Dodaj",
+      "DELETE": "Usuń",
+      "REMOVE": "Usuń",
+      "MANAGE": "Zarządzaj",
+      "CREATE": "Utwórz",
+      "SAVE": "Zapisz",
+      "RESET": "Resetuj"
+    }
+  }
+}

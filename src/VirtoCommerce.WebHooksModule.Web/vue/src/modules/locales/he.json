@@ -1,0 +1,81 @@
+{
+  "WEBHOOKS": {
+    "LIST": {
+      "TITLE": "Webhooks",
+      "SUBTITLE": "Webhooks שהוגדרו על ידי המשתמש",
+      "EMPTY": "אין עדיין Webhooks",
+      "ACTIVE": "פעיל",
+      "YES": "פעיל",
+      "NO": "לא פעיל",
+      "SUCCESS_PERCENT": "קריאות מוצלחות, %",
+      "ERRORS": "שגיאות שלא טופלו",
+      "TOTAL": "סך כל הקריאות",
+      "DELETE_CONFIRM": "האם למחוק את ה-Webhooks שנבחרו ({count})?"
+    },
+    "DETAILS": {
+      "NEW_TITLE": "Webhook חדש",
+      "SUBTITLE": "הגדרות ופרטים של ה-Webhook",
+      "GENERAL": "Webhook",
+      "DESCRIPTION": "Webhooks מאפשרים לגלות במהירות מה השתנה ב-Virto Commerce. יש לבחור את האירוע למעקב, ובכל פעם שהוא מתרחש נשלחת התראה לכתובת ה-URL שצוינה.",
+      "BAD_DATA": "Webhook זה רשום לכמה אירועים (או לכולם). כאן ניתן לערוך רק אירוע אחד לכל Webhook; במקום זאת יש ליצור Webhooks נפרדים.",
+      "REQUIRED": "שדה חובה",
+      "NAME_PLACEHOLDER": "שם ה-Webhook",
+      "NAME_HINT": "שם התצוגה של ה-Webhook",
+      "EVENT_PLACEHOLDER": "יש לבחור אירוע",
+      "EVENT_HINT": "האירוע שעליו יש לקבל התראות",
+      "PAYLOADS_HINT": "נתונים נוספים שה-Webhook כולל בהתראה שלו",
+      "PAYLOADS_NOTE": "המאפיינים Id ו-ObjectType נכללים תמיד.",
+      "URL_HINT": "כתובת ה-URL שנקראת בכל פעם שהאירוע מתרחש",
+      "BASIC_USERNAME_HINT": "שם משתמש לאימות בסיסי",
+      "BASIC_PASSWORD_HINT": "סיסמה לאימות בסיסי",
+      "BEARER_TOKEN_HINT": "אסימון לאימות מסוג Bearer token",
+      "HEADER_NAME_HINT": "שם של כותרת HTTP מותאמת אישית שנשלחת בכל קריאה",
+      "HEADER_VALUE_HINT": "ערך כותרת ה-HTTP המותאמת אישית",
+      "SAVED": "ה-Webhook נשמר",
+      "CLOSE_CONFIRM": "ה-Webhook השתנה. לסגור בלי לשמור?",
+      "DELETE_CONFIRM": "האם למחוק את ה-Webhook \"{name}\"?"
+    },
+    "ERRORS": {
+      "TITLE": "שגיאות Webhook",
+      "SUBTITLE": "שגיאות שלא טופלו של Webhook זה",
+      "EMPTY": "אין שגיאות שלא טופלו",
+      "ERROR": "שגיאה",
+      "CREATED": "נוצר",
+      "ATTEMPTS": "ניסיונות",
+      "LAST_ATTEMPT": "ניסיון אחרון",
+      "DELETE_CONFIRM": "האם למחוק את רשומות השגיאה שנבחרו ({count})?"
+    },
+    "WIDGETS": {
+      "ERRORS": "מספר שגיאות"
+    },
+    "FIELDS": {
+      "NAME": "שם",
+      "EVENT": "אירוע",
+      "PAYLOADS": "שדות נוספים ({count}/10)",
+      "IS_ACTIVE": "פעיל",
+      "URL": "URL",
+      "AUTH_TYPE": "אימות",
+      "BASIC_USERNAME": "שם משתמש",
+      "BASIC_PASSWORD": "סיסמה",
+      "BEARER_TOKEN": "Bearer token",
+      "HEADER_NAME": "שם כותרת HTTP מותאמת אישית",
+      "HEADER_VALUE": "ערך כותרת HTTP מותאמת אישית"
+    },
+    "AUTH_TYPES": {
+      "None": "ללא",
+      "Basic": "בסיסי",
+      "BearerToken": "Bearer token",
+      "CustomHeader": "כותרת מותאמת אישית"
+    },
+    "TOOLBAR": {
+      "REFRESH": "רענון",
+      "ADD": "הוספה",
+      "DELETE": "מחיקה",
+      "REMOVE": "הסרה",
+      "MANAGE": "ניהול",
+      "CREATE": "יצירה",
+      "SAVE": "שמירה",
+      "RESET": "איפוס"
+    }
+  }
+}

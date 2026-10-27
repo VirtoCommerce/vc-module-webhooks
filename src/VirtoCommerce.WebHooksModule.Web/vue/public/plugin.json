@@ -1,0 +1,16 @@
+{
+  "remote": { "name": "webhooks_admin", "exposed": "./Module" },
+  "contributions": {
+    "menu": [
+      {
+        "id": "webhooks",
+        "sectionId": "configuration",
+        "title": "Webhooks",
+        "icon": "lucide-webhook",
+        "route": "/webhooks",
+        "permission": "webhooks:access",
+        "priority": 95
+      }
+    ]
+  }
+}

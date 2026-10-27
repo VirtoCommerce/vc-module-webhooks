@@ -1,0 +1,81 @@
+{
+  "WEBHOOKS": {
+    "LIST": {
+      "TITLE": "Webhooks",
+      "SUBTITLE": "Benutzerdefinierte Webhooks",
+      "EMPTY": "Noch keine Webhooks",
+      "ACTIVE": "Aktiv",
+      "YES": "Aktiv",
+      "NO": "Inaktiv",
+      "SUCCESS_PERCENT": "Erfolgreiche Aufrufe, %",
+      "ERRORS": "Ungelöste Fehler",
+      "TOTAL": "Aufrufe gesamt",
+      "DELETE_CONFIRM": "{count} Webhook(s) löschen?"
+    },
+    "DETAILS": {
+      "NEW_TITLE": "Neuer Webhook",
+      "SUBTITLE": "Webhook-Einstellungen und Details",
+      "GENERAL": "Webhook",
+      "DESCRIPTION": "Mit Webhooks erfahren Sie schnell, was sich in Ihrem Virto Commerce geändert hat. Wählen Sie das zu verfolgende Ereignis aus, und bei jedem Eintreten wird eine Benachrichtigung an die von Ihnen angegebene URL gesendet.",
+      "BAD_DATA": "Dieser Webhook abonniert mehrere Ereignisse (oder alle). Hier kann nur ein Ereignis pro Webhook bearbeitet werden; erstellen Sie stattdessen separate Webhooks.",
+      "REQUIRED": "Erforderlich",
+      "NAME_PLACEHOLDER": "Webhook-Name",
+      "NAME_HINT": "Anzeigename des Webhooks",
+      "EVENT_PLACEHOLDER": "Ereignis auswählen",
+      "EVENT_HINT": "Das Ereignis, über das Sie benachrichtigt werden möchten",
+      "PAYLOADS_HINT": "Zusätzliche Daten, die dieser Webhook in seine Benachrichtigung aufnimmt",
+      "PAYLOADS_NOTE": "Die Eigenschaften Id und ObjectType sind immer enthalten.",
+      "URL_HINT": "Die URL, die bei jedem Eintreten des Ereignisses aufgerufen wird",
+      "BASIC_USERNAME_HINT": "Benutzername für die Basic-Authentifizierung",
+      "BASIC_PASSWORD_HINT": "Passwort für die Basic-Authentifizierung",
+      "BEARER_TOKEN_HINT": "Token für die Bearer-Token-Authentifizierung",
+      "HEADER_NAME_HINT": "Name eines benutzerdefinierten HTTP-Headers, der bei jedem Aufruf gesendet wird",
+      "HEADER_VALUE_HINT": "Wert des benutzerdefinierten HTTP-Headers",
+      "SAVED": "Webhook gespeichert",
+      "CLOSE_CONFIRM": "Dieser Webhook wurde geändert. Ohne Speichern schließen?",
+      "DELETE_CONFIRM": "Webhook „{name}“ löschen?"
+    },
+    "ERRORS": {
+      "TITLE": "Webhook-Fehler",
+      "SUBTITLE": "Ungelöste Fehler dieses Webhooks",
+      "EMPTY": "Keine ungelösten Fehler",
+      "ERROR": "Fehler",
+      "CREATED": "Erstellt",
+      "ATTEMPTS": "Versuche",
+      "LAST_ATTEMPT": "Letzter Versuch",
+      "DELETE_CONFIRM": "{count} Fehlereintrag/-einträge löschen?"
+    },
+    "WIDGETS": {
+      "ERRORS": "Fehleranzahl"
+    },
+    "FIELDS": {
+      "NAME": "Name",
+      "EVENT": "Ereignis",
+      "PAYLOADS": "Zusätzliche Felder ({count}/10)",
+      "IS_ACTIVE": "Aktiv",
+      "URL": "URL",
+      "AUTH_TYPE": "Authentifizierung",
+      "BASIC_USERNAME": "Benutzername",
+      "BASIC_PASSWORD": "Passwort",
+      "BEARER_TOKEN": "Bearer-Token",
+      "HEADER_NAME": "Benutzerdefinierter HTTP-Header-Name",
+      "HEADER_VALUE": "Benutzerdefinierter HTTP-Header-Wert"
+    },
+    "AUTH_TYPES": {
+      "None": "Keine",
+      "Basic": "Basic",
+      "BearerToken": "Bearer-Token",
+      "CustomHeader": "Benutzerdefinierter Header"
+    },
+    "TOOLBAR": {
+      "REFRESH": "Aktualisieren",
+      "ADD": "Hinzufügen",
+      "DELETE": "Löschen",
+      "REMOVE": "Entfernen",
+      "MANAGE": "Verwalten",
+      "CREATE": "Erstellen",
+      "SAVE": "Speichern",
+      "RESET": "Zurücksetzen"
+    }
+  }
+}
