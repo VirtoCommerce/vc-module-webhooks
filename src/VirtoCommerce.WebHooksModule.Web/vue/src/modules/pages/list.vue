@@ -59,11 +59,9 @@
         always-visible
       >
         <template #body="{ data }">
-          <div class="dash-inline">
-            <VcStatus :variant="data.isActive ? 'success' : 'info'">
-              {{ $t(data.isActive ? "WEBHOOKS.LIST.YES" : "WEBHOOKS.LIST.NO") }}
-            </VcStatus>
-          </div>
+          <VcStatus :variant="data.isActive ? 'success' : 'info'">
+            {{ $t(data.isActive ? "WEBHOOKS.LIST.YES" : "WEBHOOKS.LIST.NO") }}
+          </VcStatus>
         </template>
       </VcColumn>
       <VcColumn
@@ -226,12 +224,14 @@ function open(id?: string) {
   });
 }
 
+// an open webhook with unsaved changes is asked about first; kept open, nothing is deleted
 async function remove(list: Row[]) {
-  if (!(await showConfirmation(t("WEBHOOKS.LIST.DELETE_CONFIRM", { count: list.length })))) return;
-  await closeChildren();
-  await removeAction(list.map((x) => x.id!));
-  selection.value = [];
-  await load();
+  await closeChildren(async () => {
+    if (!(await showConfirmation(t("WEBHOOKS.LIST.DELETE_CONFIRM", { count: list.length })))) return;
+    await removeAction(list.map((x) => x.id!));
+    selection.value = [];
+    await load();
+  });
 }
 
 // the AngularJS row context menu: Manage, Delete
